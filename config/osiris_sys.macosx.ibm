@@ -1,0 +1,85 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   MAC OS X 32 bit
+#   Compiler: xlf
+#   mpi:      lam
+#
+# $URL: https://osiris.ist.utl.pt/svn/branches/dev_3.0/config/osiris_sys.macosx.ibm $
+# $Id: osiris_sys.macosx.ibm 317 2010-02-02 13:26:34Z zamb $
+################################################################################
+
+BASEDIR = /epp
+MPI = lam
+BITS = 32
+
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __MACH_TIMER__
+
+
+#compilers
+##########
+F90 = xlf95
+cc  = cc
+
+MAKE = make
+ECHO = /bin/echo
+SVNVERSION = /epp/subversion/bin/svnversion
+
+
+# Fortran flags
+###############
+
+# Production
+F90FLAGS_production = -qsuffix=cpp=f90 -O3 -qsmallstack -qinit=f90ptr -qextname \
+                      -qunroll=yes -qalias=noaryovrlp -qnopic -qarch=auto \
+                      -qtune=auto -qcache=auto -qmaxmem=-1
+
+# Profile with Shark
+F90FLAGS_profile    = -qsuffix=cpp=f90 -O3 -qsmallstack -qinit=f90ptr -qextname \
+                      -qunroll=yes -qalias=noaryovrlp -qnopic -g -qarch=auto \
+                      -qtune=auto -qcache=auto
+
+# Debug
+F90FLAGS_debug      = -qsuffix=cpp=f90 -O0 -g -C -qsigtrap -qsmallstack -qinit=f90ptr \
+                      -qextname -qlanglvl=95pure -qsuppress=1518-061:1518-051 \
+                      -qinitauto=FF
+
+
+# C flags
+#########
+CFLAGS = -O4
+
+
+# Linker flags
+##############
+LDFLAGS = 
+
+# Preprocessor flags
+####################
+FPPPREFIX = -WF,
+FPPINFIX  = ,
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+
+# This breaks with older lam versions
+#MPI_FCOMPILEFLAGS = $(shell mpif77 --showme:compile)
+#MPI_FLINKFLAGS    = $(shell mpif77 --showme:link)
+
+LAM_BASE = $(BASEDIR)/lam
+MPI_FCOMPILEFLAGS = -I$(LAM_BASE)/include
+MPI_FLINKFLAGS = -L$(LAM_BASE)/lib -llammpio -llamf77mpi -lmpi -llam -ldl
+
+H5_BASE = $(BASEDIR)/hdf5-1.6.5
+H5_FCOMPILEFLAGS = -I$(H5_BASE)/lib 
+H5_FLINKFLAGS = -L$(H5_BASE)/lib -L$(BASEDIR)/local/lib -lhdf5_fortran -lhdf5 \
+                -lsz -lz -lm

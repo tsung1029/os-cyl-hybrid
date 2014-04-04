@@ -1,0 +1,86 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   dawson (MAC OS X)
+#   Compiler: xlf
+#
+# $URL: https://osiris.ist.utl.pt/svn/branches/dev_3.0/config/osiris_sys.dawson $
+# $Id: osiris_sys.dawson 317 2010-02-02 13:26:34Z zamb $
+################################################################################
+
+BASEDIR    = /u/home2/ist/epp
+MPIBASEDIR = /u/local/mpi/mpilam
+HDF5BASEDIR = $(BASEDIR)/hdf5/current
+
+MPI = lam
+BITS = 32
+
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __MACH_TIMER__
+
+
+
+#compilers
+##########
+#F90 = xlf95 -qmoddir=/tmp/$(USER) -I/tmp/$(USER)
+F90 = xlf95
+cc  = gcc
+CC  = g++
+MAKE = make
+
+
+# Fortran flags
+###############
+
+# Production
+F90FLAGS_production = -qsuffix=cpp=f90 -O3 -qsmallstack -qinit=f90ptre \
+                      -qunroll=yes -qalias=noaryovrlp -qnopic -qarch=auto \
+                      -qtune=auto -qcache=auto -qmaxmem=-1
+
+# Profile with Shark
+F90FLAGS_profile    = -qsuffix=cpp=f90 -O3 -qsmallstack -qinit=f90ptr -qextname \
+                      -qunroll=yes -qalias=noaryovrlp -qnopic -g -qarch=auto \
+                      -qtune=auto -qcache=auto
+
+# Debug
+F90FLAGS_debug      = -qsuffix=cpp=f90 -O0 -g -C -qsigtrap -qsmallstack -qinit=f90ptr \
+                      -qlanglvl=95pure -qsuppress=1518-061:1518-051 \
+                      -qinitauto=FF
+
+
+# C flags
+#########
+CFLAGS = -O3
+
+# Linker flags
+##############
+#LDFLAGS = -Wl,-multiply_defined,suppress \
+#          -Wl,-multiply_defined \
+#          -Wl,suppress -bind_at_load
+# -force_flat_namespace -flat_namespace
+
+LDFLAGS =
+
+# Preprocessor flags
+####################
+FPPPREFIX = -WF,
+FPPINFIX  = ,
+
+
+# Link convention
+#################
+#UNDERSCORE = FORTRANSINGLEUNDERSCORE
+UNDERSCORE = FORTRANNOUNDERSCORE
+
+
+# Libraries
+###########
+MPI_FCOMPILEFLAGS = -I$(MPIBASEDIR)/include
+MPI_FLINKFLAGS = -L$(MPIBASEDIR)/lib -llammpio -llamf77mpi -lmpi -llam
+
+H5_FCOMPILEFLAGS = -I$(HDF5BASEDIR)/lib
+H5_FLINKFLAGS = -L$(HDF5BASEDIR)/lib -L$(BASEDIR)/szip/current/lib \
+                -lhdf5_fortran -lhdf5 -lsz -lz -lm

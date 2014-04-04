@@ -1,0 +1,88 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   Cray XT-4 Franklin
+#   Compiler: pathscale
+#
+# $URL: svn+ssh://exppmaster.ist.utl.pt/svn_repositories/osiris/trunk/config/osiris_sys.macosx.g95 $
+# $Id: osiris_sys.macosx.g95 77 2006-06-26 16:05:22Z zamb $
+################################################################################
+
+MPI = Cray-MPICH2
+BITS = 64
+
+# Uncomment the following to enable parallel I/O
+PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __POSIX_TIMER__
+
+# Uncomment the following to disable file flush operations
+NO_FILE_FLUSH = __NO_FILE_FLUSH__
+
+# Enable LOG files
+# USE_LOG = __USE_LOG__
+
+
+
+#compilers
+##########
+F90 = ftn
+FPP = gcc -C -E -x assembler-with-cpp 
+cc  = cc
+CC  = CC
+MAKE = make
+
+
+# Fortran flags
+###############
+
+# Debug
+F90FLAGS_debug      = -O0 -g -C 
+
+# Production
+# zamb flags
+#F90FLAGS_production = -Ofast -ffast-math -ffast-stdlib -msse3 -ipa
+
+# pathopt best flags
+F90FLAGS_production = -Ofast -CG:cflow=off
+
+# Profile with Shark
+F90FLAGS_profile    = here it comes...
+
+
+# C flags
+#########
+CFLAGS = -O3
+
+
+# Linker flags
+##############
+LDFLAGS = 
+
+
+# Preprocessor flags
+####################
+# leave this empty to keep default.
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+
+# You need to load the following modules for this to work
+# module load szip/2.1_pathscale
+# module load zlib/1.2.3_pathscale
+
+# Use system hdf5
+# module load hdf5_par/1.8.0_pathscale
+
+# Use our own hdf5 version
+# HDF5_DIR = $(HOME)/local/hdf5/1.8.2-path
+
+H5_FCOMPILEFLAGS = -I$(HDF5_DIR)/include
+H5_FLINKFLAGS = -L$(HDF5_DIR)/lib -lhdf5_fortran -lhdf5_hl -lhdf5 \
+                -L$(SZIP_DIR)/lib -lsz -L$(ZLIB_DIR) -lz
+

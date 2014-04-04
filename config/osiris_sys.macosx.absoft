@@ -1,0 +1,81 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   MAC OS X
+#   Compiler: Absoft Fortran 8.2
+#
+# $URL: svn+ssh://exppmaster/svn_repositories/osiris/trunk/config/osiris_sys.macosx.g95 $
+# $Id: osiris_sys.macosx.g95 73 2006-06-12 16:48:25Z michael $
+################################################################################
+
+BASEDIR = /epp
+
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __MACH_TIMER__
+
+
+#compilers
+##########
+F90 = /Applications/Absoft/bin/f95
+FPP = gcc -C -E -x assembler-with-cpp -D__NO_ALLOC_EXT__ 
+cc  = gcc
+CC  = c++
+MAKE = make
+
+
+# Fortran flags
+###############
+
+# Debug
+F90FLAGS_debug      = -YEXT_NAMES=LCS -YEXT_SFX="_" -N11 -YDEALLOC=ALL -f free \
+                      -et -Rc -Rs -M1643 -trap=INVALID,DIVBYZERO,OVERFLOW -O0 -g \
+                      -z1 -en -Z878
+
+# Why not all debug options:
+# -Rp crashes the compiler on os-dutil.f90
+# -Rb freezes the compiler on os-vdf.f90
+# -trap=UNDERFLOW,INEXACT breaks OSIRIS in __gettimeofday() system call
+#    (go figure...)
+
+# Production
+F90FLAGS_production = -YEXT_NAMES=LCS -YEXT_SFX="_" -O3 -f free \
+                      -Yaltivec -N11 -YDEALLOC=ALL -M1643
+
+# Profile with Shark
+F90FLAGS_profile    = here it comes...
+
+
+# C flags
+#########
+CFLAGS = -O3
+
+
+# Linker flags
+##############
+
+# The libU77 library includes the flush command
+
+LDFLAGS = -lU77 
+
+
+# Preprocessor flags
+####################
+# leave this empty to keep default.
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+# this works with both LAM and OPENMPI
+MPI_FCOMPILEFLAGS = $(shell mpif77 --showme:compile)
+MPI_FLINKFLAGS    = $(shell mpif77 --showme:link)
+
+H5_FCOMPILEFLAGS = -I/opt/hdf5/1.6.7-absoft/lib
+H5_FLINKFLAGS = -L/opt/hdf5/1.6.7-absoft/lib -L/opt/szip/2.1/lib \
+                -lhdf5_fortran -lhdf5 -lsz -lz -lm

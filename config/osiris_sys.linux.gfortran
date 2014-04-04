@@ -1,0 +1,103 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   Linux
+#   Compiler: gfortran 
+#################################################################################
+
+MPI = mpich2
+BITS = 64
+
+# Uncomment the following to enable parallel I/O
+#PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+#TIMER = __MACH_TIMER__
+
+# SIMD
+# Uncomment the following line to use SSE optimized code 
+# SIMD = SSE
+
+# Numeric precision (SINGLE|DOUBLE)
+# PRECISION = DOUBLE
+
+
+#compilers
+##########
+F90 = gfortran
+FPP = gcc -C -E -x assembler-with-cpp
+cc  = gcc
+CC  = icc
+
+
+MAKE = make
+ECHO = /bin/echo
+SVNVERSION = svnversion
+
+
+# Fortran flags
+###############
+
+# -fno-range-check is required because of the random module. 
+# gfortran has a bug that considers -2147483648 to be outside the valid
+# int32 range
+
+# -pipe makes gfortran use pipes for internal process communication (instead of files)
+#       which speeds up the ocmpilation process significantly
+
+# -ffree-line-length-none removes all constraints on line size
+
+F90FLAGS_all = -pipe -ffree-line-length-none -fno-range-check
+
+
+# Production
+# Intel flags
+
+F90FLAGS_production = $(F90FLAGS_all) -O3 -funroll-loops \
+                      -mssse3 -march=core2 -mfpmath=sse -ffast-math \
+                      -fomit-frame-pointer -ftree-vectorize --openmp
+
+
+# Debug
+
+# -std=f95 is too picky
+
+F90FLAGS_debug      = $(F90FLAGS_all) -g -fbacktrace -fbounds-check \
+                      -Wall -fimplicit-none -pedantic -Wimplicit-interface \
+                      -Wimplicit-interface -Wconversion  -Wsurprising \
+                      -Wunderflow --openmp
+
+# Profile with Shark
+F90FLAGS_profile    = -g $(F90FLAGS_production) 
+
+
+# C flags
+#########
+CFLAGS = -O4 -march=core2 -mtune=native -mssse3 
+
+
+# Linker flags
+##############
+LDFLAGS = 
+
+
+# Preprocessor flags
+####################
+# leave this empty to keep default.
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+
+
+MPI_FCOMPILEFLAGS = -I/opt/mpich2/1.3.2-gfortran/include
+MPI_FLINKFLAGS = -L/opt/mpich2/1.3.2-gfortran/lib -lmpichf90 -lmpich -lopa -lmpl -lrt -lpthread
+
+H5_FCOMPILEFLAGS = -I/opt/hdf5/1.8.6-mpich-gfortran/include
+H5_FLINKFLAGS    = -L/opt/hdf5/1.8.6-mpich-gfortran/lib \
+                   -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5 \
+                   -lm -Wl,-rpath -Wl,/opt/hdf5/1.8.6-mpich-gfortran/lib
+

@@ -1,0 +1,120 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   MAC OS X
+#   Compiler: g95
+#
+# $URL: https://osiris.ist.utl.pt/svn/branches/dev_3.0/config/osiris_sys.macosx.g95 $
+# $Id: osiris_sys.macosx.g95 485 2012-10-02 15:51:45Z zamb $
+################################################################################
+
+MPI = ompi
+BITS = 32
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__
+
+# Set the following to a system optimized timer
+TIMER = __MACH_TIMER__
+
+# SIMD
+# Uncomment the following line to use SIMD optimized code (CPUs supporting SSE only!)
+# This is not working yet because g95 is not creating properly aligned vectors
+# SIMD = SSE
+
+# Numeric precision (SINGLE|DOUBLE)
+PRECISION = DOUBLE
+
+
+#compilers
+##########
+F90 = g95 -cpp -fno-backslash -pipe
+FPP = gcc -C -E -x assembler-with-cpp 
+cc  = gcc -m32
+CC  = c++
+MAKE = make
+
+ECHO = /bin/echo
+SVNVERSION = svnversion
+
+
+# Fortran flags
+###############
+
+# Debug
+F90FLAGS_debug      = -O2 -g -fbounds-check -ftrace=full \
+                      -Wall -Wno=155 -fimplicit-none -freal=nan \
+                      -Wuninitialized 
+                      
+# Production
+# Different flags according to system
+# PowerMac G4 - ppc7450
+# PowerMac G5 - ppc970
+# Intel Core (2) Duo - i486
+
+machine := $(shell machine)
+
+ifeq "$(machine)" "i486"
+  # Intel flags
+  F90FLAGS_production = -Wno=155 -fshort-circuit \
+                        -O3 -march=prescott -fomit-frame-pointer \
+                        -msse3 -mfpmath=sse -ffast-math
+
+else 
+  ifeq "$(machine)" "ppc970"
+	# G5 flags
+	F90FLAGS_production = -Wno=155 \
+						  -O3 -funroll-loops -fstrict-aliasing -fsched-interblock \
+						  -falign-loops=16 -falign-jumps=16 -falign-functions=16 \
+						  -malign-natural -ffast-math -mdynamic-no-pic \
+						  -mpowerpc-gpopt -force_cpusubtype_ALL -fstrict-aliasing \
+						  -mtune=G5 -mcpu=G5 -mpowerpc64
+  else
+	# G4 flags
+	F90FLAGS_production = -Wno=155 -fshort-circuit \
+						  -O3 -funroll-loops -fstrict-aliasing -fsched-interblock \
+						  -falign-loops=16 -falign-jumps=16 -falign-functions=16 \
+						  -malign-natural -ffast-math -mdynamic-no-pic \
+						  -force_cpusubtype_ALL -fstrict-aliasing \
+						  -mpowerpc -mtune=G4 -mcpu=G4 
+  endif
+endif
+
+# Profile with Shark
+F90FLAGS_profile    = -g $(F90FLAGS_production) -march=prescott -fomit-frame-pointer \
+                        -msse3 -mfpmath=sse -ffast-math
+
+
+# C flags
+#########
+CFLAGS = -O2 -g 
+
+
+# Linker flags
+##############
+LDFLAGS = 
+
+
+# Preprocessor flags
+####################
+# leave this empty to keep default.
+
+# Link convention
+#################
+UNDERSCORE = FORTRANDOUBLEUNDERSCORE
+
+
+# Libraries
+###########
+
+# this works with both LAM and OPENMPI
+MPI_RUN=/opt/openmpi/1.2.9-g95-32/bin/mpirun
+MPI_FCOMPILEFLAGS = $(shell /opt/openmpi/1.2.9-g95-32/bin/mpif90 --showme:compile)
+MPI_FLINKFLAGS    = $(shell /opt/openmpi/1.2.9-g95-32/bin/mpif90 --showme:link)
+
+H5_HOME = /opt/hdf5/1.8.5-ompi-g95-32
+H5_FCOMPILEFLAGS = -I$(H5_HOME)/include
+H5_FLINKFLAGS = -L$(H5_HOME)/lib -L/opt/szip/2.1/lib -lhdf5_fortran -lhdf5 -lsz -lz -lm
+
+#H5_HOME = /opt/hdf5/1.6.10-ompi-g95-32
+#H5_FCOMPILEFLAGS = -I$(H5_HOME)/lib
+#H5_FLINKFLAGS = -L$(H5_HOME)/lib -L/opt/szip/2.1/lib -lhdf5_fortran -lhdf5 -lsz -lz -lm

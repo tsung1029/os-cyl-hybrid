@@ -1,0 +1,105 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:     MAC OS X 10.8
+#   Compilers:  clang / gfortran 4.7.1 
+#
+# $URL: svn+ssh://exppmaster/svn_repositories/osiris/trunk/config/osiris_sys.macosx.g95 $
+# $Id: osiris_sys.macosx.g95 97 2007-01-03 01:34:01Z zamb $
+################################################################################
+
+MPI = ompi
+BITS = 64
+
+# Uncomment the following to enable parallel I/O
+#PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __MACH_TIMER__
+
+# SIMD
+# Uncomment the following line to use SIMD optimized code
+#SIMD = SSE
+SIMD = AVX
+
+# PRECISION
+PRECISION = DOUBLE
+#PRECISION = SINGLE
+
+#compilers
+##########
+#F90 = gfortran-4.7.2
+F90 = gfortran
+FPP = gcc -C -E -x assembler-with-cpp
+
+cc  = gcc
+CC  = gcc
+
+
+MAKE = make
+ECHO = /bin/echo
+SVNVERSION = svnversion
+
+
+# Fortran flags
+###############
+
+
+F90FLAGS_all = -pipe -ffree-line-length-none -fno-range-check
+
+# OpenMP Support
+F90FLAGS_all += --openmp
+FPP += -D_OPENMP
+
+# Production
+# Intel Core i7 flags
+
+F90FLAGS_production = $(F90FLAGS_all) -Ofast -march=corei7 
+
+# Debug
+
+# -std=f95 is too picky
+
+F90FLAGS_debug      = $(F90FLAGS_all) -g -fbacktrace -fbounds-check \
+                      -Wall -fimplicit-none -pedantic \
+                      -Wimplicit-interface -Wconversion  -Wsurprising \
+                      -Wunderflow -ffpe-trap=invalid,zero,overflow
+                      
+#-ffpe-trap=underflow this breaks vmpl
+
+# Profile with Shark
+F90FLAGS_profile    = -g $(F90FLAGS_production) 
+
+
+# C flags
+#########
+
+CFLAGS_production = -O3 -mavx
+
+CFLAGS_profile = -g $(CFLAGS_production)
+
+CFLAGS_debug = -g -Wall -Wextra -pedantic -mavx
+
+
+# Linker flags
+##############
+
+#LDFLAGS = 
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+
+MPI_FCOMPILEFLAGS = $(shell /usr/local/Cellar/open-mpi/1.7.5/bin/mpif77 --showme:compile)
+MPI_FLINKFLAGS    = $(shell /usr/local/Cellar/open-mpi/1.7.5/bin/mpif77 --showme:link)
+
+#H5_ROOT = /opt/hdf5/1.8.10-gfortran
+H5_ROOT = /usr/local/hdf5
+SZIP_ROOT = /usr/local/Cellar/szip/2.1
+
+H5_FCOMPILEFLAGS = -I$(H5_ROOT)/include 
+H5_FLINKFLAGS    = -L$(H5_ROOT)/lib -lhdf5_fortran -lhdf5 -lz -lm \
+                   -L$(SZIP_ROOT)/lib  -lsz

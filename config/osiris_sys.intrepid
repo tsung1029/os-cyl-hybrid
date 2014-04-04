@@ -1,0 +1,73 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   dawson (MAC OS X)
+#   Compiler: xlf
+#
+# $URL: svn+ssh://exppmaster.ist.utl.pt/svn_repositories/osiris/trunk/config/osiris_sys.dawson $
+# $Id: osiris_sys.dawson 173 2008-04-21 18:14:17Z samuel $
+################################################################################
+
+# Uncomment the following to enable allocatable array extensions
+# HAS_ALLOC_EXT   = __HAS_ALLOC_EXT__
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+# TIMER = __POSIX_TIMER__ 
+
+# Uncomment the following to disable file flush operations
+NO_FILE_FLUSH = __NO_FILE_FLUSH__
+
+
+#compilers
+##########
+cc = mpixlc
+CC = mpixlC
+F90 = mpixlf90 -qsuffix=cpp=f90 -WF,-D__bg__
+
+MAKE = make
+
+
+# Fortran flags
+###############
+
+# Production
+F90FLAGS_production =  -O4 -qmaxmem=-1 -qalias=nopteovrlp -qnocheck \
+                       -qarch=450d -qtune=450 -qfloat=rsqrt:hssngl:fltint
+ 
+
+F90FLAGS_debug      = -g -C -qsmallstack -qinit=f90ptr \
+                      -qsuppress=1518-061:1518-051 \
+                      -qinitauto=FF
+#                      -qflttrap=invalid:underflow:nanq:zerodivide:enable -qsigtrap \
+
+# C flags
+#########
+CFLAGS   = -O3 -I/bgsys/drivers/ppcfloor/arch/include
+
+
+LDFLAGS =
+
+# Preprocessor flags
+####################
+FPPPREFIX = -WF,
+FPPINFIX  = ,
+
+
+# Link convention
+#################
+UNDERSCORE = FORTRANNOUNDERSCORE
+
+
+# Libraries
+###########
+
+HDF5BASEDIR = /soft/apps/hdf5-1.8.0
+
+# H5_FCOMPILEFLAGS = -I$(HDF5BASEDIR)/lib
+# H5_FLINKFLAGS = -L$(HDF5BASEDIR)/lib -lhdf5_fortran -lhdf5 -lm
+
+H5_FCOMPILEFLAGS = -I$(HDF5BASEDIR)/include
+H5_FLINKFLAGS = -L$(HDF5BASEDIR)/lib -lhdf5_fortran -lhdf5 -lm
+

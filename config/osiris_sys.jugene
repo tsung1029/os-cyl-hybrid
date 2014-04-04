@@ -1,0 +1,112 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:  B/G jugene@juelich 
+#   Compiler: xlf
+#
+# $URL: svn+ssh://exppmaster.ist.utl.pt/svn_repositories/osiris/trunk/config/osiris_sys.dawson $
+# $Id: osiris_sys.dawson 173 2008-04-21 18:14:17Z samuel $
+################################################################################
+
+
+# The default 450d option (double hummer) doesn't always lead to optimal performance. JSC
+# recomends testing all applications with both options to determine the optimal performance. 
+#
+# ARCH can be 450 or 450d (default)
+
+ARCH=450d
+
+# SIMD
+# Uncomment the following line to use SIMD optimized code
+SIMD = BGP
+
+# PRECISION
+PRECISION = DOUBLE
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+# The BlueGene timers are used automatically
+
+# Uncomment the following to disable file flush operations
+NO_FILE_FLUSH = __NO_FILE_FLUSH__
+
+MPI = bgsys
+BITS = 32
+
+
+
+#compilers
+##########
+FPP = gcc -C -E -x assembler-with-cpp -D__bgp__ -D_OPENMP
+
+cc = mpixlc_r
+CC = mpixlC_r
+F90 = mpixlf95_r 
+
+MAKE = gmake
+ECHO = /bin/echo
+
+# Use PAPI profiling
+# FPP += -D__USE_PAPI__
+# OBJSLOG += os-logprof-papi.o 
+
+
+# Fortran flags
+###############
+
+F90FLAGS_all = -qsuppress=1506-234 -qsuffix=cpp=f90 -qarch=$(ARCH) \
+               -qsmp=omp -qnosave 
+               
+
+# Production
+F90FLAGS_production =  $(F90FLAGS_all) -O4 -qmaxmem=-1 -qalias=nopteovrlp -qnocheck \
+                       -qtune=450 -qfloat=rsqrt:hssngl:fltint:norngchk
+
+
+# Profile 
+F90FLAGS_profile    = 
+
+# Debug
+# Don't compile with -O2, it triggers some inexistent fp exceptions in cathode
+
+F90FLAGS_debug      = $(F90FLAGS_all) -g -C -qsmallstack -qinit=f90ptr \
+                      -qflttrap=invalid:underflow:nanq:zerodivide:enable -qsigtrap \
+                      -qsuppress=1518-061:1518-051 \
+                      -qinitauto=FF
+
+
+# C flags
+#########
+CFLAGS = -O3 -I/bgsys/drivers/ppcfloor/arch/include \
+             -I/bgsys/local/papi/4.0.0/include
+
+# Linker flags
+##############
+# LDFLAGS = -L/bgsys/local/papi/4.0.0/lib -lpapi
+
+
+# Link convention
+#################
+UNDERSCORE = FORTRANNOUNDERSCORE
+
+# Libraries
+###########
+
+# HDF5 location
+HDF5_VERSION=1.8.7
+
+HDF5_INCDIR=-I/bgsys/local/hdf5/v$(HDF5_VERSION)/include \
+            -I/bgsys/local/hdf5/v$(HDF5_VERSION)/include/fortran_mod_$(ARCH)
+HDF5_LIBDIR=-L/bgsys/local/hdf5/v$(HDF5_VERSION)/lib_$(ARCH)
+HDF5_LIB=$(HDF5_LIBDIR) -lhdf5_fortran -lhdf5  -lhdf5_hl -lhdf5hl_fortran	
+
+# Additional szip and zlib location
+SZ_INCDIR=-I/bgsys/local/szip/v2.1/include -I/bgsys/local/zlib/v1.2.3/include
+SZ_LIBDIR=-L/bgsys/local/szip/v2.1/lib_$(ARCH) -L/bgsys/local/zlib/v1.2.3/lib_$(ARCH)
+SZ_LIB=$(SZ_LIBDIR) -lsz -lz
+
+H5_FCOMPILEFLAGS = $(HDF5_INCDIR)
+H5_FLINKFLAGS = $(HDF5_LIB) $(SZ_LIB)
+
+

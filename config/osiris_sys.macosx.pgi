@@ -1,0 +1,87 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   Mac OS X x86 64bit
+#   Compiler: pgi
+#   mpi:      mpich2
+#
+# $URL: svn+ssh://exppmaster.ist.utl.pt/svn_repositories/osiris/trunk/config/osiris_sys.macosx.ifort $
+# $Id: osiris_sys.macosx.ifort 77 2006-06-26 16:05:22Z zamb $
+################################################################################
+
+MPI = mpich2
+BITS = 64
+
+# Uncomment the following to enable parallel I/O
+#PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __MACH_TIMER__
+
+# SIMD
+# Uncomment the following line to use SSE optimized code 
+SIMD = SSE
+
+# Numeric precision (SINGLE|DOUBLE)
+PRECISION = SINGLE
+
+#compilers
+##########
+F90 = pgf95 -Mbackslash
+FPP = gcc -C -E -x assembler-with-cpp
+cc  = pgcc
+
+MAKE = make
+ECHO = /bin/echo
+SVNVERSION = svnversion
+
+
+# OpenMP Support
+FPP += -D_OPENMP
+
+# Fortran flags
+###############
+
+# Debug
+F90FLAGS_debug      = -O0 -g -C -Mchkstk -Mchkfpstk -Mdclchk -Minform,inform -mp
+
+# Production
+F90FLAGS_production = -fast -mp
+
+# Profile with pgprof
+
+# In your test directory run:
+# pgcollect ../bin/osiris-2D.e         (this runs the binary and collects information)
+# pgprof -exe ../bin/osiris-2D.e       (this launches the profiler)
+
+F90FLAGS_profile    = $(F90FLAGS_production) -Minfo=ccff
+
+
+# C flags
+#########
+CFLAGS = -fast
+
+
+# Linker flags
+##############
+LDFLAGS =
+
+# Preprocessor flags
+####################
+# leave this empty to keep default.
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+
+ 
+MPI_FCOMPILEFLAGS = -I/opt/mpich2/1.4-pgi/include 
+MPI_FLINKFLAGS    = -L/opt/mpich2/1.4-pgi/lib -lmpichf90 \
+                    -lpmpich -lmpich -lopa -lmpl -lpthread
+
+H5_FCOMPILEFLAGS = -I/opt/hdf5/1.8.7-mpich2-pgi/include
+H5_FLINKFLAGS = -L/opt/hdf5/1.8.7-mpich2-pgi/lib -L/opt/szip/2.1/lib \
+                -lhdf5_fortran -lhdf5 -lsz -lz -lm

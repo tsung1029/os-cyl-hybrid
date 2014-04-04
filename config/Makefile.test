@@ -1,0 +1,66 @@
+################################################################################
+# Multiplatform Makefile for osiris 2.0 source files
+#
+# $URL: https://osiris.ist.utl.pt/svn/trunk/config/Makefile.build $
+# $Id: Makefile.build 323 2010-03-04 15:26:29Z zamb $
+################################################################################
+
+# shell
+#######
+SHELL = /bin/sh
+
+############################
+## configuration file     ##
+############################
+-include ../config/osiris_config 
+
+TESTS1D = ../decks/test/*-1d
+TESTS2D = ../decks/test/*-2d
+TESTS3D = ../decks/test/*-3d
+
+
+.PHONY: test
+test : $(TESTS1D) $(TESTS2D) $(TESTS3D)
+
+.PHONY: $(TESTS1D)
+.SILENT: $(TESTS1D)
+$(TESTS1D) :
+	$(ECHO) -n "testing serial: $(notdir $@)  "
+	cat $@ | sed "s/NodeNumberTag/1,/" > os-stdin
+	( ../bin/osiris-1D.e > osiris.stdout  ) >& osiris.stderr
+	if grep -q "Osiris run completed normally" osiris.stdout; then echo DONE; else echo FAILED; exit -1; fi
+ifdef MPI_RUN
+	$(ECHO) -n "testing parallel: $(notdir $@)  "
+	cat $@ | sed "s/NodeNumberTag/4,/" > os-stdin
+	( $(MPI_RUN) -np 4 ../bin/osiris-1D.e > osiris.stdout ) >& osiris.stderr
+	if grep -q "Osiris run completed normally" osiris.stdout; then echo DONE; else echo FAILED; exit -1; fi
+endif
+
+.PHONY: $(TESTS2D)
+.SILENT: $(TESTS2D)
+$(TESTS2D) :
+	$(ECHO) -n "testing serial: $(notdir $@)  "
+	cat $@ | sed "s/NodeNumberTag/1,1,/" > os-stdin
+	( ../bin/osiris-2D.e > osiris.stdout ) >& osiris.stderr
+	if grep -q "Osiris run completed normally" osiris.stdout; then echo DONE; else echo FAILED; exit -1; fi
+ifdef MPI_RUN
+	$(ECHO) -n "testing parallel: $(notdir $@)  "
+	cat $@ | sed "s/NodeNumberTag/4,4,/" > os-stdin
+	( $(MPI_RUN) -np 16 ../bin/osiris-2D.e > osiris.stdout ) >& osiris.stderr
+	if grep -q "Osiris run completed normally" osiris.stdout; then echo DONE; else echo FAILED; exit -1; fi
+endif
+
+.PHONY: $(TESTS3D)
+.SILENT: $(TESTS3D)
+$(TESTS3D) :
+	$(ECHO) -n "testing serial: $(notdir $@)  "
+	cat $@ | sed "s/NodeNumberTag/1,1,1,/" > os-stdin
+	( ../bin/osiris-3D.e > osiris.stdout ) >& osiris.stderr
+	if grep -q "Osiris run completed normally" osiris.stdout; then echo DONE; else echo FAILED; exit -1; fi
+ifdef MPI_RUN
+	$(ECHO) -n "testing parallel: $(notdir $@)  "
+	cat $@ | sed "s/NodeNumberTag/2,2,2,/" > os-stdin
+	( $(MPI_RUN) -np 8 ../bin/osiris-3D.e > osiris.stdout ) >& osiris.stderr
+	if grep -q "Osiris run completed normally" osiris.stdout; then echo DONE; else echo FAILED; exit -1; fi
+endif
+

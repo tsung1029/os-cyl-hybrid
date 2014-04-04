@@ -1,0 +1,75 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   aix 64bit
+#   Compiler: xlf
+#   mpi:      lam
+#
+# $URL:$
+# $Id:$
+################################################################################
+
+BASEDIR = /ist
+MPI = lam
+BITS = 64
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __AIX_TIMER__
+
+
+#compilers
+##########
+F90 = xlf95
+cc  = xlc
+
+MAKE = gmake
+ECHO = /opt/freeware/bin/echo
+SVNVERSION = /ist/subversion/current/bin/svnversion
+
+# Fortran flags
+###############
+
+F90FLAGS = -qsuffix=cpp=f90 -q64 -qnoescape
+
+
+# Production
+F90FLAGS_production = $(F90FLAGS) -O3 -qarch=ppc970 -qtune=ppc970 -qcache=auto 
+
+# Profile with xprofiler
+F90FLAGS_profile    = $(F90FLAGS_production) -g -pg
+
+# Debug
+F90FLAGS_debug      = $(F90FLAGS) -g -C -qfullpath
+
+
+# C flags
+#########
+CFLAGS = -O3 -q64
+
+
+# Linker flags
+##############
+LDFLAGS = -q64
+
+# Preprocessor flags
+####################
+FPPPREFIX = -WF,
+FPPINFIX  = ,
+
+# Link convention
+#################
+UNDERSCORE = FORTRANNOUNDERSCORE
+
+
+# Libraries
+###########
+LAM_BASE = $(BASEDIR)/lam/current_64
+MPI_FCOMPILEFLAGS = -I$(LAM_BASE)/include
+MPI_FLINKFLAGS = -L$(LAM_BASE)/lib -llammpio -llamf77mpi -lmpi -llam -ldl -lpthread
+
+H5_BASE = $(BASEDIR)/hdf5/current_lam_64
+H5_FCOMPILEFLAGS = -I$(H5_BASE)/lib 
+H5_FLINKFLAGS = -L$(H5_BASE)/lib -L$(BASEDIR)/szip/current_64/lib -lhdf5_fortran -lhdf5 \
+                -lsz -lz -lm -lgpfs

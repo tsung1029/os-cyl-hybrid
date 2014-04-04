@@ -1,0 +1,28 @@
+# Use SSE code
+SIMD = SIMD_SSE
+
+# Choose precision SINGLE | DOUBLE
+PRECISION = SINGLE
+
+#compilers
+##########
+F90 = ifort 
+FPP = gcc -C -E -x assembler-with-cpp
+cc  = icc
+
+
+# Compiler flags
+F90FLAGS_production = -cpp -O3 -xHost -ipo -no-prec-div
+CFLAGS = -O3 -xHost -ipo -no-prec-div
+
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# MPI
+MPI_FCOMPILEFLAGS = $(shell mpif77 --showme:compile)
+MPI_FLINKFLAGS    = $(shell mpif77 --showme:link)
+
+# HDF5 - 
+H5_FCOMPILEFLAGS = -I$(HDF5_INC)
+H5_FLINKFLAGS = -L$(HDF5_LIB) -L$(SZIP_LIB) \
+                -lhdf5_fortran -lhdf5 -lsz -lz -lm

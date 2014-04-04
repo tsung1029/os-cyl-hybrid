@@ -1,0 +1,91 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   Linux PPC (YDL 4.1)
+#   Compiler: xlf 9.1
+#
+# $URL: svn+ssh://zamb@exppmaster/svn_repositories/osiris/trunk/config/osiris_sys.linuxppc.ibm $
+# $Id: osiris_sys.linuxppc.ibm 73 2006-06-12 16:48:25Z michael $
+################################################################################
+
+
+
+
+# Uncomment the following to enable allocatable array extensions
+# HAS_ALLOC_EXT   = __HAS_ALLOC_EXT__
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __POSIX_TIMER__ 
+
+# Numeric precision (SINGLE|DOUBLE)
+# PRECISION = DOUBLE
+
+
+#compilers
+##########
+F90 = xlf95
+cc  = gcc
+CC  = g++
+MAKE = make
+
+
+# Fortran flags
+###############
+
+# Production
+#F90FLAGS_production = -qextname -qsuffix=cpp=f90 -O5 -qnopic -qalias=noaryovrlp \
+#                      -qunroll=yes -qarch=ppc970 -qtune=ppc970 -q32
+
+F90FLAGS_production = -qsuffix=cpp=f90 -O3 -qsmallstack -qinit=f90ptr -qextname \
+                      -qipa  \
+                      -qunroll=yes -qalias=noaryovrlp -qnopic -qarch=auto \
+                      -qtune=auto -qcache=auto -qmaxmem=-1
+
+
+# Profile with gprof
+F90FLAGS_profile    = -qsuffix=cpp=f90 -O3 -qsmallstack -qinit=f90ptr -qextname \
+                      -qipa -qhot=novector:nosimd -g \
+                      -qunroll=yes -qalias=noaryovrlp -qnopic -qarch=auto \
+                      -qtune=auto -qcache=auto -qmaxmem=-1
+
+# Debug
+F90FLAGS_debug      = -qsuffix=cpp=f90 -O0 -g -C -qsigtrap -qsmallstack -qinit=f90ptr \
+                      -qextname -qlanglvl=95pure -qsuppress=1518-061:1518-051 \
+                      -qinitauto=FF
+
+
+# C flags
+#########
+CFLAGS = -O3 
+
+
+# Linker flags
+##############
+LDFLAGS = 
+
+
+# Preprocessor flags
+####################
+FPPPREFIX = -WF,
+FPPINFIX  = ,
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+MPI_FCOMPILEFLAGS = $(shell mpif77 --showme:compile)
+MPI_FLINKFLAGS    = $(shell mpif77 --showme:link)
+
+H5_FCOMPILEFLAGS = -I/opt/hdf5/1.6.7-xlf/lib
+H5_FLINKFLAGS = -L/opt/hdf5/1.6.7-xlf/lib -L/opt/szip/2.1/lib \
+                -lhdf5_fortran -lhdf5 -lsz -lz -lm
+
+
+
+
+

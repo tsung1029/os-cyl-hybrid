@@ -1,0 +1,73 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   linux
+#   Compiler: Intel ifort
+################################################################################
+
+MPI = mpich
+BITS = 64
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __POSIX_TIMER__ 
+
+# SIMD
+# Uncomment the following line to use SSE optimized code 
+# SIMD = SSE
+
+# Numeric precision (SINGLE|DOUBLE)
+# PRECISION = DOUBLE
+
+
+#compilers
+##########
+F90 = ifort
+FPP = gcc -C -E -x assembler-with-cpp
+cc  = icc
+CC  = icc
+MAKE = make
+
+
+# Fortran flags
+###############
+
+# Debug
+F90FLAGS_debug      = -cpp -g -O0
+
+# Production (AMD64 no static linking)
+F90FLAGS_production = -cpp -fast
+
+# Profile Shark
+F90FLAGS_profile    = here it comes...
+
+
+# C flags
+#########
+CFLAGS = -fast
+
+
+# Linker flags
+##############
+LDFLAGS = 
+
+# Preprocessor flags
+####################
+# leave this empty to keep default.
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+MPI_FCOMPILEFLAGS = -I/opt/mpich2/1.3.2-intel/include
+MPI_FLINKFLAGS = -L/opt/mpich2/1.3.2-intel/lib -lmpichf90 -lmpich -lopa -lmpl -lrt -lpthread
+
+H5_FCOMPILEFLAGS = -I/opt/hdf5/1.8.6-mpich-intel/include
+H5_FLINKFLAGS    = -L/opt/hdf5/1.8.6-mpich-intel/lib \
+                   -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5 \
+                   -lm -Wl,-rpath -Wl,/opt/hdf5/1.8.6-mpich-intel/lib
+

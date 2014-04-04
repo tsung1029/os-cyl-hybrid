@@ -1,0 +1,48 @@
+##########################################################################################
+#
+#  OSIRIS configuration template
+#
+##########################################################################################
+
+###################################### Minimal Flags #####################################
+
+# Fortran compiler and flags
+F90 = gfortran -fno-range-check -ffree-line-length-none
+
+# C Compiler
+cc  = gcc
+
+# Fortran external name convention
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+# MPI 
+MPI_FCOMPILEFLAGS = $(shell /opt/openmpi/1.6-gfortran/bin/mpif77 --showme:compile)
+MPI_FLINKFLAGS    = $(shell /opt/openmpi/1.6-gfortran/bin/mpif77 --showme:link)
+
+# HDF5
+H5_FCOMPILEFLAGS = -I/opt/hdf5/1.8.9-ompi-gfortran/include 
+H5_FLINKFLAGS    = -L/opt/hdf5/1.8.9-ompi-gfortran/lib -lhdf5_fortran -lhdf5 -lz -lm \
+                   -L/opt/szip/2.1/lib  -lsz
+
+
+###################################### Code Options ######################################
+
+# Algorithm precision
+# Set to DOUBLE or SINGLE. If not set the code will use the definition in os-param.f90
+PRECISION = DOUBLE
+
+# SIMD code
+# Set to the required SIMD algorithm (e.g. SIMD_SSE or SIMD_BGP). If not set the code
+# will use the standard FORTRAN algorithm 
+SIMD = SIMD_SSE
+
+# Parallel I/O
+# If the HDF5 library has parallel I/O support uncomment the following to use it.
+# Note: in some systems/runs the serial I/O will be more efficient.
+#PARALLEL_IO = __PARALLEL_IO__ 
+
+# Profiling timer
+# Set the following to a system optimized timer, or leave commented to use a default one.
+# This only affects code profiling measurements.
+TIMER = __MACH_TIMER__
+

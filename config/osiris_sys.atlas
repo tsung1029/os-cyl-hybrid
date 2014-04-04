@@ -1,0 +1,91 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   Cray XT-4 Franklin
+#   Compiler: pathscale
+#
+# $URL: svn+ssh://exppmaster.ist.utl.pt/svn_repositories/osiris/trunk/config/osiris_sys.macosx.g95 $
+# $Id: osiris_sys.macosx.g95 77 2006-06-26 16:05:22Z zamb $
+################################################################################
+
+BASEDIR    = /usr/common/usg
+# MPIBASEDIR = /opt/xt-mpt/2.0.44a2/mpich2-64/P2
+# HDFBASEDIR = $(BASEDIR)/hdf/4.2r1_path
+
+MPI = MPI
+BITS = 64
+
+# Uncomment the following to enable parallel I/O
+# PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __POSIX_TIMER__
+
+
+#compilers
+##########
+F90 = mpipathf90
+FPP = gcc -C -E -x assembler-with-cpp
+cc  = gcc
+CC  = gcc
+MAKE = make
+
+
+# Fortran flags
+###############
+
+# Debug
+F90FLAGS_debug      = -O0 -g -C 
+
+# Production
+# zamb flags
+#F90FLAGS_production = -Ofast -ffast-math -ffast-stdlib -msse3 -ipa
+
+# pathopt best flags
+F90FLAGS_production = -O3 -ffast-math
+
+# Profile with Shark
+F90FLAGS_profile    = here it comes...
+
+
+# C flags
+#########
+CFLAGS = -O3
+
+
+# Linker flags
+##############
+LDFLAGS = 
+
+
+# Preprocessor flags
+####################
+# leave this empty to keep default.
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+MPI_FCOMPILEFLAGS = 
+MPI_FLINKFLAGS    = 
+
+HDFBASEDIR = /usr/local/tools/hdf4-2r1
+HDF_FCOMPILEFLAGS = -I$(HDFBASEDIR)/include
+HDF_FLINKFLAGS = -L$(HDFBASEDIR)/lib -L/usr/local/tools/szip-2.0/lib \
+                 -lmfhdf -ldf -lz -ljpeg -lsz
+# HDF_FCOMPILEFLAGS =
+# HDF_FLINKFLAGS = 
+
+H5_DIR = /usr/local/tools/hdf5-pathscale-parallel-1.6.5
+H5_FCOMPILEFLAGS = -I$(H5_DIR)/lib -I/$(H5_DIR)/include
+H5_FLINKFLAGS = -L$(H5_DIR)/lib -L$(SZIP_DIR)/lib -lhdf5_fortran -lhdf5 -lz -lm
+
+# H5_DIR = $(HOME)/local/hdf5/1.6.7-path
+# H5_FCOMPILEFLAGS = -I$(H5_DIR)/lib
+# H5_FLINKFLAGS = -L$(H5_DIR)/lib -L$(SZIP_DIR)/lib -lhdf5_fortran -lhdf5 -lsz -lz -lm
+
+# H5_DIR = $(HDF5_PAR_DIR)
+# H5_FCOMPILEFLAGS = $(HDF5) -I$(HDF5_PAR_DIR)/lib
+# H5_FLINKFLAGS = $(HDF5)

@@ -1,0 +1,47 @@
+HDF5_INC = /u/local/apps/hdf5/1.8.11/intel-13.cs/intelMPI-4.1.1/include
+HDF5_LIB = /u/local/apps/hdf5/1.8.11/intel-13.cs/intelMPI-4.1.1/lib
+SZIP_LIB = /u/local/apps/szip/2.1/lib
+SION_INC = /u/home/mori/davidsoa/asherlib/include
+SION_LIB = /u/home/mori/davidsoa/asherlib/lib
+#RST_IO = __RST_SION__
+
+# Use SSE code
+!SIMD = SSE
+
+# Choose precision SINGLE | DOUBLE
+PRECISION = DOUBLE
+
+#compilers
+##########
+#F90 = ifort 
+F90 = mpiifort 
+FPP = gcc -C -E -x assembler-with-cpp
+cc  = icc
+
+
+# Compiler flags
+F90FLAGS_production = -cpp -O3 -xHost  -no-prec-div -g
+#F90FLAGS_production = -cpp -O3 -xHost -ipo -no-prec-div
+# -fpe0 ; shows floating point errors
+# -check all ; compiler checks various things
+#  -fp-model strict ; whips and chains ! strict -fpe0
+F90FLAGS_debug      = -cpp -O0 -debug full  -g   
+CFLAGS = -O3 -xHost -ipo -no-prec-div
+
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# MPI
+#MPI_FCOMPILEFLAGS = $(shell mpif77 --showme:compile)
+#MPI_FLINKFLAGS    = $(shell mpif77 --showme:link)
+MPI_FCOMPILEFLAGS = $(shell mpiifort -show | cut -f 1 --complement -d ' ')
+MPI_FLINKFLAGS    = $(shell mpiifort -show | cut -f 1 --complement -d ' ')
+
+# HDF5 - 
+H5_FCOMPILEFLAGS = -I$(HDF5_INC)
+H5_FLINKFLAGS = -L$(HDF5_LIB) -L$(SZIP_LIB)\
+                -lhdf5_fortran -lhdf5 -lsz -lz -lm
+
+# SION
+SION_FCOMPILEFLAGS = $(shell /u/home/mori/davidsoa/asherlib/bin/sionconfig --64 --cflags --mpi -be)
+SION_FLINKFLAGS = $(shell /u/home/mori/davidsoa/asherlib/bin/sionconfig --64 --libs --mpi -be)

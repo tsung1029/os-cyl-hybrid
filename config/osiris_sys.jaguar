@@ -1,0 +1,199 @@
+################################################################################
+# System specific configuration for osiris make.
+#   System:   Cray XT-5 Jaguar
+#   Compiler: pathscale
+#
+# $URL: svn+ssh://exppmaster.ist.utl.pt/svn_repositories/osiris/trunk/config/osiris_sys.macosx.g95 $
+# $Id: osiris_sys.macosx.g95 77 2006-06-26 16:05:22Z zamb $
+################################################################################
+
+MPI = Cray-MPICH2
+BITS = 64
+
+#compilers
+##########
+FPP = gcc -C -E -x assembler-with-cpp
+F90 = ftn
+LD = ftn
+
+cc  = cc
+CC  = CC
+MAKE = make
+
+# System options
+###############
+
+# Uncomment the following to use SSE SIMD code
+SIMD = SSE
+
+# Precision SINGLE|DOUBLE
+PRECISION = SINGLE
+
+# Uncomment the following to enable parallel I/O
+#PARALLEL_IO = __PARALLEL_IO__ 
+
+# Set the following to a system optimized timer, or leave commented to use a default one
+TIMER = __POSIX_TIMER__
+
+# Uncomment the following to disable file flush operations
+NO_FILE_FLUSH = __NO_FILE_FLUSH__
+
+# Use PAPI
+
+FPP += -D__USE_PAPI__
+OBJSLOG += os-logprof-papi.o 
+
+
+
+# Fortran flags
+###############
+
+
+####################################### Pathscale 
+
+ifeq ($(PE_ENV),PATHSCALE)
+
+$(warning Setting Flags for Pathscale compiling environment)
+
+# This should disable sse code (but -mno-sse2 is ignored in 64 bits )
+# -mno-sse2 -mno-sse3 -mno-3dnow -mno-sse4a
+
+FPP += -D_OPENMP -D__NO_NML_INTFILE__ -D__NO_SIZEOF__
+
+F90 += -cpp 
+F90FLAGS_debug      = -O0 -g2 -ffortran-bounds-check -openmp
+
+F90FLAGS_production = -Ofast -openmp
+
+CFLAGS  = -Ofast
+LDFLAGS = -Ofast -openmp
+
+endif
+
+####################################### PGI
+
+ifeq ($(PE_ENV),PGI)
+
+$(warning Setting Flags for PGI compiling environment)
+
+# -Mvect=nosse can be used to disable sse code
+
+FPP += -D_OPENMP
+
+#F90FLAGS_debug      = -O0 -g -mp=nonuma
+#CFLAGS  = 
+#LDFLAGS =  -mp=nonuma
+
+
+F90FLAGS_production = -fastsse -mp=nonuma
+CFLAGS  = -fastsse
+LDFLAGS = -fastsse -mp=nonuma
+
+#F90FLAGS_production = -fast -Mvect=nosse
+#CFLAGS  = -fast -Mvect=nosse
+#LDFLAGS = -fast -Mvect=nosse
+
+
+endif
+
+####################################### Cray
+
+ifeq ($(PE_ENV),CRAY)
+
+$(warning Setting Flags for Cray compiling environment)
+
+FPP += -D_OPENMP -D__NO_SIZEOF__
+
+F90FLAGS_debug      = -O0 -g
+
+# -O3 crashes the compilation os os-vdf-math
+
+#F90FLAGS_production = -O3 -O omp -e o
+
+#(breaks)
+#F90FLAGS_production = -O cache2,fp2,scalar3,thread2,vector3,mpi0,modinline,ipa3,noaggress \
+#                      -O noautothread,fusion2,nomsgs,nonegmsgs,omp,nooverindex,pattern \
+#                      -O shortcircuit2,unroll2,nozeroinc -e o
+
+#(works)
+#F90FLAGS_production = -O cache1,fp2,scalar1,thread1,vector1,mpi0,modinline,ipa1,noaggress \
+#                      -O -O noautothread,fusion2,nomsgs,nonegmsgs,omp,nooverindex,nopattern \
+#                      -O shortcircuit2,unroll2,nozeroinc -e o
+
+#(final)
+# scalar2,3 breaks, so vector2,3 cannot be used either
+#F90FLAGS_production = -O cache2,fp2,scalar1,thread2,vector1,mpi0,modinline,ipa3,noaggress \
+#                      -O noautothread,fusion2,nomsgs,nonegmsgs,omp,nooverindex,nopattern \
+#                      -O shortcircuit2,unroll2,nozeroinc -e o
+
+F90FLAGS_production = -O3 -O scalar1,vector1,omp 
+
+CFLAGS  = -O3
+LDFLAGS = -O3
+
+endif
+
+####################################### Intel
+
+ifeq ($(PE_ENV),INTEL)
+
+$(warning Setting Flags for Intel compiling environment)
+
+FPP += -D_OPENMP
+
+# -fast is the same as -ipo -O3 -no-prec-div -static -xHost
+
+F90 += -cpp
+F90FLAGS_debug      = -O0 -g
+F90FLAGS_production = -fast -openmp -ipo1 -openmp-link static \
+                      -openmp-report2 -openmp-lib compat
+CFLAGS  = -fast -ipo1 -openmp -openmp-report2 -openmp-lib compat
+LDFLAGS = 
+
+endif
+
+####################################### GNU
+
+ifeq ($(PE_ENV),GNU)
+
+$(warning Setting Flags for Gnu compiling environment)
+
+FPP += -D_OPENMP
+
+F90FLAGS_debug      = -O0 -g -fno-range-check -fopenmp
+F90FLAGS_production = -O3 -fno-range-check -fopenmp -ffast-math
+
+CFLAGS  = -O3 -ffast-math
+LDFLAGS = -O3
+
+# Use Intel compiler for the C code
+# must call "module load intel" from the command line before compiling
+
+$(warning Using Intel icc combined with gfortran)
+cc = icc
+CFLAGS  = -O3 -no-prec-div -static -xHost -msse3
+LDFLAGS = -L$(INTEL_PATH)/$(INTEL_MAJOR_VERSION)/$(INTEL_MINOR_VERSION)/lib/intel64 -lirc
+
+endif
+
+####################################### Unsupported
+
+ifeq ($(F90FLAGS_production),)
+$(error Programming environment $(PE_ENV) not supported)
+endif
+
+
+# Link convention
+#################
+UNDERSCORE = FORTRANSINGLEUNDERSCORE
+
+
+# Libraries
+###########
+
+CFLAGS += $(PAPI_INCLUDE_OPTS)
+LDFLAGS += $(PAPI_POST_LINK_OPTS)
+
+# Use system hdf5, this links hdf5 automatically
+# module load hdf5-parallel
+
