@@ -369,6 +369,8 @@ type :: t_diag_species
   ! phasespaces
   type( t_phasespace_diagnostics ) :: phasespaces
 
+  ! ASHERMOD -- diagnostic routines sometimes has to know how many cyl modes there are
+  integer :: n_cyl_modes = -1
   
 end type t_diag_species
 
@@ -461,9 +463,6 @@ type :: t_species
   integer, dimension(p_max_dim) :: num_par_x 
   ! offset theta for test runs
   real(p_double) :: theta_offset
-  ! ! ASHERHACK - specify whether or not to use the hacked centroid shifting algorithm for this species
-  ! logical :: if_centroid_shift
-  
   
   ! simulation box dimensions
 

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+tmppath=`mktemp -d -t osiris`
+
+tag="osiris."`date "+%Y%m%d"`
+
+svn export . $tmppath/$tag
+
+tarball="$tag.tar.bz2"
+
+tar cjvf $tarball -C $tmppath $tag
+
+rm -rf $tmppath

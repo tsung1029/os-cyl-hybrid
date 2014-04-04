@@ -1,0 +1,128 @@
+#!/usr/bin/env python
+
+import subprocess
+import sys, os, time
+from optparse import OptionParser
+
+
+#-------------------------------------------------------------------------------
+# Main script
+#-------------------------------------------------------------------------------
+
+# Parse command line options
+
+parser = OptionParser( usage = "usage: %prog [options] [confs]" )
+parser.add_option( "-v","--verbose", dest="verbose", action="store_true", default = False, \
+				   help = "Verbose compilation" )
+parser.add_option( "-d","--dims", dest="dims", metavar="DIMS" , default = '', \
+				   help = "Comma separated values of dimensions to test (defaults to 1,2,3)" )
+parser.add_option( "-t","--type", dest="types", metavar="TYPE" , default = '', \
+				   help = "Comma separated values of compilation type (defaults to production)" )
+
+(options, args) = parser.parse_args()
+
+if ( len(args) == 0 ) :
+	# No configuration(s) defined use default
+	if ( sys.platform == 'darwin' ) :
+		print >> sys.stderr, 'Using default configurations for darwin platform'
+		confs = ['macosx.gfortran', 'macosx.ifort64','macosx.pgi']
+	elif ( sys.platform == 'linux2' ) :
+		print >> sys.stderr, 'Using default configurations for linux platform'
+		confs = ['linux.gfortran', 'linux.ifort', 'linux.open64', 'linux.pgi'] 
+	else :
+		print >> sys.stderr, 'No configuration specified'
+		print >> sys.stderr, 'System:', sys.platform
+		sys.exit('aborting...')
+	
+else :
+	confs = args
+
+# Process dims
+if ( options.dims == '' ) :
+	dims = ['1','2','3']
+else :
+	dims = str(options.dims).split(',')
+
+# Process types
+if ( options.types == '' ) :
+	types = ['production']
+else :
+	types = str(options.types).split(',')
+
+# Print banner
+
+print
+print "Testing compilation of osiris targets"
+print
+print "Selected configurations : "
+print "-----------------------"
+print "       Platform: ", confs
+print "     Dimensions: ", dims
+print "          Types: ", types
+print
+
+report = []
+
+for conf in confs:
+	for dim in dims:
+		for type in types:
+			
+			# configure
+			ok = subprocess.call( ["./configure","-s",conf,"-d",dim,"-t",type] )
+			if ( ok ) :
+				print >> sys.stderr, "Invalid configuration ", conf
+				sys.exit('aborting...')
+			
+			# make
+			t0 = time.time()
+			
+			if ( options.verbose ) :
+				
+				print 'Testing compilation: '
+				returncode = subprocess.call( ["make"] )
+				if ( returncode ) :
+					print >> sys.stderr
+					print >> sys.stderr, "[error] Compilation failed for configuration ", conf
+					print >> sys.stderr
+					sys.exit('aborting...')
+			
+			else :
+			
+				print 'Testing compilation: ',
+				make = subprocess.Popen( ["make"], stdout = subprocess.PIPE, stderr = subprocess.PIPE )
+				
+				while ( make.returncode == None ) :
+					tmp = make.stdout.readline()
+					sys.stdout.write(".")
+					sys.stdout.flush()
+					make.poll()
+				print
+				
+			
+				if ( make.returncode ) :
+					for line in make.stderr.readlines():
+						print >> sys.stderr, "[error]",line,
+					print >> sys.stderr
+					print >> sys.stderr, "[error] Compilation failed for configuration ", conf
+					print >> sys.stderr
+					sys.exit('aborting...')
+			   
+			t1 = time.time()
+	
+			print
+			print 'Compilation succeeded in ', t1 - t0, 'seconds.'
+			report.append({'conf':conf, 'dim':dim, 'type':type, 'time':t1-t0})
+
+# -----
+
+print '' 
+print 'All compilation tests succeeded:'
+print ''
+
+print '            Configuration    Dim         Type    Time [s]'
+print '---------------------------------------------------------'
+for rep in report :
+	print " %24s %6s %12s  %f12" % ( rep['conf'], rep['dim'], rep['type'], rep['time'] )
+
+
+

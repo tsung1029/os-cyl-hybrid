@@ -1,0 +1,165 @@
+!--------the node configuration for this simulation--------
+node_conf 
+{
+  node_number(1:2) =  NodeNumberTag
+  if_periodic(1:2) =  .true., .true.,
+}
+
+!----------spatial grid----------
+grid 
+{
+  nx_p(1:2) =  32, 32,
+  coordinates = "cartesian",
+}
+
+!----------time step and global data dump timestep number----------
+time_step 
+{
+  dt     =   0.07d0,
+  ndump  =    10, 
+}
+
+!----------restart information----------
+restart 
+{
+  ndump_fac = 0,
+  if_restart=.false.,
+}
+
+!----------spatial limits of the simulations----------
+space 
+{
+  xmin(1:2) =  0.000d0, 0.000d0,
+  xmax(1:2) =  3.200d0, 3.200d0,
+  if_move(1:2) = .false., .false.,
+}
+
+!----------time limits ----------
+time 
+{
+  tmin = 0.0d0, tmax  = 7.0d0,
+}
+
+!----------field solver set up----------
+el_mag_fld 
+{
+  ifextfld = .false.,
+  b0(1:3)=0.0d0, e0(1:3)=0.0d0,
+}
+
+!----------boundary conditions for em-fields ----------
+emf_bound 
+{
+  type(1:2,1) =   0, 0,
+  type(1:2,2) =   0, 0,
+}
+
+!----------number of particle species----------
+particles 
+{ 
+  num_species = 2, 
+}
+
+!----------information for species 1----------
+species 
+{
+  num_par_max = 4096,
+  rqm=-1.0,
+  num_par_x(1:2) = 2, 2,
+  vth(1:3) = 0.1d0 , 0.1d0 , 0.1d0 ,
+  vfl(1:3) = 0.0d0 , 0.0d0 , 0.6d0 ,
+  den_min = 1.d-5,
+  num_dgam = 0,
+  dgam = 0.0,
+}
+
+!----------density profile for this species----------
+profile 
+{
+  fx(1:6,1) = 1., 1., 1., 1., 1., 1.,
+   x(1:6,1) = 0., 0.9999, 1.000, 2.000, 2.001, 10000., 
+  fx(1:6,2) = 1., 1., 1., 1., 1., 1.,
+   x(1:6,2) = 0., 0.9999, 1.000, 2.000, 2.001, 10000., 
+}
+
+!----------boundary conditions for this species----------
+spe_bound 
+{
+  type(1:2,1) =   0, 0,
+  type(1:2,2) =   0, 0,
+}
+
+!----------diagnostic for this species----------
+diag_species 
+{
+}
+
+!----------information for species 2----------
+species 
+{
+  num_par_max = 4096,
+  rqm=-1.0,
+  num_par_x(1:2) = 2, 2,
+  vth(1:3) = 0.1d0 , 0.1d0 , 0.1d0 ,
+  vfl(1:3) = 0.0d0 , 0.0d0 , -0.6d0 ,
+  den_min = 1.d-5,
+  num_dgam = 0,
+  dgam = 0.0,
+}
+
+!----------density profile for this species----------
+profile 
+{
+  fx(1:6,1) = 1., 1., 1., 1., 1., 1.,
+   x(1:6,1) = 0., 0.9999, 1.000, 2.000, 2.001, 10000., 
+  fx(1:6,2) = 1., 1., 1., 1., 1., 1.,
+   x(1:6,2) = 0., 0.9999, 1.000, 2.000, 2.001, 10000., 
+}
+
+!----------boundary conditions for this species----------
+spe_bound 
+{
+  type(1:2,1) =   0, 0,
+  type(1:2,2) =   0, 0,
+}
+
+!----------diagnostic for this species----------
+diag_species 
+{
+}
+
+!----------number of pulses----------
+pulse_sequence 
+{   num_pulses = 0,   
+}
+
+!----------smoothing for currents----------
+smooth 
+{
+  ifsmooth(1:2)   = .true., .true.,
+  smooth_level(1:2) = 3, 3,
+  
+  swfj(1:3,1,1)     = 1,2,1,
+  swfj(1:3,2,1)     = 1,2,1,
+  swfj(1:3,3,1)     = 1,2,1,
+
+  swfj(1:3,1,2)     = 1,2,1,
+  swfj(1:3,2,2)     = 1,2,1,
+  swfj(1:3,3,2)     = 1,2,1,
+}
+
+!----------diagnostic for currents---------- 
+diag_phy_field 
+{
+}
+
+!-----------smoothing for charge-----------
+smooth 
+{
+  ifsmooth(1:2) = .false., .false.,
+}
+
+!-----------diagnostic for charge-----------
+diag_phy_field 
+{
+}

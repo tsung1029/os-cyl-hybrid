@@ -353,6 +353,11 @@ subroutine read_nml_species( this, input_file, def_name, periodic, if_move, grid
   if (grid%n_cyl_modes > 0)  then
     this%coordinates = p_cylindrical_modes
     this%n_cyl_modes = grid%n_cyl_modes
+    ! I have to set the n_cyl_modes variable of grid here
+    ! this is a bit of a hack, since you should be setting it
+    ! in its own appropriate read_nml function, but there is no
+    ! easy way to fix this
+    this%diag%n_cyl_modes = grid%n_cyl_modes
   endif
   
   ! Pusher type
@@ -528,6 +533,7 @@ subroutine setup_species( this, sp_id, interpolation, grid, g_space, dx, &
      
      this%coordinates = grid%coordinates
      this%n_cyl_modes = grid%n_cyl_modes
+     this%diag%n_cyl_modes = grid%n_cyl_modes
      if (grid%n_cyl_modes > 0) this%coordinates = p_cylindrical_modes
 
 	 ! process position type

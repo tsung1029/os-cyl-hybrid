@@ -155,7 +155,7 @@ subroutine read_nml_diag_species( this, input_file, ndump_global )
 
   implicit none
 
-  type( t_diag_species ), intent(out) :: this
+  type( t_diag_species ), intent(inout) :: this
   type( t_input_file ), intent(inout) :: input_file
   integer, intent(in) :: ndump_global
 
@@ -537,16 +537,16 @@ subroutine setup_diag_species( this, spec_name, ndump_fac, restart, restart_hand
 						 (/'x1', 'p1', 'p2', 'p3', 'g ', 't '/), ierr)
 						 
 		 case (2)
-                   ! ASHERHACK - if using cylindrical mode geometry the names and numbers of variables
+                   ! ASHERMOD - if using cylindrical mode geometry the names and numbers of variables
                    ! are different
 
-                   ! if ( this%n_cyl_modes > 0 ) then
+                   if ( this%n_cyl_modes > 0 ) then
 		     call setup(this%raw_func, trim(this%raw_math_expr), &
 		  				 (/'x1', 'x2', 'x3', 'x4' ,'p1', 'p2', 'p3', 'g ', 't '/), ierr)
-                   ! else
-		   !   call setup(this%raw_func, trim(this%raw_math_expr), &
-		   !      			 (/'x1', 'x2', 'p1', 'p2', 'p3', 'g ', 't '/), ierr)
-                   ! endif
+                   else
+		     call setup(this%raw_func, trim(this%raw_math_expr), &
+		        			 (/'x1', 'x2', 'p1', 'p2', 'p3', 'g ', 't '/), ierr)
+                   endif
 						 
 		 case (3)
 		   call setup(this%raw_func, trim(this%raw_math_expr), &
