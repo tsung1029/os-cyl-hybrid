@@ -1903,8 +1903,8 @@ subroutine getjr_cyl_m_s3(  jay_re, jay_im, dxi, xnew, ixold, xold, q, rgamma, u
 
   ! now accumulate jay looping through all virtual particles
   ! and shifting grid indexes  
-  jnorm1 = real( jay_re%dx(1) / dt / 2, p_k_fld )
-  jnorm2 = real( jay_re%dx(2) / dt / 2, p_k_fld )
+  jnorm1 = real( jay_re%dx(1) / dt , p_k_fld )
+  jnorm2 = real( jay_re%dx(2) / dt , p_k_fld )
   jnorm3 = real( jay_re%dx(2) / (mode*dt), p_k_fld )
 
 !  x_center(:,:) = (xnew(3:4,:) + xold(3:4,:))/2.0

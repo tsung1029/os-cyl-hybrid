@@ -131,13 +131,8 @@ interface deposit_current_3d
   module procedure deposit_current_3d_cell
 end interface
 
-interface split_2d ! ASHERMOD
-  module procedure split_2d
-end interface
-
 
 ! declare things that should be public
-public :: t_vp2D !ASHERMOD
 
 public :: deposit_current_1d, deposit_current_2d, deposit_current_3d
 
@@ -160,7 +155,7 @@ interface cleanup_tmp_buf_current
   module procedure  cleanup_tmp_buf_current
 end interface
 
-public :: tmp_xold, tmp_xnew, tmp_p, tmp_rg, tmp_q, tmp_dxi, tmp_ix, split_2d !ASHERMOD
+public :: tmp_xold, tmp_xnew, tmp_p, tmp_rg, tmp_q, tmp_dxi, tmp_ix
 public :: init_tmp_buf_current, cleanup_tmp_buf_current
 
 contains
@@ -1133,7 +1128,6 @@ subroutine getjr_2d_s1( jay, dxi, xnew, ixold, xold, q, rgamma, u, np, dt )
   real(p_k_fld) :: jnorm1, jnorm2
 
   type(t_vp2D), dimension( 3*p_cache_size ) :: vpbuf2D
-  integer :: offset_j
 
   ! executable statements
   
@@ -1155,25 +1149,11 @@ subroutine getjr_2d_s1( jay, dxi, xnew, ixold, xold, q, rgamma, u, np, dt )
 	 y1 = vpbuf2D(l)%y1
 	 ix = vpbuf2D(l)%i
 	 jx = vpbuf2D(l)%j
-
-!        print *, "2d current interp jx: ", jx
 	 	 
 	 ! Normalize charge
 	 qnx = real( vpbuf2D(l)%q, p_k_fld ) * jnorm1
 	 qny = real( vpbuf2D(l)%q, p_k_fld ) * jnorm2
 	 qvz = real( vpbuf2D(l)%q * vpbuf2D(l)%vz, p_k_fld )/3
-
-         ! ASHERMOD
-         ! I am wondering whether the current deposited at the axis should be doubled to take into account a 
-         ! "mirror" current
-
-         ! if (jx == 1) then
-         !   print *, "BANANA"
-         !   qnx = 2.0_p_k_fld*qnx
-         !   qny = 2.0_p_k_fld*qny
-         !   qvz = 2.0_p_k_fld*qvz
-         ! endif
-
 	 
 	 ! get spline weitghts for x and y
 	 S0x(0) = 0.5 - x0
@@ -1202,16 +1182,16 @@ subroutine getjr_2d_s1( jay, dxi, xnew, ixold, xold, q, rgamma, u, np, dt )
 	 wp2(1) = S0x(1) + S1x(1)
 	 
 	 ! accumulate j1
-	 jay%f2(1,ix  ,jx  ) = jay%f2(1,ix  ,jx  ) + wl1 * wp1(0) 
+	 jay%f2(1,ix  ,jx  ) = jay%f2(1,ix  ,jx  ) + wl1 * wp1(0)
 	 jay%f2(1,ix  ,jx+1) = jay%f2(1,ix  ,jx+1) + wl1 * wp1(1)
 	 
 	 ! accumulate j2
-	 jay%f2(2,ix  ,jx  ) = jay%f2(2,ix  ,jx  ) + wl2 * wp2(0) 
-	 jay%f2(2,ix+1,jx  ) = jay%f2(2,ix+1,jx  ) + wl2 * wp2(1) 
+	 jay%f2(2,ix  ,jx  ) = jay%f2(2,ix  ,jx  ) + wl2 * wp2(0)
+	 jay%f2(2,ix+1,jx  ) = jay%f2(2,ix+1,jx  ) + wl2 * wp2(1)
 	 
 	 ! accumulate j3
-	 jay%f2(3,ix  ,jx  ) = jay%f2(3,ix  ,jx  ) + qvz * (S0x(0)*S0y(0)+S1x(0)*S1y(0)+(S0x(0)*S1y(0)+S1x(0)*S0y(0))/2.) 
-	 jay%f2(3,ix+1,jx  ) = jay%f2(3,ix+1,jx  ) + qvz * (S0x(1)*S0y(0)+S1x(1)*S1y(0)+(S0x(1)*S1y(0)+S1x(1)*S0y(0))/2.) 
+	 jay%f2(3,ix  ,jx  ) = jay%f2(3,ix  ,jx  ) + qvz * (S0x(0)*S0y(0)+S1x(0)*S1y(0)+(S0x(0)*S1y(0)+S1x(0)*S0y(0))/2.)
+	 jay%f2(3,ix+1,jx  ) = jay%f2(3,ix+1,jx  ) + qvz * (S0x(1)*S0y(0)+S1x(1)*S1y(0)+(S0x(1)*S1y(0)+S1x(1)*S0y(0))/2.)
 	 jay%f2(3,ix  ,jx+1) = jay%f2(3,ix  ,jx+1) + qvz * (S0x(0)*S0y(1)+S1x(0)*S1y(1)+(S0x(0)*S1y(1)+S1x(0)*S0y(1))/2.)
 	 jay%f2(3,ix+1,jx+1) = jay%f2(3,ix+1,jx+1) + qvz * (S0x(1)*S0y(1)+S1x(1)*S1y(1)+(S0x(1)*S1y(1)+S1x(1)*S0y(1))/2.)
 	 
@@ -1284,7 +1264,7 @@ subroutine getjr_2d_s2(  jay, dxi, xnew, ixold, xold, q, rgamma, u, np, dt )
 	y1 = vpbuf2D(l)%y1
 	ix = vpbuf2D(l)%i
 	jx = vpbuf2D(l)%j
-
+	
 	! Normalize charge
 	qnx = real( vpbuf2D(l)%q, p_k_fld ) * jnorm1
 	qny = real( vpbuf2D(l)%q, p_k_fld ) * jnorm2
@@ -1400,8 +1380,8 @@ subroutine getjr_2d_s3(  jay, dxi, xnew, ixold, xold, q, rgamma, u, np, dt )
 
   ! now accumulate jay looping through all virtual particles
   ! and shifting grid indexes  
-  jnorm1 = real( jay%dx(1) / dt / 2, p_k_fld )
-  jnorm2 = real( jay%dx(2) / dt / 2, p_k_fld )
+  jnorm1 = real( jay%dx(1) / dt , p_k_fld )
+  jnorm2 = real( jay%dx(2) / dt , p_k_fld )
  
   do l=1,nsplit
 
