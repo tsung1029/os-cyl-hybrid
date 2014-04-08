@@ -544,7 +544,7 @@ subroutine report_diag_emf( emf, g_space, grid, no_co, tstep, t )
 
          case ( p_s1, p_s2, p_s3 )
            ! calculate component of Poynting flux
-           call new_simple( vdf_a, emf%e )
+           call new( vdf_a, emf%e, f_dim = 1, copy = .false. )
            call poynting( emf, rep%quant - p_s1 + 1, vdf_a )
            
            ! report it 

@@ -195,8 +195,7 @@ inline void DEP_CURRENT_2D
  double * const norm, t_vpbuf2D * const part)
 {
         
-  //  typedef struct { double j1, j2, j3; } t_current;
-  typedef struct t_current { double j1, j2, j3; } t_current;
+  typedef struct Current { double j1, j2, j3; } t_current;
   t_current *pjpart, *p0; 
   
   dvec j3[NP][NP];
@@ -330,8 +329,7 @@ inline void DEP_CURRENT_3D
                        double * const norm, t_vpbuf3D * const part)
 {
         
-  //  typedef struct { double j1, j2, j3; } t_current;
-  typedef struct t_current { double j1, j2, j3; } t_current;
+  typedef struct Current { double j1, j2, j3; } t_current;
   t_current *pjpart, *p0; 
   
   dvec vwl1[ORDER], vwl2[ORDER], vwl3[ORDER];

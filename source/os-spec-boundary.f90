@@ -205,8 +205,7 @@ subroutine read_nml_spe_bound( this, input_file, periodic, if_move, coordinates 
   do i = 1, p_x_dim
 	 do j = 1, 2
 	   if ((this%type(j,i) == p_bc_cyl_axis) .and. &
-		   ((i /= p_r_dim) .or. ( j /= p_lower ) .or. &
-		   ( coordinates /= p_cylindrical_b ))) then
+		   ((i /= p_r_dim) .or. ( j /= p_lower ) .or. (coordinates /= p_cylindrical_b))) then
 		   print *, ""
 		   print *, "   Error reading spe_bound parameters, dir = ", i
 		   print *, "   Cylindrical axial boundaries can only be specified for"
@@ -451,12 +450,10 @@ subroutine phys_boundary( this, species, current, dt, i_dim, bnd_idx, par_idx, n
   
   jay => current%pf(1)
 
-  print *, "enter phys_boundary"
   ! dt / dx
   dt_dx(1:p_x_dim) = real( dt/species%dx(1:p_x_dim), p_k_part )
   
   ! Boundary condition type
-  ! if in cylindrical mode coordinates, particles at axis must switch yz signs
   bc_type = this%type( bnd_idx, i_dim )
   
   ! On a moving window run, the upper boundary behaves as specular
@@ -479,8 +476,6 @@ subroutine phys_boundary( this, species, current, dt, i_dim, bnd_idx, par_idx, n
 			
      case ( p_bc_specular ) ! specular reflection
 
-
-                print *, "specular boundary phys_boundary update"
 		if ( bnd_idx == p_lower ) then
 		   ipos = 1
 		else
@@ -530,7 +525,7 @@ subroutine phys_boundary( this, species, current, dt, i_dim, bnd_idx, par_idx, n
 		enddo
 
      case ( p_bc_thermal ) ! thermal bath
-                print *, "thermal boundary phys_boundary update"
+
 		! Get position of boundary
 		if ( bnd_idx == p_lower ) then
 		   ipos = 1
@@ -580,6 +575,7 @@ subroutine phys_boundary( this, species, current, dt, i_dim, bnd_idx, par_idx, n
 			  tmp_ix( l, k )   = species%ix(l, par_idx(i+k-1) )
 			  tmp_xold( l, k ) = species%x(l, par_idx(i+k-1) )
 			enddo
+
 		  enddo
 		  
 		  ! deposit current as if particles were coming from another node
@@ -878,6 +874,7 @@ subroutine update_boundary_species( spec, current, no_co, dt )
   integer :: i
   integer :: my_node, comm, min_npar
 
+  
   ! Get list of particles crossing the node boundaries. The result is stored in the module 
   ! variable node_cross
   call check_node_cross( spec, n_threads(no_co) )
@@ -886,7 +883,7 @@ subroutine update_boundary_species( spec, current, no_co, dt )
   min_npar = spec%num_par
   
   do i = 1, p_x_dim
-
+          
     if ( spec%num_par < min_npar ) min_npar = spec%num_par
 
     
@@ -915,7 +912,7 @@ subroutine update_boundary_species( spec, current, no_co, dt )
     
     ! check which particles crossed the node boundary and store their indexes
     call check_boundary( spec, min_npar, i, bnd_cross )
-
+    
     ! Process particles crossing nodes
     select case ( comm )
       case (0) 
@@ -969,13 +966,13 @@ subroutine update_boundary_species( spec, current, no_co, dt )
          call unpack( spec, p_lower + p_upper, bnd_cross )
          
     end select         
-
+    
     ! remove particles whose index is still in par_idx_l or par_idx_u and pack the species buffer
     call remove_particles( spec, bnd_cross )
  
     ! Wait for any leftover send messages to complete
     if ( comm > 0 ) call wait_send( comm )
-
+    
   enddo
     
 end subroutine update_boundary_species

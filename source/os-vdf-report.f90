@@ -126,7 +126,7 @@ subroutine parse_item( input, quant_list, xdim, quant, new_item, ierr )
     return
   endif
   
-
+  
   substr = adjustl(input(1 : splitIdx(1) - 1))
   do i = 1, size(quant_list)
     if ( trim(substr) == trim(quant_list(i)) ) then

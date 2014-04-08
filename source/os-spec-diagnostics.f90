@@ -315,7 +315,7 @@ subroutine read_nml_diag_species( this, input_file, ndump_global )
   pha_ene_bin = "-"
   pha_cell_avg = "-"
   pha_time_avg = "-"
-
+  
   ! Get namelist text from input file
   call get_namelist( input_file, "nl_diag_species", ierr )
 
@@ -544,8 +544,8 @@ subroutine setup_diag_species( this, spec_name, ndump_fac, restart, restart_hand
 		     call setup(this%raw_func, trim(this%raw_math_expr), &
 		  				 (/'x1', 'x2', 'x3', 'x4' ,'p1', 'p2', 'p3', 'g ', 't '/), ierr)
                    else
-		     call setup(this%raw_func, trim(this%raw_math_expr), &
-		        			 (/'x1', 'x2', 'p1', 'p2', 'p3', 'g ', 't '/), ierr)
+		   call setup(this%raw_func, trim(this%raw_math_expr), &
+						 (/'x1', 'x2', 'p1', 'p2', 'p3', 'g ', 't '/), ierr)
                    endif
 						 
 		 case (3)
@@ -750,7 +750,6 @@ subroutine report_species( spec, emf, g_space, grid, no_co, tstep, t  )
 	   
 	   ! cleanup temp. grid
 	   call cleanup( charge )
-
 
     endif
     

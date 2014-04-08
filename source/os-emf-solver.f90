@@ -100,7 +100,7 @@ subroutine select_dbdt( this, dt )
 
 
 !       executable statements
-  
+
   select case ( this%solver )
     case ( p_emf_yee ) 
 	   select case ( this%coordinates )
@@ -258,7 +258,7 @@ subroutine select_dbdt( this, dt )
 		   call abort_program( p_err_notimplemented )
 	 
 	   end select	
-
+  
     case ( p_emf_cyl_modes )
        
        call dbdt_2d_cyl_modes( this%b_cyl_m, this%e_cyl_m, this%gix_pos(2), dt )
@@ -276,9 +276,9 @@ subroutine select_dedt(this, current, charge, dt, no_co )
 !       selects the right subroutine depending on the
 !       dimensionality of the simulation
 !---------------------------------------------------
-  
+
   use m_current_define
-  
+
   implicit none
 
   type( t_emf ), intent(inout) :: this
@@ -291,6 +291,7 @@ subroutine select_dedt(this, current, charge, dt, no_co )
 !       local variables 
 
 !       executable statements
+  
   select case ( this%solver )
     case ( p_emf_yee ) 
 	   select case ( this%coordinates )
@@ -472,9 +473,9 @@ end subroutine select_dedt
 
 !-----------------------------------------------------------------------------------------
 ! Yee solver
-! K. YEE, ÒNUMERICAL SOLUTION OF INITIAL BOUNDARY VALUE PROBLEMS INVOLVING MAXWELLS 
-!   EQUATIONS IN ISOTROPIC MEDIA,Ó IEEE Transactions on Antenna Propagation, vol. 14, 
-!   no. 3, pp. 302Ð307, 1966.
+! K. YEE, NUMERICAL SOLUTION OF INITIAL BOUNDARY VALUE PROBLEMS INVOLVING MAXWELLS 
+!   EQUATIONS IN ISOTROPIC MEDIA, IEEE Transactions on Antenna Propagation, vol. 14, 
+!   no. 3, pp. 302307, 1966.
 !-----------------------------------------------------------------------------------------
 
 !-----------------------------------------------------------------------------------------
@@ -1428,7 +1429,7 @@ end subroutine dedt_cyl_b1_2d_4order
 !-----------------------------------------------------------------------------------------
 ! Stencil based field solver
 !   A. Greenwood, et. al. "On the elimination of numerical Cerenkov radiation in PIC 
-!   simulations", Journal of Computational Physics, vol. 201, no. 2, pp. 665Ð684, 
+!   simulations", Journal of Computational Physics, vol. 201, no. 2, pp. 665684, 
 !   Dec. 2004
 !-----------------------------------------------------------------------------------------
 
@@ -1724,8 +1725,8 @@ end subroutine dedt_3d_stencil
 
 !-----------------------------------------------------------------------------------------
 ! CK Solver
-!   M. K‹rkk‹inen, et.al., "Low-Dispersion Wake Field Calculation Tools", Proceedings of 
-!   ICAP 2006, Chamonix, France, vol. 2, pp. 35Ð40, Jan. 2007.
+!   M. Krkkinen, et.al., "Low-Dispersion Wake Field Calculation Tools", Proceedings of 
+!   ICAP 2006, Chamonix, France, vol. 2, pp. 3540, Jan. 2007.
 !-----------------------------------------------------------------------------------------
 
 !---------------------------------------------------
@@ -1995,14 +1996,14 @@ end subroutine dedt_3d_kark
 !-----------------------------------------------------------------------------------------
 ! NDFX Solver
 ! A. Pukhov, "Three-dimensional electromagnetic relativistic particle-in-cell code VLPL 
-!    (Virtual Laser Plasma Lab)", J Plasma Phys, vol. 61, pp. 425Ð433, 1999.
+!    (Virtual Laser Plasma Lab)", J Plasma Phys, vol. 61, pp. 425433, 1999.
 !-----------------------------------------------------------------------------------------
 
 !---------------------------------------------------
 subroutine dbdt_2d_ndfx( b, e, dt )
 !---------------------------------------------------
 ! Numerical Dispersion Free Solver in X1 direction
-! A. Pukhov, J. Plasma Physics (1999), vol. 61, part 3, pp. 425Ð433
+! A. Pukhov, J. Plasma Physics (1999), vol. 61, part 3, pp. 425433
 !---------------------------------------------------
 
   implicit none
@@ -2134,7 +2135,7 @@ end subroutine dbdt_3d_ndfx
 subroutine dedt_2d_ndfx( e, b, jay, dt )
 !---------------------------------------------------
 ! Numerical Dispersion Free Solver in X1 direction
-! A. Pukhov, J. Plasma Physics (1999), vol. 61, part 3, pp. 425Ð433
+! A. Pukhov, J. Plasma Physics (1999), vol. 61, part 3, pp. 425433
 !---------------------------------------------------
 
   implicit none

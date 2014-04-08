@@ -172,7 +172,7 @@ subroutine read_nml_emf( this, input_file, periodic, if_move , ndump_global, gri
   logical, dimension(:), intent(in) :: periodic, if_move
   integer, intent(in) :: ndump_global
   type( t_grid ), intent(in)  :: grid
-  integer, intent(in) ::   algorithm
+  integer, intent(in) :: algorithm
 
   ! solver
   character(len=20) :: solver
@@ -244,7 +244,7 @@ subroutine read_nml_emf( this, input_file, periodic, if_move , ndump_global, gri
   if ( grid%n_cyl_modes > 0 ) then
     solver = "cyl modes"
   else
-    solver = "yee"
+  solver = "yee"
   endif
   
   k1 = 0.0_p_double
@@ -713,8 +713,8 @@ subroutine setup_emf( this, g_space, grid, gc_min, dx, dt, &
 	 if ( grid%n_cyl_modes > 0 ) then
 		call setup( this%e_cyl_m, grid%n_cyl_modes, this%e )
 		call setup( this%b_cyl_m, grid%n_cyl_modes, this%b )
-	 endif
-	
+  endif
+
   endif ! restart
 
   ! setup arrays for external fields if necessary
@@ -746,7 +746,7 @@ subroutine setup_emf( this, g_space, grid, gc_min, dx, dt, &
 			  g_space, no_co, grid%coordinates, restart, restart_handle )
 
   ! setup data that is not on restart file
-   
+  
    this%n_cyl_modes = -1
    this%coordinates = grid%coordinates
    ! setup cyl. coordinate data (unrelated to restart)
@@ -754,11 +754,10 @@ subroutine setup_emf( this, g_space, grid, gc_min, dx, dt, &
      this%solver = p_emf_cyl_modes
      this%n_cyl_modes = grid%n_cyl_modes
    endif
-   
-   do i = 1, p_x_dim
-     this%gix_pos(i) = grid%my_nx( p_lower, i )
-   enddo
   
+  do i = 1, p_x_dim
+     this%gix_pos(i) = grid%my_nx( p_lower, i )
+  enddo
     
   ! setup arrays for spatial smoothed / external fields if necessary
   if ( ( this%smooth_type == p_emfsmooth_stand ) .or. &
@@ -844,7 +843,7 @@ subroutine cleanup_emf( this )
   if( this%use_pgc ) then
      call cleanup(this%pgc)
   endif
-  
+
   if ( this%n_cyl_modes > 0 ) then
 	call cleanup( this%e_cyl_m )
 	call cleanup( this%b_cyl_m )
@@ -883,7 +882,7 @@ ERROR('error writing restart data for emf object.')
 
   call restart_write( this%b,       restart_handle )
   call restart_write( this%e,       restart_handle )
-  
+
   ! write restart data for cylindrical modes
   if (this%n_cyl_modes > 0) then
    call restart_write( this%b_cyl_m, restart_handle )
@@ -1002,10 +1001,10 @@ subroutine move_window_emf( this, g_space, nx_p_min, need_fld_val )
       
   if (nx_move( g_space, 1 ) > 0) then
   
-   ! move window for e and b field
-	  call move_window( this%b, g_space )
-	  call move_window( this%e, g_space )
-    
+	! move window for e and b field
+	call move_window( this%b, g_space )
+	call move_window( this%e, g_space )
+	
     ! Move window for high order cylindrical modes
     if ( this%n_cyl_modes > 0 ) then 
       call move_window(this%e_cyl_m, g_space)
@@ -1054,16 +1053,17 @@ subroutine update_boundary_emf( this, g_space, no_co )
   implicit none
 
   type( t_emf ), intent( inout )  ::  this
+
   type( t_space ),     intent(in) :: g_space
   type( t_node_conf ), intent(in) :: no_co
 
   integer :: i
-  
+
   ! update boundaries on emf fields
   call update_boundary( this%bnd_con, this%b, this%e,  g_space, no_co )
   ! update boundaries for high order cylindrical modes
   if ( this%n_cyl_modes > 0 ) call update_boundary_emf_cyl_modes( this, g_space, no_co )
-  						
+						
   ! no update is required for external fields since these are constant or calculated at every time
   ! step
   
@@ -1101,10 +1101,10 @@ subroutine update_particle_fld_emf( this, n, t, space, nx_p_min )
 
 	   ! smooth e and b fields
        call begin_event( fsmoothev )
-
+       
 	   call smooth( this%e, this%smooth )
 	   call smooth( this%b, this%smooth )
-
+	   
            if (this%n_cyl_modes > 0) then
              do mode = 1, ubound(this%e_cyl_m%pf_re,1)
                call smooth( this%e_cyl_m%pf_re(mode), this%smooth)
@@ -1128,9 +1128,10 @@ subroutine update_particle_fld_emf( this, n, t, space, nx_p_min )
      ! smooth e and b fields
      if ( this%smooth_type == p_emfsmooth_stand ) then
         call begin_event( fsmoothev )
+
 		call smooth( this%e_part, this%smooth )
 		call smooth( this%b_part, this%smooth )
-
+ 
           if (this%n_cyl_modes > 0) then
              do mode = 1, ubound(this%e_cyl_m%pf_re,1)
                call smooth( this%e_cyl_m%pf_re(mode), this%smooth)

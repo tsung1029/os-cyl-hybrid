@@ -81,6 +81,7 @@ integer, parameter :: p_f_dim   = 3 !no. of comp. of a vectorfield
 ! axial, radial and azimuthal directions
 integer, parameter :: p_z_dim = 1
 integer, parameter :: p_r_dim = 2
+integer, parameter :: p_t_dim = 3
 
 ! additional coordinates for the cylindrical modes geometry
 integer, parameter :: p_cyl_x_dim = 3

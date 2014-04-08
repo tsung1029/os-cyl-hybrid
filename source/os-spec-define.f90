@@ -480,7 +480,6 @@ type :: t_species
   real(p_double), dimension(p_max_dim)    :: dx             ! cell size
   real(p_double), dimension(p_x_dim)      :: total_xmoved   ! motion of the simulation box
   integer, dimension(3, p_max_dim)        :: my_nx_p        ! local grid position in global grid
-  
   integer :: coordinates							      ! coordinate system in use
   integer :: n_cyl_modes = -1
   
@@ -623,16 +622,16 @@ subroutine position_idx_comp_4( species, comp, idx, np, pos )
    xmin  = species%g_box( p_lower, comp )
    ixmin = species%my_nx_p( 1, comp ) - 2
    dx    = species%dx( comp )
-   
+      
    if (comp > p_x_dim) then ! ASHERMOD this is for cyl mode coordinates, extra coordinates do not have a corresponding ix
      do j = 1, np
           pos(j) = real(species%x(comp, idx(j)), p_single)
      enddo
    else
-     do j = 1, np
-  	  pos(j) = xmin + dx * real((species%ix( comp, idx(j) ) + ixmin) + &
-  	                             species%x ( comp, idx(j) ) , p_single )
-     enddo
+   do j = 1, np
+	  pos(j) = xmin + dx * real((species%ix( comp, idx(j) ) + ixmin) + &
+	                             species%x ( comp, idx(j) ) , p_single )
+   enddo
    endif
 
 end subroutine position_idx_comp_4
@@ -686,7 +685,7 @@ subroutine position_single_4( species, idx, pos )
 	                    species%x( j, idx ) ) * species%dx( j ) + &
 	                    species%g_box( p_lower, j ), p_single )
    enddo
-
+   
    if (n_x_dim > p_x_dim) then ! ASHERMOD this is for cyl mode coordinates, extra coordinates do not have a corresponding ix
      do j=p_x_dim+1, n_x_dim
         pos(j) = real(species%x(j,idx))

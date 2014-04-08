@@ -1,7 +1,7 @@
 !#define DEBUG_FILE 1
 !
 ! $URL: https://osiris.ist.utl.pt/svn/branches/dev_3.0/source/os-antenna.f90 $
-! $Id: os-antenna.f90 484 2012-10-02 15:00:23Z zamb $
+! $Id: os-antenna.f90 566 2013-10-18 20:37:20Z tsung $
 !
 
 
@@ -54,14 +54,14 @@ integer, parameter :: p_env_gaussian = 1 ! gaussian envelope
 integer, parameter :: p_env_linear   = 2 ! linear envelope
 integer, parameter :: p_env_alfven   = 3 ! longitudinal (Alfven antenna)
                                      ! with gaussian envelope
-
+integer, parameter :: p_env_supergaussian = 4 ! supergaussian profile.
 
 type t_antenna
     
     integer :: direction
     
     real (p_k_fld):: a0
-    real (p_k_fld):: t_rise,t_fall,t_flat
+    real (p_k_fld):: t_rise,t_fall,t_flat,t_offset
     real (p_k_fld):: omega0
     real (p_k_fld):: x0,y0
     real (p_k_fld):: rad_x,rad_y
@@ -72,7 +72,14 @@ type t_antenna
     integer :: ant_type
     real (p_k_fld):: tilt,phase
     real (p_k_fld):: focus
-
+! 5/3/2012 --> new parameters for supergaussian
+    integer :: power
+    integer :: eps
+! supergaussian
+! 5/29/2012 --> added chirp + jitter in frequency
+    real (p_k_fld) chirp
+    real (p_k_fld) jitterw,jitteromg
+! jitter
     integer :: n_modes !! # of hermite modes
     real (p_k_fld), pointer:: coef_modes(:) => NULL()
 
@@ -303,22 +310,26 @@ end subroutine read_nml_antenna_list
 
 
       real(p_k_fld) :: a0,omega0,t_rise,x0,y0,rad_x,rad_y
-      real(p_k_fld) :: t_flat,t_fall
+      real(p_k_fld) :: t_flat,t_fall,t_offset
       integer :: ant_type
       integer :: spin
       real(p_k_fld) :: pol
       real(p_k_fld) :: delay,tilt,phase,focus
-      integer :: direction, side
+      real(p_k_fld) :: chirp,jitterw,jitteromg
+      integer side, direction
+      integer power
+      real(p_k_fld) :: eps
 	  
 ! local variables
       real (p_k_fld) :: fac1,fac2
       
       integer:: ierr
 
-      namelist /nl_antenna/ a0, t_rise, t_flat, t_fall,&
+      namelist /nl_antenna/ a0, t_rise, t_flat, t_fall,t_offset,&
                             omega0, focus, x0, y0, rad_x, rad_y, &
                             ant_type, spin, pol, delay, side, &
-                            tilt, phase, direction
+                            tilt, phase, direction, power, eps, &
+                            chirp,jitterw,jitteromg
                             
 ! possible spins
 !   +1: clockwise polarization
@@ -339,16 +350,22 @@ end subroutine read_nml_antenna_list
       focus=0.0
       t_rise=0.0
       t_fall=0.0
+      t_offset=0.0
       t_flat=0.0
       omega0=0.0
       rad_x = 0.0
       rad_y = 0.0
+      chirp = 0.0
+      jitterw = 0.0
+      jitteromg = 1.0
       
       ant_type = 1
       spin = 0
       
       x0 = 0.0
       y0 = 0.0
+      power = 8
+      eps = 0.0001
 
  ! Get namelist text from input file
   call get_namelist( input_file, "nl_antenna", ierr )
@@ -372,10 +389,14 @@ end subroutine read_nml_antenna_list
       this%t_rise=t_rise
       this%t_flat=t_flat
       this%t_fall=t_fall
+      this%t_offset=t_offset
       this%x0=x0
       this%y0=y0
       this%rad_x=rad_x
       this%rad_y=rad_y
+      this%chirp=chirp
+      this%jitterw=jitterw
+      this%jitteromg=jitteromg
       this%ant_type=ant_type
       this%spin=spin
       this%pol= pol * real( pi_180, p_k_fld )
@@ -385,6 +406,8 @@ end subroutine read_nml_antenna_list
       this%tilt=tilt * real( pi_180, p_k_fld )
       this%focus=focus
       this%phase=phase * real( pi_180, p_k_fld )
+      this%power=power
+      this%eps=eps
 
 !	  if((tilt.ne.0.0) .and. (focus.ne.0.0)) then
 !	      write(*,*) 'ANTENNA (READ_NML): Tilt and focus can ',& 
@@ -498,6 +521,11 @@ ERROR('incompatible binary (antenna)')
          call abort_program(p_err_rstrd)
       endif
       restart_io_rd( this%t_fall, restart_handle, ierr )
+      if ( ierr/=0 ) then 
+         ERROR('error reading restart data for antenna object.')
+         call abort_program(p_err_rstrd)
+      endif
+      restart_io_rd( this%t_offset, restart_handle, ierr )
       if ( ierr/=0 ) then 
          ERROR('error reading restart data for antenna object.')
          call abort_program(p_err_rstrd)
@@ -631,6 +659,11 @@ ERROR('incompatible binary (antenna)')
          ERROR('error writing restart data for antenna object.')
             call abort_program(p_err_rstwrt)
       endif
+      restart_io_wr( this%t_offset, restart_handle, ierr )
+      if ( ierr/=0 ) then 
+         ERROR('error writing restart data for antenna object.')
+            call abort_program(p_err_rstwrt)
+      endif
       restart_io_wr( this%omega0, restart_handle, ierr )
       if ( ierr/=0 ) then 
          ERROR('error writing restart data for antenna object.')
@@ -742,7 +775,7 @@ subroutine antenna_1d( this, efield, bc, dt, t, delta_x )
   integer,dimension(2,rank):: array_bound
   real (p_k_fld):: a_t,a_tx,phase
 
-  real (p_k_fld):: true_time,local_time
+  real (p_k_fld):: true_time,local_time,local_omega
   integer:: ind_wall
  
   ! executable statements
@@ -754,17 +787,35 @@ subroutine antenna_1d( this, efield, bc, dt, t, delta_x )
  
   true_time  = real(t, p_k_fld)
   local_time = true_time - this%delay
- 
+  local_omega = (this%omega0+this%chirp/2*local_time)
   select case ( this%ant_type )
 	case( p_env_linear )
-	  phase=this%omega0*local_time+this%phase
+	  if(this%jitteromg.ne.0) then
+	  phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)
+	  else
+	  phase=local_omega*local_time+this%phase
+	  end if
 	  a_t=this%a0*this%omega0*envelop_env_linear(this,true_time)*sin(phase)
 	case( p_env_gaussian )
-	  phase=this%omega0*local_time+this%phase
+	  if(this%jitteromg.ne.0) then
+	  phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)	  
+	  else
+	  phase=local_omega*local_time+this%phase
+	  end if
 	  a_t=this%a0*this%omega0*envelop_env_gaussian(this,true_time)*sin(phase)
+	case( p_env_supergaussian )
+	  if(this%jitteromg.ne.0) then
+	  phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)	  
+	  else
+	  phase=local_omega*local_time+this%phase 
+	  end if
+	  a_t=this%a0*this%omega0*envelop_env_supergaussian(this,true_time)*sin(phase)  
 	case( p_env_alfven )
 	  if (local_time > 0.0) then
-		 phase = this%omega0*local_time + this%phase
+		 phase = local_omega*local_time + this%phase
 		 a_t   = this%a0*sin(phase)*envelop_env_gaussian(this,true_time)
 	  else
 		 a_t = 0.0
@@ -831,7 +882,7 @@ subroutine antenna_2d(this, efield, bc, dt, t, lower_bound, delta_x)
    real (p_k_fld) a_t,a_tx,phase
 
    real (p_k_fld),dimension(1)::r,coord
-   real (p_k_fld):: true_time,local_time
+   real (p_k_fld):: true_time,local_time,local_omega
    integer :: ind_wall
    
    ! if not on an injecting wall return silently
@@ -847,15 +898,34 @@ subroutine antenna_2d(this, efield, bc, dt, t, lower_bound, delta_x)
 
    true_time  = real(t, p_k_fld)
    local_time = true_time - this%delay
+   local_omega = (this%omega0+this%chirp/2*local_time)
 
    ! Get pulse amplitude and phase
    select case( this%ant_type ) 
      case ( p_env_linear )
-	   phase = this%omega0*local_time + this%phase
+	   if(this%jitteromg.ne.0) then
+            phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)    
+	      else
+	      phase=local_omega*local_time+this%phase
+	      end if
 	   a_t = this%a0*this%omega0*envelop_env_linear(this,true_time)*sin(phase)
      case ( p_env_gaussian )
-       phase = this%omega0*local_time+this%phase
+       if(this%jitteromg.ne.0) then
+            phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)    
+	      else
+	      phase=local_omega*local_time+this%phase
+	      end if
 	   a_t = this%a0 * this%omega0 * envelop_env_gaussian(this,true_time)*sin(phase)
+	 case (p_env_supergaussian) 
+	 if(this%jitteromg.ne.0) then
+            phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)    
+	      else
+	      phase=local_omega*local_time+this%phase
+	      end if
+	   a_t = this%a0 * this%omega0 * envelop_env_supergaussian(this,true_time)*sin(phase)
      case ( p_env_alfven )
 	   if(local_time > 0.0) then
 		  phase=this%omega0*local_time+this%phase
@@ -1015,7 +1085,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
       real (p_k_fld) a_t,a_tx,phase
 
       real (p_k_fld),dimension(1)::r,coord
-      real (p_k_fld):: local_time,true_time
+      real (p_k_fld):: local_time,true_time,local_omega
       integer:: ind_wall
 
       real (p_k_fld):: cos_tilt,sin_tilt,tan_tilt
@@ -1036,6 +1106,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
       
       true_time  = real(t, p_k_fld)
       local_time = true_time - this%delay
+      local_omega = (this%omega0+this%chirp/2*local_time)
 
       cos_tilt=cos(this%tilt)
       sin_tilt=sin(this%tilt)
@@ -1047,20 +1118,25 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
       !write(*,*)'frequency=',this%omega0
       !write(*,*)'zeroth order phase = ',this%phase
       !write(*,*)'curvature driven phase =',this%phase2(1)
-      
-      phase=this%omega0*local_time+this%phase+this%phase2(1)
-
+      if(this%jitteromg.ne.0) then
+      phase=local_omega*local_time+this%phase+this%phase2(1) &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)
+      else
+      phase=local_omega*local_time+this%phase+this%phase2(1) 
+      end if
 
 ! calculate the time dependence
       select case (this%ant_type)
       case(p_env_linear)
-          a_t=this%omega0*this%a0*envelop_env_linear(this,true_time)
+          a_t=local_omega*this%a0*envelop_env_linear(this,true_time)
       case(p_env_gaussian)
-           a_t=this%omega0*this%a0*envelop_env_gaussian(this,true_time)
+           a_t=local_omega*this%a0*envelop_env_gaussian(this,true_time)
       case(p_env_alfven)
            a_t=this%a0*envelop_env_gaussian(this,true_time)
+      case(p_env_supergaussian)
+           a_t=local_omega*this%a0*envelop_env_supergaussian(this,true_time)     
       case default
-          a_t=this%omega0*this%a0*envelop_env_gaussian(this,true_time)
+          a_t=local_omega*this%a0*envelop_env_gaussian(this,true_time)
       end select
 ! DEBUG
       !write(*,*) 'ant_2d_focus_2:',delta_x,lower_bound
@@ -1087,7 +1163,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 	    a_tx=a_t*dt/delta_x(1)*profile(r(1))*&
      &      sin(phase+&
      &      this%curv_const(1)*coord(1)*coord(1)+ &
-     &      this%omega0*tan_tilt*(coord(1)+this%rad_x))
+     &      local_omega*tan_tilt*(coord(1)+this%rad_x))
               efield%f2(3,array_bound(p_lower,1),ind1)=&
      &       efield%f2(3,array_bound(p_lower,1),ind1)+&
      &        a_tx*cos_pol
@@ -1126,7 +1202,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 	     a_tx=a_t*dt/delta_x(2)*profile(r(1))*&
      &      sin(phase+&
      &      this%curv_const(1)*coord(1)*coord(1)+&
-     &      this%omega0*tan_tilt*(coord(1)+this%rad_x))
+     &      local_omega*tan_tilt*(coord(1)+this%rad_x))
   
 
               efield%f2(1,ind1,0)=efield%f2(1,ind1,array_bound(p_lower,2))+&
@@ -1160,7 +1236,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 	      a_tx=a_t*dt/delta_x(1)*profile(r(1))&
      &      *sin(phase+&
      &      this%curv_const(1)*(coord(1))*(coord(1))+&
-     &      this%omega0*tan_tilt*(coord(1)+this%rad_x))
+     &      local_omega*tan_tilt*(coord(1)+this%rad_x))
               efield%f2(3,ind_wall,ind1)=efield%f2(3,ind_wall,ind1)+&
      &        a_tx*cos_pol
               efield%f2(2,ind_wall,ind1)=efield%f2(2,ind_wall,ind1)+&
@@ -1246,7 +1322,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
       real (p_k_fld) a_t,a_tx,phase
 
       real (p_k_fld),dimension(1)::r,coord
-      real (p_k_fld):: local_time,true_time
+      real (p_k_fld):: local_time,true_time,local_omega
       integer :: ind_wall
 
       real (p_k_fld):: cos_tilt,sin_tilt,tan_tilt
@@ -1266,6 +1342,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
       
       true_time  = real(t, p_k_fld)
       local_time = true_time-this%delay
+      local_omega = (this%omega0+this%chirp/2*local_time)
 
       cos_tilt=cos(this%tilt)
       sin_tilt=sin(this%tilt)
@@ -1275,20 +1352,25 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 !      write(*,*)'frequency=',this%omega0
 !      write(*,*)'zeroth order phase = ',this%phase
 !      write(*,*)'curvature driven phase =',this%phase2(1)
-      
-      phase=this%omega0*local_time+this%phase+this%phase2(1)
-
+      if(this%jitteromg.ne.0) then
+      phase=local_omega*local_time+this%phase+this%phase2(1) &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)
+	  else
+	  phase=local_omega*local_time+this%phase+this%phase2(1)
+	  end if
 
 ! calculate the time dependence
       select case (this%ant_type)
       case(p_env_linear)
-          a_t=this%omega0*this%a0*envelop_env_linear(this,true_time)
+          a_t=local_omega*this%a0*envelop_env_linear(this,true_time)
       case(p_env_gaussian)
-           a_t=this%omega0*this%a0*envelop_env_gaussian(this,true_time)
+           a_t=local_omega*this%a0*envelop_env_gaussian(this,true_time)
       case(p_env_alfven)
            a_t=this%a0*envelop_env_gaussian(this,true_time)
+      case(p_env_supergaussian)
+           a_t=local_omega*this%a0*envelop_env_supergaussian(this,true_time)
       case default
-          a_t=this%omega0*this%a0*envelop_env_gaussian(this,true_time)
+          a_t=local_omega*this%a0*envelop_env_gaussian(this,true_time)
       end select
 ! DEBUG
 !      write(*,*) 'ant_2d_focus_2:',delta_x,lower_bound
@@ -1315,7 +1397,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 	    a_tx=a_t*dt/delta_x(1)*profile(r(1))*&
      &      sin(phase+&
      &      this%curv_const(1)*coord(1)*coord(1)+ &
-     &      this%omega0*tan_tilt*(coord(1)+this%rad_x))
+     &      local_omega*tan_tilt*(coord(1)+this%rad_x))
             efield%f2(3,array_bound(p_lower,1),ind1)=&
      &      efield%f2(3,array_bound(p_lower,1),ind1)+&
      &      a_tx*cos(this%pol)
@@ -1356,7 +1438,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 	         a_tx=a_t*dt/delta_x(2)*profile(r(1))*&
      &      sin(phase+&
      &      this%curv_const(1)*coord(1)*coord(1)+&
-     &      this%omega0*sin_tilt*coord(1))
+     &      local_omega*sin_tilt*coord(1))
   
 
               efield%f2(1,ind1,0)=efield%f2(1,ind1,array_bound(p_lower,2))+&
@@ -1390,7 +1472,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 	      a_tx=a_t*dt/delta_x(1)*profile(r(1))&
      &      *sin(phase+&
      &      this%curv_const(1)*(coord(1))*(coord(1))+&
-     &      this%omega0*sin_tilt*coord(1))
+     &      local_omega*sin_tilt*coord(1))
               efield%f2(3,ind_wall,ind1)=efield%f2(3,ind_wall,ind1)+&
      &        a_tx*cos(this%pol)
               efield%f2(2,ind_wall,ind1)=efield%f2(2,ind_wall,ind1)+&
@@ -1473,7 +1555,7 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
       real (p_k_fld) :: a_t,a_tx,phase
 
       real (p_k_fld),dimension(3)::r,coord
-      real (p_k_fld) :: local_time,true_time
+      real (p_k_fld) :: local_time,true_time,local_omega
       integer  :: ind_wall
 
       
@@ -1487,14 +1569,37 @@ subroutine antenna_2d_focus(this,efield,bc,dt,t,lower_bound,delta_x)
 
       true_time = real(t, p_k_fld)
       local_time= true_time - this%delay
-
-      phase=(this%omega0*local_time)+this%phase+this%phase2(1)+this%phase2(2)      
+      local_omega = (this%omega0+this%chirp/2*local_time)
+      if(this%jitteromg.ne.0) then
+      phase=(local_omega*local_time)+this%phase+this%phase2(1)+this%phase2(2)      &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)      
+	  else
+	  phase=(local_omega*local_time)+this%phase+this%phase2(1)+this%phase2(2)  
+	  end if
       if(this%ant_type.eq.p_env_linear) then
-            phase=this%omega0*local_time+this%phase
-            a_t=this%a0*this%omega0*envelop_env_linear(this,true_time)*sin(phase)
+      if(this%jitteromg.ne.0) then
+            phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)
+	  else 
+           phase=local_omega*local_time+this%phase 
+      end if
+            a_t=local_omega*envelop_env_linear(this,true_time)*sin(phase)
       else if(this%ant_type.eq.p_env_gaussian) then
-	  phase=this%omega0*local_time+this%phase
-          a_t=this%a0*this%omega0*envelop_env_gaussian(this,true_time)*sin(phase)
+          if(this%jitteromg.ne.0) then
+	      phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)	   
+	      else
+	      phase=local_omega*local_time+this%phase
+	      end if
+          a_t=this%a0*local_omega*envelop_env_gaussian(this,true_time)*sin(phase)
+      else if(this%ant_type.eq.p_env_supergaussian) then
+          if(this%jitteromg.ne.0) then
+	      phase=local_omega*local_time+this%phase &
+	  -this%jitterw/this%jitteromg*cos(this%jitteromg*local_time)	
+	      else
+	      phase=local_omega*local_time+this%phase
+	      end if
+          a_t=this%a0*local_omega*envelop_env_supergaussian(this,true_time)*sin(phase)    
       else if(this%ant_type.eq.p_env_alfven) then
           if(local_time > 0.0) then
               phase=this%omega0*local_time+this%phase
@@ -2208,7 +2313,38 @@ end subroutine antenna_select
 	end function envelop_env_gaussian
 !---------------------------------------------------------------------------------------------------
 	  
-	   
+!---------------------------------------------------------------------------------------------------
+    function envelop_env_supergaussian(this,time)
+!---------------------------------------------------------------------------------------------------
+!---------------------------------------------------------------------------------------------------
+	implicit none
+	type (t_antenna),intent(in):: this
+	real (p_k_fld),intent(in):: time
+
+    real (p_k_fld) :: envelop_env_supergaussian
+
+	real (p_k_fld) :: t_normal,local_time
+
+	local_time=time-this%delay
+	if(local_time < 0) then
+	    envelop_env_supergaussian=0.0
+	else if(local_time < this%t_rise) then
+	    t_normal=(1-(local_time/this%t_rise))*3.0
+	    envelop_env_supergaussian=exp(-(t_normal)**2/2-this%eps*(t_normal)**this%power)
+        else if(local_time < (this%t_rise+this%t_flat)) then
+	    envelop_env_supergaussian=1.0
+        else if(local_time < (this%t_rise+this%t_flat+this%t_fall)) then
+	    t_normal=((local_time-(this%t_rise+this%t_flat))/this%t_fall)*3.0
+	    envelop_env_supergaussian=exp(-(t_normal)**2/2-this%eps*(t_normal)**this%power)
+	    
+	else
+	    envelop_env_supergaussian=0.0
+    end if 
+	envelop_env_supergaussian=2.0*envelop_env_supergaussian
+!	write(*,*)'envelop=',envelop_env_gaussian
+	end function envelop_env_supergaussian
+!---------------------------------------------------------------------------------------------------	  
+	   	  
 !---------------------------------------------------------------------------------------------------
         logical function antenna_power_on(this)
 !---------------------------------------------------------------------------------------------------

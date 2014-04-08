@@ -29,7 +29,7 @@ module m_current_diag
   use m_vdf_average
   use m_vdf_math
   use m_vdf
-  
+
   use m_cyl_modes
 
   use m_current_define

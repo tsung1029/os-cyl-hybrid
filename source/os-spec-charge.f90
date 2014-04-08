@@ -113,7 +113,7 @@ subroutine deposit_rho_2d_s1( rho, ix, x, q, np )
 	dx1 = real( x(1,l), p_k_fld )
 	dx2 = real( x(2,l), p_k_fld )
 	lq  = real( q(l) , p_k_fld )
-
+	
 	! get spline weitghts for x and y
 	w1(0) = 0.5 - dx1
 	w1(1) = 0.5 + dx1
@@ -126,7 +126,6 @@ subroutine deposit_rho_2d_s1( rho, ix, x, q, np )
 	rho%f2(1,i1+1,i2  ) = rho%f2(1,i1+1,i2  ) + lq * w1(1)* w2(0)
 	rho%f2(1,i1  ,i2+1) = rho%f2(1,i1  ,i2+1) + lq * w1(0)* w2(1)
 	rho%f2(1,i1+1,i2+1) = rho%f2(1,i1+1,i2+1) + lq * w1(1)* w2(1)
-
 	
 	! end of automatic code
   

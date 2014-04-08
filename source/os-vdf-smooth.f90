@@ -220,8 +220,7 @@ subroutine read_nml_smooth( this, input_file )
   integer :: ierr
 
 
-  type(1) = "none"
-  type(2) = "none"
+  type = "none"
   order = 0
   swfj = 1
   
@@ -277,8 +276,6 @@ subroutine read_nml_smooth( this, input_file )
   ! first pass, check filtering type and get maximum filter order
   this%max_order = 0
   do i = 1, p_x_dim
-
-          print *, trim( type(i) )
     
     select case ( trim( type(i) ) )
        case( 'none' )
@@ -380,7 +377,7 @@ subroutine setup_smooth( this, dx, gamma )
   real( p_double ) :: laserkdx, total, comp
   
   integer :: i, j
-
+  
   ! laserkdx is handled separately because it sets filtering in all directions
   if ( this%type(1) == p_laserkdx ) then
     ! adjust coeficients for laserkdx type

@@ -2179,7 +2179,7 @@ end subroutine update_boundary_neutral
 !-----------------------------------------------------------------------------------------
 ! Move simulation window for the neutral object
 !-----------------------------------------------------------------------------------------
-subroutine move_window_neutral( this, nx_p_min, g_space  )
+subroutine move_window_neutral( this, nx_p_min, g_space , need_den_val )
 
   implicit none
 
@@ -2188,7 +2188,8 @@ subroutine move_window_neutral( this, nx_p_min, g_space  )
   type( t_neutral ), intent(inout) :: this
   integer, dimension(:), intent(in) :: nx_p_min
   type( t_space ), intent(in) :: g_space
-
+  logical , intent(in) :: need_den_val
+  
   ! local variables
   integer, dimension( 2, p_x_dim ) :: init_bnd  
   integer :: i
@@ -2204,20 +2205,23 @@ subroutine move_window_neutral( this, nx_p_min, g_space  )
   ! recalculate them (which ends up being faster that having the
   ! extra communication)
   do i = 1, p_x_dim
-    
+        
     if ( nx_move( g_space, i ) > 0)  then
        
-       init_bnd(p_lower,1:p_x_dim) = &
-                              1 - this%multi_ion%gc_num( p_lower, 1:p_x_dim ) 
-       init_bnd(p_upper,1:p_x_dim) = this%multi_ion%nx(1:p_x_dim ) + &
-                                 this%multi_ion%gc_num( p_upper, 1:p_x_dim ) 
+       
+       if(need_den_val) then
 
-       init_bnd(p_lower,i) = this%multi_ion%nx(i) - nx_move( g_space, i )
+         init_bnd(p_lower,1:p_x_dim) = &
+                                1 - this%multi_ion%gc_num( p_lower, 1:p_x_dim ) 
+         init_bnd(p_upper,1:p_x_dim) = this%multi_ion%nx(1:p_x_dim ) + &
+                                   this%multi_ion%gc_num( p_upper, 1:p_x_dim ) 
 
-	   call set_neutden_values( this%multi_ion, this%den_neutral, &
- 						   this%neut_idx, this%den_min, nx_p_min, &
- 						   g_space, init_bnd(p_lower,:), init_bnd(p_upper,:) )
+         init_bnd(p_lower,i) = this%multi_ion%nx(i) - nx_move( g_space, i )
 
+    	   call set_neutden_values( this%multi_ion, this%den_neutral, &
+ 	    					   this%neut_idx, this%den_min, nx_p_min, &
+ 		    				   g_space, init_bnd(p_lower,:), init_bnd(p_upper,:) )
+       endif
     endif
   enddo
 

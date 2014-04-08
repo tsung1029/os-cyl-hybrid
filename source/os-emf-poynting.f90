@@ -50,7 +50,7 @@ subroutine poynting_1d( emf, comp, S )
 		  
 		  !b1 = emf%b%f1( 1, i1 )
 
-		  b2 = 0.5_p_k_fld * ( emf%b%f1( 1, i1 ) + emf%b%f1( 1, i1-1) )
+		  b2 = 0.5_p_k_fld * ( emf%b%f1( 2, i1 ) + emf%b%f1( 2, i1-1) )
 
 		  b3 = 0.5_p_k_fld * ( emf%b%f1( 3, i1 ) + emf%b%f1( 3, i1-1) )
 		  
@@ -70,7 +70,7 @@ subroutine poynting_1d( emf, comp, S )
 		  e3 = emf%e%f1(3, i1)
 		  
 		  b1 = emf%b%f1( 1, i1 )
-		  !b2 = 0.5_p_k_fld * ( emf%b%f1( 1, i1 ) + emf%b%f1( 1, i1-1) )
+		  !b2 = 0.5_p_k_fld * ( emf%b%f1( 2, i1 ) + emf%b%f1( 2, i1-1) )
 		  b3 = 0.5_p_k_fld * ( emf%b%f1( 3, i1 ) + emf%b%f1( 3, i1-1) )
 		  
 		  ! S%f1(1, i1) = e2*b3 - b2*e3   ! S1
@@ -88,7 +88,7 @@ subroutine poynting_1d( emf, comp, S )
 		  ! e3 = emf%e%f1(3, i1)
 		  
 		  b1 = emf%b%f1( 1, i1 )
-		  b2 = 0.5_p_k_fld * ( emf%b%f1( 1, i1 ) + emf%b%f1( 1, i1-1) )
+		  b2 = 0.5_p_k_fld * ( emf%b%f1( 2, i1 ) + emf%b%f1( 2, i1-1) )
 		  ! b3 = 0.5_p_k_fld * ( emf%b%f1( 3, i1 ) + emf%b%f1( 3, i1-1) )
 		  
 		  ! S%f1(1, i1) = e2*b3 - b2*e3   ! S1

@@ -106,7 +106,6 @@ subroutine cleanup_vdf(this)
 end subroutine cleanup_vdf
 !-------------------------------------------------------------------------------
 
-
 !---------------------------------------------------
 subroutine new_vdf( this, x_dim, f_dim, nx, gc_num, dx, initial_val )
 !---------------------------------------------------
@@ -216,7 +215,7 @@ end subroutine new_vdf
 
 !---------------------------------------------------
 subroutine new_simple_vdf( this, vdf_source )
-  
+
   implicit none
 
   type( t_vdf ),   intent( inout ) ::  this

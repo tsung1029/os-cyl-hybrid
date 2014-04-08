@@ -911,14 +911,16 @@ subroutine update_boundary_vdf( vdf, update_type, no_co, move_num_ )
   do i = 1, vdf%x_dim
     
     if ( my_node == neighbor(no_co,p_lower,i) ) then
+
        !single node periodic
        call update_periodic_vdf( vdf, i, update_type )
 
     else
+       
        ! communication with other nodes
        lneighbor = neighbor( no_co, p_lower, i )
        uneighbor = neighbor( no_co, p_upper, i )
-
+       
        ! post receives
        if ( lneighbor > 0 ) call irecv_vdf( vdf, update_type, i, p_lower, no_co, move_num(i) )
        if ( uneighbor > 0 ) call irecv_vdf( vdf, update_type, i, p_upper, no_co, move_num(i) )

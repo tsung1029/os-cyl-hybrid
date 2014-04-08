@@ -3,7 +3,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! $URL: https://osiris.ist.utl.pt/svn/branches/dev_3.0/source/os-particles.f90 $
-! $Id: os-particles.f90 558 2013-04-30 16:28:11Z zamb $
+! $Id: os-particles.f90 570 2013-12-30 11:35:22Z jorge $
 !
 
 #include "os-config.h"
@@ -20,7 +20,7 @@ module m_particles
 
   use m_emf_define
   use m_current_define
- 
+  
   use m_vdf_define
   use m_vdf_average
   use m_vdf_report
@@ -970,7 +970,7 @@ subroutine advance_deposit_particles( this, emf, current, tstep, t, options, no_
 
 
 #ifdef _OPENMP
-  
+
   if ( n_threads( no_co ) > 1 ) then 
 
 	call begin_event( pushev )
@@ -1016,15 +1016,17 @@ subroutine advance_deposit_particles( this, emf, current, tstep, t, options, no_
     endif
 
     if ( this%low_jay_roundoff ) then
-       
-      ERROR( "Low jay roundoff is currently broken" )
-      call abort_program( p_err_notimplemented ) 
              
-      ! do i=1, this%num_species
-      !   call zero( this%jay_tmp(1) )
-	  !   call push( this%species(i), emf, this%jay_tmp, t, tstep, 0, 1, options )
-	  !   call add( current%jay(1), this%jay_tmp(1) )
-	  ! enddo
+       do i=1, this%num_species
+         call zero( this%jay_tmp(1) )
+             ! in the cylindrical mode  version of the code the t_current object is passed through the functions because 
+             ! I need access to the cylindrical mode objects, therefore I cannot simply substitute
+             ! the t_vdf object in t_particles into the following function. I currently hacked it
+             ! so that the push( ) function can take a type t_vdf as an optional argument, but 
+             ! I think ultimately jay_tmp should be inside t_current for logical consistency in the code
+	     call push( this%species(i), emf, current, t, tstep, 0, 1, options, this%jay_tmp )
+	     call add( current%pf(1), this%jay_tmp(1) )
+	   enddo
     
     else
 
@@ -1049,7 +1051,7 @@ end subroutine advance_deposit_particles
 !---------------------------------------------------------------------------------------------------
 
 !---------------------------------------------------
-subroutine move_window_particles( this, g_space, grid, t )
+subroutine move_window_particles( this, g_space, grid, t , need_den_val )
 !---------------------------------------------------
 ! moves the boundaries for particle data 
 !---------------------------------------------------
@@ -1063,6 +1065,7 @@ subroutine move_window_particles( this, g_space, grid, t )
   type( t_space ),     intent(in) :: g_space
   type( t_grid ),  intent(in) :: grid
   real( p_double ), intent(in) :: t
+  logical, intent(in) :: need_den_val
 
 ! local variables
 
@@ -1081,7 +1084,7 @@ subroutine move_window_particles( this, g_space, grid, t )
 #ifdef __HAS_IONIZATION__
 
   do i = 1, this%num_neutral
-	 call move_window( this%neutral(i), grid%my_nx(p_lower, : ), g_space )
+	 call move_window( this%neutral(i), grid%my_nx(p_lower, : ), g_space , need_den_val)
   enddo
 
 #endif
@@ -1110,6 +1113,7 @@ subroutine update_boundary_particles( this, current, g_space, no_co, dt )
   real(p_double),     intent(in) :: dt
 
 ! local variables
+
   integer :: species_id, neutral_id
 
 ! executable statements
@@ -1185,14 +1189,11 @@ subroutine report_particles( this, emf, g_space, grid, no_co, tstep, t )
   rep => this%reports
   do
     if ( .not. associated( rep ) .or. needs_update_charge ) exit
-    !needs_update_charge = if_report( rep, tstep ) .or. &
-    !             ( ( rep%quant == p_charge_htc .or. rep%quant == p_dcharge_dt ) .and. &
-    !             (( ((n(tstep)+1) - (((n(tstep)+1)/(ndump(tstep)))*ndump(tstep) )) == 0 ))) ! ugly hack 
-    ! ASHER
-    ! for some reason if_report( rep, tstep, iter = +1 ) is not working for me
-    needs_update_charge = if_report( rep, tstep ) .or. & 
+    
+    needs_update_charge = if_report( rep, tstep ) .or. &
                  ( ( rep%quant == p_charge_htc .or. rep%quant == p_dcharge_dt ) .and. &
                  if_report( rep, tstep, iter = +1 ) )
+    
     rep => rep%next
   enddo
   

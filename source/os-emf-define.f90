@@ -350,7 +350,7 @@ type :: t_emf
   ! Cylindrical high order modes
   type( t_cyl_modes ) :: b_cyl_m
   type( t_cyl_modes ) :: e_cyl_m
-  
+
 end type t_emf
 
 

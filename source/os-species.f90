@@ -52,7 +52,7 @@ module m_species
   use m_piston
   
   use m_parameters
-  
+
   use m_species_cyl_modes
 
   implicit none
@@ -215,8 +215,8 @@ subroutine read_nml_species( this, input_file, def_name, periodic, if_move, grid
 
   integer                      :: num_par_max
   integer                      :: n_sort
-  real(p_k_part)               :: rqm
-  real(p_k_part)               :: q_real
+  real(p_k_part)                      :: rqm
+  real(p_k_part)                      :: q_real
   integer, dimension(p_x_dim)  :: num_par_x
   integer                      :: num_par_theta
   real(p_double)               :: theta_offset
@@ -250,7 +250,7 @@ subroutine read_nml_species( this, input_file, def_name, periodic, if_move, grid
       push_type = "pgc"   
     
     case default 
-      
+
       ! If using high order cylindrical modes default to the appropriate pusher
       if ( grid%n_cyl_modes > 0 ) then
          push_type = "cyl_modes"
@@ -261,16 +261,16 @@ subroutine read_nml_species( this, input_file, def_name, periodic, if_move, grid
 #else
   push_type = "standard"
 #endif
-      
+  
       endif   
     
   end select
-    
+  
   
   num_par_max = 0
   rqm = 0
   q_real = 0
-  num_par_x     = 0
+  num_par_x = 0
   num_par_theta = 0
   theta_offset = 0.0_p_double
   n_sort = 25
@@ -403,12 +403,11 @@ subroutine read_nml_species( this, input_file, def_name, periodic, if_move, grid
 	   stop
   end select
   
-  
   ! Free streamig and 1D geometry are not implemented in simd code
   if ( free_stream .or. (p_x_dim == 1)) then
     this%push_type = p_std
   endif
-  
+
   ! If using high order cylindrical modes set the pusher accordingly
   if ( grid%n_cyl_modes > 0 ) then
     this%push_type = p_cyl_mode
@@ -2281,7 +2280,7 @@ subroutine advance_deposit_2d( this, emf, jay, gdt, i0, i1 )
   real(p_k_part), dimension(p_cache_size)      :: rg, rgamma
   real(p_k_part) :: dt
 
-
+      
   ! executable statements
   rdx(1) = real( 1.0_p_double/this%dx(1), p_k_part )
   rdx(2) = real( 1.0_p_double/this%dx(2), p_k_part )
@@ -2553,7 +2552,6 @@ subroutine advance_deposit_cyl_2d( this, emf, jay, gdt, i0, i1 )
   real( p_double ) :: x2_new, x3_new, r_old, r_new
   real( p_double ) :: tmp
 
-
   ! executable statements
   
   xmin_g(1) = this%g_box( p_lower, 1 )
@@ -2608,7 +2606,7 @@ subroutine advance_deposit_cyl_2d( this, emf, jay, gdt, i0, i1 )
            ! print *, "gix2", gix2
            ! print *, "x", this%x(2,pp)
            if (this%pos_type == p_cell_near) then
-	   r_old = ( this%x(2,pp) + gix2 - 0.5_p_double ) * dr
+	   r_old = ( this%x(2,pp) + gix2 - 0.5_p_double) * dr
            else
 	   r_old = ( this%x(2,pp) + gix2 ) * dr
            endif
@@ -3239,7 +3237,6 @@ subroutine accelerate_deposit_2d( this, jay, dt, i0, i1, q_frac )
   real(p_k_part) :: dt_dx1, q_frac
   integer :: i, ptrcur, np, pp
   
-  
   dt_dx1 = real( dt/this%dx(1), p_k_part )
   
   ! This is used to cancel currents in other directions
@@ -3419,7 +3416,7 @@ end subroutine accelerate_deposit_3d
 !  iii) Ponderomotive Guiding Center (PGC) pusher
 !  iv)  Radiation cooling pusher
 !---------------------------------------------------------------------------------------------------
-subroutine push_species( this, emf, current, t, tstep, tid, n_spec_threads, options )
+subroutine push_species( this, emf, current, t, tstep, tid, n_spec_threads, options, jay_tmp )
   
   use m_time_step
   use m_current_define
@@ -3428,7 +3425,7 @@ subroutine push_species( this, emf, current, t, tstep, tid, n_spec_threads, opti
 
   type( t_species ), intent(inout) :: this
   type( t_emf ), intent( inout )  ::  emf
-  type( t_current ), intent(inout) :: current
+  type( t_current ), intent(inout), target :: current
 
   real(p_double), intent(in) :: t
   type( t_time_step ), intent(in) :: tstep
@@ -3436,9 +3433,22 @@ subroutine push_species( this, emf, current, t, tstep, tid, n_spec_threads, opti
   integer, intent(in) :: tid		! local thread id
   integer, intent(in) :: n_spec_threads  ! total number of threads
   type( t_options ), intent(in) :: options
-  
-  
+  type( t_vdf ), dimension(:), intent(inout), optional, target :: jay_tmp
+
   integer :: push_type
+
+  ! this is an awkward way to do the low jay roundoff in this
+  ! ( awkward because it's the t_particles object that has jay_tmp )
+  ! version of the code, but I can't see a simpler way
+  ! note that the low jay cutoff still has not been generalized 
+  ! to cylindrical modes
+  type( t_vdf ), dimension(:), pointer :: jay => NULL()
+
+  if ( present( jay_tmp ) ) then
+    jay => jay_tmp
+  else
+    jay => current%pf
+  endif
   
   ! if before push start time return silently
   if ( t >= this%push_start_time ) then
@@ -3459,32 +3469,30 @@ subroutine push_species( this, emf, current, t, tstep, tid, n_spec_threads, opti
       endif
     endif
 
-   !print *, "push_type = ", push_type ! ASHERDEBUG
-
     select case ( push_type )
       case ( p_std )
-        call advance_deposit( this, emf, current%pf, t, tstep, tid, n_spec_threads )
+        call advance_deposit( this, emf, jay, t, tstep, tid, n_spec_threads )
 
 #ifdef SIMD       
       case ( p_simd )
-        call vadvance_deposit( this, emf, current%pf, t, tstep, tid, n_spec_threads )
+        call vadvance_deposit( this, emf, jay, t, tstep, tid, n_spec_threads )
 #endif    
 
       case ( p_beam_accel )
-        call accelerate_deposit( this, current%pf, t, tstep, tid, n_spec_threads )  
+        call accelerate_deposit( this, jay, t, tstep, tid, n_spec_threads )  
       
       case ( p_pgc )
-         call advance_deposit_emf_pgc( this, emf, current%pf, t, tstep, tid, n_spec_threads )
+         call advance_deposit_emf_pgc( this, emf, jay, t, tstep, tid, n_spec_threads )
 
       case ( p_radcool )
-         call advance_deposit_radcool( this, emf, current%pf, t, tstep, options%omega_p0, tid, n_spec_threads )
+         call advance_deposit_radcool( this, emf, jay, t, tstep, options%omega_p0, tid, n_spec_threads )
       
       case ( p_cyl_mode_accel )
         call accelerate_deposit_cyl_modes( this, current, t, tstep, tid, n_spec_threads )
         
       case( p_cyl_mode )
          call advance_deposit_cyl_modes( this, emf, current, t, tstep, tid, n_spec_threads ) 
-
+               
     end select
   
   endif

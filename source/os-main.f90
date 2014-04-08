@@ -3,7 +3,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! $URL: https://osiris.ist.utl.pt/svn/branches/dev_3.0/source/os-main.f90 $
-! $Id: os-main.f90 558 2013-04-30 16:28:11Z zamb $
+! $Id: os-main.f90 570 2013-12-30 11:35:22Z jorge $
 !
 
 !#define DEBUG_FILE 1
@@ -588,7 +588,8 @@ subroutine loop( ns, ps )
 	                    on_edge( ns%no_co, 1, p_upper ) )
    
 	  DEBUG('Before move window ps%part')
-	  call move_window( ps%part, ps%g_space, ns%grid, t(ps%time) )
+	  call move_window( ps%part, ps%g_space, ns%grid, t(ps%time) , &
+	                    on_edge( ns%no_co, 1, p_upper ) )
    
 	  ! jay does not need to be moved since it is recalculated
 	  ! from scratch during each interation (in advance_deposit)  
@@ -619,12 +620,12 @@ subroutine loop( ns, ps )
 	  if ( if_charge_cons( ps%emf, ns%tstep ) ) then
 	    call update_charge( ps%part, ps%g_space, ns%grid, ns%no_co )
 	    call update_charge_cons( ps%emf, ps%part%charge%current ) 
-	  endif 
+	  endif
 	  call report_emf( ps%emf, ps%g_space, ns%grid,  ns%no_co, ns%tstep, t(ps%time) )
    
-	  DEBUG('Before report part') 
+	  DEBUG('Before report part')
 	  call report_part( ps%part, ps%emf, ps%g_space, ns%grid, ns%no_co, &
-	        		        ns%tstep, t(ps%time) )
+				        ns%tstep, t(ps%time) )
       
       ! move particles a timestep further and get new current
 	  DEBUG('Before advance_deposit')
@@ -701,7 +702,7 @@ subroutine loop( ns, ps )
       ! take care of boundaries for currents
   	  DEBUG('Before update_boundary ps%jay')
 	  call update_boundary( ps%jay, ns%no_co )
-	  
+      
 	  ! smooth currents
 	  ! - smoothing has to be after update boundary
 	  DEBUG('Before smooth ps%jay')
@@ -724,8 +725,8 @@ subroutine loop( ns, ps )
 	  if ( if_marder( ps%emf, n(ns%tstep) ) ) then
 	    call update_charge( ps%part, ps%g_space, ns%grid, ns%no_co )
       endif
-
-
+	  
+   
 	  call advance( ps%emf, ps%jay, ps%part%charge%current, dt(ns%tstep), &
 	                ns%no_co , ns%grid%coordinates )
       ! write restart files if necessary

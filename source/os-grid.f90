@@ -115,7 +115,7 @@ module m_grid
   interface test_partition
     module procedure test_partition_grid
   end interface
-  
+    
   !interface high_order_cyl
   !  module procedure high_order_cyl
   !end interface 
@@ -234,8 +234,7 @@ subroutine read_nml_grid( this, input_file )
   
   select case ( trim( coordinates ) )
    case ( "cylindrical" )
-     this%coordinates = p_cylindrical_b
-     
+	 this%coordinates = p_cylindrical_b
 	 if ( p_x_dim /= 2 ) then
 	   print *, "Invalid coordinates, cylindrical coordinates "
 	   print *, "are only available in 2D."

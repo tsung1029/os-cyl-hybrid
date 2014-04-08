@@ -3,7 +3,7 @@
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !
 ! $URL: https://osiris.ist.utl.pt/svn/branches/dev_3.0/source/os-zpulse.f90 $
-! $Id: os-zpulse.f90 554 2013-03-27 18:17:03Z zamb $
+! $Id: os-zpulse.f90 571 2014-02-11 09:13:34Z jorge $
 !
 !
 ! Known issues:
@@ -476,7 +476,7 @@ subroutine read_nml_zpulse( this, input_file, g_space, bnd_con, periodic, grid, 
   if ( grid%n_cyl_modes > 0 ) then
     type = "box cyl modes"
   else
-    type = "box"
+  type = "box"
   endif
   
   
@@ -566,7 +566,7 @@ subroutine read_nml_zpulse( this, input_file, g_space, bnd_con, periodic, grid, 
 	  write(0,*)  "   aborting..."
 	  stop
   end select
-  
+
   ! check type
   if ( grid%n_cyl_modes > 0 )  then
 	 if ( this%type /= p_zpulse_cyl_modes ) then
@@ -664,7 +664,7 @@ subroutine read_nml_zpulse( this, input_file, g_space, bnd_con, periodic, grid, 
 	write(0,*)  "   aborting..."
 	stop
   endif
-  
+    
   if (( grid%n_cyl_modes > 0 ) .and. ( direction > 1 )) then
 	write(0,*)  ""
 	write(0,*)  "   Error in zpulse parameters"
@@ -1073,7 +1073,12 @@ subroutine read_nml_zpulse( this, input_file, g_space, bnd_con, periodic, grid, 
      SCR_ROOT('   boosting zpulse with gamma = ', this%gamma )
 
 	 beta = sqrt(this%gamma**2 - 1.0_p_double ) / this%gamma
-	 g1pb = this%gamma*(1.0_p_double + beta)
+	 if(this%propagation==p_forward) then 
+	    g1pb = this%gamma*(1.0_p_double + beta)
+	 ! equivalent to gamma * (1 - beta) = 1/[ gamma * (1 + beta) ]
+	 else 
+	    g1pb =  this%gamma - sqrt(this%gamma**2-1.0_p_double)
+	 endif
      
      this%ifboost = .true.
      this%lon_rise       = this%lon_rise*g1pb
@@ -1286,7 +1291,7 @@ subroutine launch_zpulse_list_em( list, emf, g_space, &
 	   
 	   case ( p_zpulse_mov_wall )
 		  call launch_zpulse_movwall( pulse, emf, g_space, nx_p_min, t, dt )
-		
+       
 	   case ( p_zpulse_cyl_modes )
 	      call launch_zpulse_cyl_modes( pulse, emf, g_space, nx_p_min, g_nx, t )
        
@@ -1348,7 +1353,11 @@ subroutine launch_zpulse_1d( this, b, e, nx_p_min, g_space )
   
   if (this%ifboost) then
     ! equivalent to gamma * (1 - beta) = 1/[ gamma * (1 + beta) ]
-    gam_one_beta = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    if (this%propagation==p_forward) then 
+    		gam_one_beta = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    else 
+    		gam_one_beta = this%gamma + sqrt(this%gamma**2-1.0_p_double)
+    endif		
     this%omega0 = this%omega0*gam_one_beta
   endif
   
@@ -1535,8 +1544,11 @@ subroutine launch_zpulse_2d( this, b, e, nx_p_min, g_space )
     SCR_ROOT('Boosting zpulse initialization...')
     
     ! equivalent to gamma * (1 - beta)
-    gam_one_beta = real( this%gamma - sqrt(this%gamma**2-1.0_p_double), p_k_fld )
-    
+    if (this%propagation == p_forward) then 
+    		gam_one_beta = real( this%gamma - sqrt(this%gamma**2-1.0_p_double), p_k_fld )
+    else
+    		gam_one_beta = real( this%gamma + sqrt(this%gamma**2-1.0_p_double), p_k_fld )
+    endif
     ! also boost 1 guard cell
 	do i1=0, b%nx(1)+1
 	  do i2=0, b%nx(2)+1
@@ -1700,8 +1712,14 @@ subroutine launch_zpulse_3d( this, b, e, nx_p_min, g_space )
   ! Boost fields
   if (this%ifboost) then
   
-    ! equivalent to gamma * (1 - beta)
-    gam_one_beta = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    if (this%propagation == p_forward) then 
+            ! equivalent to gamma * (1 - beta)
+    		gam_one_beta = real( this%gamma - sqrt(this%gamma**2-1.0_p_double), p_k_fld )
+    else
+            ! equivalent to gamma * (1 + beta)
+    		gam_one_beta = real( this%gamma + sqrt(this%gamma**2-1.0_p_double), p_k_fld )
+    		
+    endif
     
     ! also boost 1 guard cell
 	do i1=0, b%nx(1)+1
@@ -2045,8 +2063,14 @@ subroutine div_corr_zpulse_2d( this, b, e, g_x_range, nx_p_min, g_nx)
   endif
 
   if (this%ifboost) then
-    ! equivalent to gamma * (1 - beta)
-    gam_one_beta = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    if (this%propagation == p_forward) then 
+            ! equivalent to gamma * (1 - beta)
+    		gam_one_beta = real( this%gamma - sqrt(this%gamma**2-1.0_p_double), p_k_fld )
+    else
+            ! equivalent to gamma * (1 + beta)
+    		gam_one_beta = real( this%gamma + sqrt(this%gamma**2-1.0_p_double), p_k_fld )
+    		
+    endif
   endif
   
   dx1   = ldx(idx1)
@@ -2058,7 +2082,6 @@ subroutine div_corr_zpulse_2d( this, b, e, g_x_range, nx_p_min, g_nx)
   ! apply the divergenge corr. line by line
   ! only inside the vertical physical area 
   ! (no need to correct guard cells in this direction)
-  ! it's going upwards in i2 but backwards in i1
   do i2 = 1, lnx(idx2)
     
     e1 = 0.0_p_double
@@ -2095,7 +2118,7 @@ subroutine div_corr_zpulse_2d( this, b, e, g_x_range, nx_p_min, g_nx)
       else 
         b1 = 0.0_p_double      
       endif
-    enddo ! i1
+    enddo
 
 	! Boost fields
 	if (this%ifboost) then
@@ -2107,6 +2130,7 @@ subroutine div_corr_zpulse_2d( this, b, e, g_x_range, nx_p_min, g_nx)
     b%f2(1, lnx(1)+1, i2) = real( b1, p_k_fld )
     
     ! local node correction
+ 
     do i1 = lnx(1), 1-lgc_num(1,1), -1
       
       if ( lon_envelope( this, x1min + i1*dx1 ) > 0.0_p_double ) then
@@ -2132,9 +2156,9 @@ subroutine div_corr_zpulse_2d( this, b, e, g_x_range, nx_p_min, g_nx)
         b1 = 0.0_p_double
       endif
       
-    enddo ! i1
+    enddo
     
-  enddo ! i2
+  enddo
 
 
 
@@ -2356,8 +2380,15 @@ subroutine div_corr_zpulse_3d( this, b, e, g_x_range, nx_p_min, g_nx )
   endif
   
   if (this%ifboost) then
-    ! equivalent to gamma * (1 - beta)
-    gam_one_beta = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    if (this%propagation == p_forward) then 
+            ! equivalent to gamma * (1 - beta)
+    		gam_one_beta = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    else
+            ! equivalent to gamma * (1 + beta)
+    		gam_one_beta = this%gamma + sqrt(this%gamma**2-1.0_p_double)
+    		
+    endif
+
   endif
   
   dx1   = ldx(idx1)
@@ -3519,7 +3550,15 @@ function per_envelope_2d( this, x1, x2 )
   if (this%ifboost) then
 	uvel = sqrt(this%gamma**2-1.0_p_double)
 	beta = uvel / this%gamma
-	rg1pb = 1.0_p_double / (this%gamma*(1.0_p_double+beta))
+	!transformations the same like for w
+	if (this%propagation == p_forward) then 
+            ! equivalent to gamma * (1 - beta)
+    		rg1pb = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    else
+            ! equivalent to gamma * (1 + beta)
+    		rg1pb = this%gamma*(1.0_p_double + beta)
+    		
+    endif
   endif
   
   if ( this%type == p_zpulse_mov_wall ) then
@@ -3538,7 +3577,7 @@ function per_envelope_2d( this, x1, x2 )
 	  z0 = k * this%per_w0(1)**2 * 0.5_p_double
 	  
 	  ! Boost Rayleigh compression
-	  if (this%ifboost) z0 = z0/this%gamma
+	  if (this%ifboost) z0 = z0/this%gamma 
 	  
 	  ! calculate radius
 	  rho = x2 - r_center
@@ -3694,13 +3733,21 @@ function per_envelope_3d( this, x1, x2, x3 )
   if (this%ifboost) then
 	uvel = sqrt(this%gamma**2-1)
 	beta = uvel / this%gamma
-	rg1pb = 1.0_p_double / (this%gamma*(1.0_p_double+beta))
+	!transformations the same like for w
+	if (this%propagation == p_forward) then 
+            ! equivalent to gamma * (1 - beta)
+    		rg1pb = this%gamma - sqrt(this%gamma**2-1.0_p_double)
+    else
+            ! equivalent to gamma * (1 + beta)
+    		rg1pb = this%gamma + sqrt(this%gamma**2-1.0_p_double)
+    		
+    endif
   endif
 
   select case ( this%per_type )
 	
 	case (p_plane)
-	  per_envelope_3d = cos( k*(x1-z_center) + this%phase0)  
+	  per_envelope_3d = cos( k*(x1-z_center)*rg1pb + this%phase0)  
 	
     case (p_hermite_gaussian)
 

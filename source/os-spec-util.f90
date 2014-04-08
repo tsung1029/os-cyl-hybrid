@@ -35,6 +35,10 @@ implicit none
 
 private
 
+! single particle size (to be removed and replaced by the particle_size
+! function)
+integer, parameter :: p_packet_size = p_x_dim + p_p_dim + 1
+
 integer, parameter :: p_list_block_size = 65536
 
 interface inject_area
@@ -107,7 +111,6 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
   ! cells to inject to (2,p_x_dim)
   integer, dimension(:, :), intent(in) :: ig_xbnd_inj
 
-
   ! local variables
   integer, parameter :: p_max_x_dim = 3
 
@@ -131,7 +134,7 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
   
   ! number of particles per cell
   integer :: ppcell
-   
+
   ! number of particles per ring (high order cyl modes only )
   integer :: pptheta
   ! there is an extra shift factor between p_cell_near and p_cell_lower
@@ -145,7 +148,9 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
   real(p_k_part), dimension(:), pointer :: pcharge
   
   ! executable statements
+			
   
+
   ! check if the density profile injects particle
   ! otherwise return silently
   if (.not. if_inject(species%den)) return
@@ -181,7 +186,7 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
   
   ! find normalization factor
   pvol = sign( 1.0_p_k_part/ppcell, species%rqm )
-  
+
   ! If using high order cylindrical modes account for additional particles along theta
   if ( species%coordinates == p_cylindrical_modes ) then
     pptheta = species%num_par_x(3)
@@ -210,7 +215,7 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
              ppos_cell(2,i) = (2*i2 - 1 - species%num_par_x(2)) * dxp_2(2)
           enddo
        enddo
-       
+    
        if ( species%coordinates == p_cylindrical_modes ) then
           do i3 = 1, pptheta
              theta = (i3 - 1) * ( 2.0 * pi / species%num_par_x(3) ) 
@@ -291,6 +296,7 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
 
 	 case (2) ! -----------------------------------------------------------
 
+      
        ! loop through all cells and count number of particles to inject
 	   select case ( species%coordinates )
 
@@ -314,9 +320,11 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
 
 		   
 		 case ( p_cylindrical_b, p_cylindrical_modes ) ! cyl. coord. -> B1 on axis
-		                                               ! don't inject on axis    
+		                          ! don't inject on axis
+		                          
 			do i1 = ig_xbnd_inj(p_lower,1), ig_xbnd_inj(p_upper,1) 
 			  ppos(1,:) = real( g_xmin(1) + (ppos_cell(1,:) + (i1-1))*dx(1), p_k_part )
+			  
 			  do i2 = ig_xbnd_inj(p_lower,2), ig_xbnd_inj(p_upper,2) 
 				ppos(2,:) = real( g_xmin(2) + (ppos_cell(2,:) + (i2-1))*dx(2), p_k_part )
 				
@@ -324,7 +332,8 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
 				
 				do i = 1, ppcell
 				  if ((pcharge(i) > species%den_min) .and. &
-				       (ppos(p_r_dim,i)  > 0.0_p_k_part)) then
+				       (ppos(p_r_dim,i) > 0.0_p_k_part)) then
+
 					num_inj = num_inj + 1
 				  endif
 				enddo
@@ -338,9 +347,6 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
 			endif
 			
 	   end select
-
-
-       ! Inject particles
 	   
        if ( num_inj > 0 ) then
           
@@ -393,7 +399,7 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
 				   
 				  do i=1, ppcell
 					 if ((pcharge(i) > species%den_min) .and. &
-						 (ppos(p_r_dim,i)  > 0.0_p_k_part)) then
+						 (ppos(p_r_dim,i) > 0.0_p_k_part)) then
 						! add particle
 						species%x(1, ipart) = ppos_cell(1,i)
 						species%x(2, ipart) = ppos_cell(2,i)
@@ -534,7 +540,6 @@ subroutine inject_area_grid( species, ig_xbnd_inj )
     species%num_par = species%num_par + num_inj
 
   endif
-  
 
 end subroutine inject_area_grid
 !-------------------------------------------------------------------------------
@@ -818,7 +823,7 @@ subroutine init_particle_buffer( species, num_par_req )
     call alloc(  species%x, (/ p_x_dim + 2, species%num_par_max /))
     print *, "alloc species 4"
   else
-    call alloc(  species%x, (/ p_x_dim, species%num_par_max /))
+  call alloc(  species%x, (/ p_x_dim, species%num_par_max /))
      print *, "alloc species 2"
   endif
 

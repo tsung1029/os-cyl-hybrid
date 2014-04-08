@@ -147,7 +147,7 @@ subroutine advance_deposit_radcool( this, emf, jay, t, tstep, omega_p0, tid, n_t
 
 	   end select
 
-	 case ( p_cylindrical_b , p_cylindrical_modes)
+	 case ( p_cylindrical_b )
 
 	    ! call advance_deposit_cyl_2d( this, emf, jay(tid+1), dtcycle, i0, i1 )
 	    

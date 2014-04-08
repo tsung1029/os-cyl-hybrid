@@ -104,20 +104,12 @@ subroutine write_raw_select_data( spec, t, idx, num_par )
 		   
 		   ! evaluate
 		   raw_eval = eval( spec%diag%raw_func, raw_var )
-
-                   ! print *, spec%p(1,l) 		   
-                   ! print *, raw_var(5)
-!                   print *, raw_eval
-!                   print *, size( spec%x, 1 ) 
-
-
+		   
 		endif
 		
 		if (raw_eval > 0) then
 
 			  call harvest_real2( rnd )
-                          ! print *, rnd
-                          ! print *, spec%diag%raw_fraction 
 			  if ( rnd <= spec%diag%raw_fraction ) then
 					
 				 lbuf = lbuf + 1
@@ -163,7 +155,7 @@ subroutine write_raw_create_file( spec, no_co, g_space, grid, n, t, dt, n_aux, d
   character( len = p_max_txt_len ), dimension(2 + size( spec%x, 1 ) + p_p_dim ) :: txt !ASHERMOD
    
   n_x_dim = size( spec%x, 1 )  !ASHERMOD
-
+   
   ! create file
 
   ! Prepare path and file name
@@ -331,7 +323,7 @@ subroutine write_raw_hdf5( spec, no_co, g_space, grid, n, t, dt, n_aux )
     
   n_x_dim = size( spec%x, 1 )
 
-
+    
   ! get particles to output
   call alloc( idx, (/ spec%num_par /))
   call write_raw_select_data( spec, t, idx, num_par )
@@ -606,7 +598,6 @@ subroutine write_raw_save_data_int2( datasetID, newData, savedPoints, npoints )
    integer(hsize_t), dimension(2) :: start, count
    integer :: ierr
    
-
    ! write current chunk of data
    call h5dget_space_f( datasetID, filespaceID, ierr )
 
@@ -663,14 +654,14 @@ subroutine write_raw_hdf5( spec, no_co, g_space, grid, n, t, dt, n_aux )
   real( p_single ), dimension(:), pointer :: write_buffer
   integer, dimension( :, : ), pointer :: write_tag_buffer
   integer :: n_x_dim  
-
+  
   ! datasets 
   type( t_diag_file ) :: diagFile
   integer(hid_t), dimension( size( spec%x, 1 ) + p_p_dim + 3 ) :: datasets !ASHERMOD
 
 
   n_x_dim = size( spec%x, 1 )  !ASHERMOD
-
+  
   ! get index of particles to output
   call alloc(idx, (/ spec%num_par /))
   call write_raw_select_data( spec, t, idx, num_par )
@@ -729,6 +720,7 @@ subroutine write_raw_hdf5( spec, no_co, g_space, grid, n, t, dt, n_aux )
 		 !  write_buffer(i) = real(spec%x(j,idx(i)), p_single)
 		 !enddo
 		 call get_position( spec, j, idx, num_par, write_buffer )
+		 
 		 call write_raw_save_data( datasets(j), write_buffer, 0, num_par )
 	   enddo
    

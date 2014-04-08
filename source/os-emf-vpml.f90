@@ -1044,7 +1044,7 @@ subroutine update_e_x1_2d(vpml_e, vpml_b, dtdx, range, coef_idx, &
 	  coef_e_cnr = coef_e_up(2,:,coef_i)
 	  do_corner = .true.
 	endif
-	
+
     ! loop horizontally through wall
     do i1=range(1), range(2)
 
