@@ -1,0 +1,2941 @@
+
+source/fortran.h,91
+#define _FORTRAN_H9,124
+#define FNAME(19,325
+#define FNAME(26,467
+#define FNAME(34,620
+
+source/ioperf.f90,101
+subroutine ReadInput(196,5909
+subroutine read_nml_testopts(232,7156
+subroutine RunTests(364,10646
+
+source/mem-template.h,124
+#define sizeof(20,478
+subroutine FNAME(24,509
+#undef __TYPE_STR__250,5498
+#undef __TYPE__251,5518
+#undef FNAME252,5534
+
+source/memory.f90,4060
+function strmem(188,5596
+function strfileline(213,6219
+function strrange(226,6519
+function strblocks(251,7093
+subroutine log_allocation(265,7330
+subroutine log_deallocation(311,8457
+subroutine list_blocks_mem(381,10202
+subroutine delete_mem_block_list(408,10879
+subroutine status_mem(427,11229
+subroutine init_mem(447,11602
+subroutine finalize_mem(456,11707
+subroutine alloc_1d_r4(482,12342
+subroutine alloc_bound_1d_r4(526,13331
+subroutine freemem_1d_r4(571,14374
+subroutine alloc_2d_r4(621,15541
+subroutine alloc_bound_2d_r4(665,16537
+subroutine freemem_2d_r4(710,17594
+subroutine alloc_3d_r4(760,18765
+subroutine alloc_bound_3d_r4(804,19768
+subroutine freemem_3d_r4(849,20839
+subroutine alloc_4d_r4(899,22014
+subroutine alloc_bound_4d_r4(943,23024
+subroutine freemem_4d_r4(988,24109
+subroutine alloc_1d_r8(1038,25288
+subroutine alloc_bound_1d_r8(1082,26277
+subroutine freemem_1d_r8(1127,27320
+subroutine alloc_2d_r8(1177,28487
+subroutine alloc_bound_2d_r8(1221,29483
+subroutine freemem_2d_r8(1266,30540
+subroutine alloc_3d_r8(1316,31711
+subroutine alloc_bound_3d_r8(1360,32714
+subroutine freemem_3d_r8(1405,33785
+subroutine alloc_4d_r8(1455,34960
+subroutine alloc_bound_4d_r8(1499,35970
+subroutine freemem_4d_r8(1544,37055
+subroutine alloc_1d_c4(1594,38234
+subroutine alloc_bound_1d_c4(1638,39242
+subroutine freemem_1d_c4(1683,40304
+subroutine alloc_2d_c4(1733,41490
+subroutine alloc_bound_2d_c4(1777,42505
+subroutine freemem_2d_c4(1822,43581
+subroutine alloc_3d_c4(1872,44771
+subroutine alloc_bound_3d_c4(1916,45793
+subroutine freemem_3d_c4(1961,46883
+subroutine alloc_4d_c4(2011,48077
+subroutine alloc_bound_4d_c4(2055,49106
+subroutine freemem_4d_c4(2100,50210
+subroutine alloc_1d_c8(2150,51408
+subroutine alloc_bound_1d_c8(2194,52416
+subroutine freemem_1d_c8(2239,53478
+subroutine alloc_2d_c8(2289,54664
+subroutine alloc_bound_2d_c8(2333,55679
+subroutine freemem_2d_c8(2378,56755
+subroutine alloc_3d_c8(2428,57945
+subroutine alloc_bound_3d_c8(2472,58967
+subroutine freemem_3d_c8(2517,60057
+subroutine alloc_4d_c8(2567,61251
+subroutine alloc_bound_4d_c8(2611,62280
+subroutine freemem_4d_c8(2656,63384
+subroutine alloc_1d_int(2706,64582
+subroutine alloc_bound_1d_int(2750,65560
+subroutine freemem_1d_int(2795,66592
+subroutine alloc_2d_int(2845,67748
+subroutine alloc_bound_2d_int(2889,68733
+subroutine freemem_2d_int(2934,69779
+subroutine alloc_3d_int(2984,70939
+subroutine alloc_bound_3d_int(3028,71931
+subroutine freemem_3d_int(3073,72991
+subroutine alloc_4d_int(3123,74155
+subroutine alloc_bound_4d_int(3167,75154
+subroutine freemem_4d_int(3212,76228
+subroutine alloc_1d_byte(3262,77396
+subroutine alloc_bound_1d_byte(3306,78386
+subroutine freemem_1d_byte(3351,79430
+subroutine alloc_2d_byte(3401,80598
+subroutine alloc_bound_2d_byte(3445,81595
+subroutine freemem_2d_byte(3490,82653
+subroutine alloc_3d_byte(3540,83825
+subroutine alloc_bound_3d_byte(3584,84829
+subroutine freemem_3d_byte(3629,85901
+subroutine alloc_4d_byte(3679,87077
+subroutine alloc_bound_4d_byte(3723,88088
+subroutine freemem_4d_byte(3768,89174
+subroutine alloc_1d_str(3818,90354
+subroutine alloc_bound_1d_str(3862,91347
+subroutine freemem_1d_str(3907,92394
+subroutine alloc_2d_str(3957,93565
+subroutine alloc_bound_2d_str(4001,94565
+subroutine freemem_2d_str(4046,95626
+subroutine alloc_3d_str(4096,96801
+subroutine alloc_bound_3d_str(4140,97808
+subroutine freemem_3d_str(4185,98883
+subroutine alloc_4d_str(4235,100062
+subroutine alloc_bound_4d_str(4279,101076
+subroutine freemem_4d_str(4324,102165
+subroutine alloc_1d_bool(4374,103348
+subroutine alloc_bound_1d_bool(4418,104330
+subroutine freemem_1d_bool(4463,105366
+subroutine alloc_2d_bool(4513,106526
+subroutine alloc_bound_2d_bool(4557,107515
+subroutine freemem_2d_bool(4602,108565
+subroutine alloc_3d_bool(4652,109729
+subroutine alloc_bound_3d_bool(4696,110725
+subroutine freemem_3d_bool(4741,111789
+subroutine alloc_4d_bool(4791,112957
+subroutine alloc_bound_4d_bool(4835,113960
+subroutine freemem_4d_bool(4880,115038
+
+source/memory.h,71
+#define _MEMORY_H12,291
+#define alloc(14,310
+#define freemem(15,366
+
+source/mpix.h,751
+#define __include_mpix_h__8,78
+static const int torus_ndims 13,127
+static const int torus_part[torus_part14,162
+static const int torus_size 15,218
+#define MPIX_TORUS_MAX_DIMS 17,254
+   unsigned prank;22,407
+   unsigned psize;23,489
+   unsigned ppn;24,567
+   unsigned coreID;25,616
+   unsigned clockMHz;27,700
+   unsigned memSize;28,753
+   unsigned torus_dimension;31,882
+   unsigned Size[Size32,963
+   unsigned Coords[Coords33,1042
+   unsigned isTorus[isTorus34,1116
+   unsigned rankInPset;37,1265
+   unsigned sizeOfPset;38,1289
+   unsigned idOfPset;39,1313
+ } MPIX_Hardware_t;40,1335
+static int MPIX_Hardware(42,1357
+static int MPIX_Torus_ndims(47,1425
+static int MPIX_Rank2torus(52,1496
+static int MPIX_Torus2rank(69,1864
+
+source/os-antenna.f90,1522
+subroutine clear_antenna_list(177,4029
+subroutine add_antenna_to_list(215,4970
+subroutine read_nml_antenna_list(251,5945
+      subroutine read_nml_antenna(295,7177
+      subroutine restart_read_antenna(458,11802
+      subroutine restart_write_antenna(595,17196
+subroutine antenna_1d(726,22440
+subroutine antenna_2d(815,25491
+subroutine antenna_2d_focus(992,32138
+      subroutine antenna_2d_tilt(1224,41131
+      subroutine antenna_3d(1458,50250
+subroutine antenna_select(1721,59646
+      function profile_1(1785,61761
+      function profile_2(1803,62507
+      function profile_1_new(1826,63415
+      function profile_2_new(1848,64310
+	  function gaussian_1(1878,65599
+	  function gaussian_2(1894,66222
+   function linear_1(1917,67052
+      function h1_1(1950,68035
+	  function h1_2(1961,68467
+      function h2_1(1979,69163
+	  function h2_2(1992,69717
+	  function h3_1(2011,70421
+	  function h3_2(2023,70984
+      function h4_1(2042,71697
+     function h4_2(2057,72294
+      function h5_1(2076,73016
+	 function h5_2(2093,73629
+     pure function h6_1(2112,74368
+	  pure function h6_2(2129,74995
+   function envelop_env_linear(2149,75729
+    function envelop_env_gaussian(2179,76925
+        logical function antenna_power_on(2213,78330
+     function phase_curv_2d(2228,78981
+	function phase_curv_3d(2245,79688
+function pulse_shape_linear(2263,80454
+   function dpulse_shape_linear(2298,81615
+   function pulse_shape_gaussian(2329,82749
+    function dpulse_shape_gaussian(2360,83977
+
+source/os-antenna_array.f90,330
+      subroutine restart_read_antenna_array(70,1304
+      subroutine restart_write_antenna_array(107,2625
+      subroutine read_nml_antenna_array(137,3642
+subroutine launch_ant_array(185,4996
+      logical function antenna_array_on(214,5881
+subroutine setup_antenna_array(229,6414
+subroutine cleanup_antenna_array(248,7085
+
+source/os-cathode.f90,611
+subroutine read_nml_cathode(117,2560
+subroutine setup_cathode(390,11589
+subroutine cleanup_cathode(545,16426
+subroutine restart_write_cathode(557,16746
+subroutine restart_read_cathode(660,19967
+function sp_id_cathode(774,23468
+subroutine deposit_current_cathode(799,24068
+subroutine inject_cathode(909,28011
+subroutine inject_cathode_lowroundoff(973,30014
+subroutine move_window_cathode(1093,33702
+subroutine create_particles_cathode(1106,34257
+  function t_env(1400,43476
+  function poly_env(1420,43906
+  function tr_profile(1431,44119
+function ntrim(1505,46549
+subroutine ntrim_pos(1530,47102
+
+source/os-collisions.f90,276
+subroutine collide(25,481
+subroutine coll_cell_idx(64,1620
+subroutine coll_cell_self(156,4223
+subroutine collide_multi(186,4977
+subroutine coll(216,5526
+subroutine shuffle_n(286,7356
+subroutine init_random(319,8269
+function ran_int32(336,8768
+function ran_n(353,9385
+
+source/os-config.h,129
+#define __HAS_IONIZATION__59,1712
+#define __HAS_COLLISIONS__62,1775
+#define __HAS_TRACKS__65,1838
+#define __HAS_PML__68,1925
+
+source/os-cross.f90,188
+subroutine read_nml_cross(82,1885
+subroutine setup_cross(210,4972
+subroutine cleanup_cross(232,5475
+  subroutine restart_write_cross(292,7251
+  subroutine restart_read_cross(361,9453
+
+source/os-current-diagnostics.f90,207
+subroutine read_nml_diag_current(77,1590
+subroutine cleanup_diag_current(153,3789
+subroutine setup_diag_current(168,4183
+subroutine report_current_diag(232,5984
+subroutine get_diag_buffer_size(297,7919
+
+source/os-current.f90,624
+subroutine cleanup_current(123,2356
+subroutine read_nml_current(148,2942
+subroutine setup_current(173,3604
+function get_min_gc_current(313,7790
+function nx_current(342,8657
+function dx_current(359,9152
+subroutine restart_write_current(377,9657
+subroutine restart_read_current(423,11040
+subroutine norm_ring_grid(486,12993
+subroutine normalize_cyl_current(596,17335
+subroutine smooth_current(624,18214
+subroutine report_current(655,18983
+subroutine reshape_current(683,19786
+subroutine list_algorithm_current(713,20762
+subroutine get_diag_buffer_size_pf(733,21276
+subroutine update_boundary_current(751,22043
+
+source/os-cyl-modes.f90,291
+subroutine setup_cyl_modes(58,1138
+subroutine cleanup_cyl_modes(87,2145
+subroutine restart_write_cyl_modes(121,3035
+subroutine restart_read_cyl_modes(149,4106
+subroutine move_window_cyl_modes(181,5417
+subroutine update_boundary_cyl_modes(206,6212
+subroutine report_cyl_modes(234,7234
+
+source/os-dneutral.f90,165
+subroutine read_nml_diag_neutral(80,1593
+subroutine setup_diag_neutral(154,3756
+subroutine report_diag_neutral(204,5313
+subroutine cleanup_diag_neutral(262,7177
+
+source/os-dutil-hdf5.f90,631
+subroutine open_hdf5(162,4182
+subroutine close_hdf5(180,4651
+subroutine create_hdf5_file(195,5028
+subroutine close_hdf5_file(346,9118
+subroutine add_h5_atribute_str(373,9948
+subroutine add_h5_atribute_str_v1(412,11236
+subroutine add_h5_atribute_logical(455,12658
+subroutine add_h5_atribute_logical_v1(489,13774
+subroutine FNAME(586,16757
+subroutine FNAME(615,17792
+subroutine FNAME(644,18861
+subroutine FNAME(699,20475
+subroutine FNAME(754,22122
+subroutine FNAME(819,24190
+subroutine FNAME(971,28730
+subroutine FNAME(1142,33701
+subroutine FNAME(1319,38987
+subroutine FNAME(1482,44219
+subroutine FNAME(1684,50511
+
+source/os-dutil.f90,292
+subroutine init_diagutil(164,3944
+subroutine cleanup_diagutil(188,4814
+subroutine get_diag_buffer(202,5388
+function get_filename(220,5924
+subroutine init_diag_file(249,6913
+subroutine open_diag_file(301,8542
+subroutine close_diag_file(459,13542
+subroutine cleanup_diag_file(500,14534
+
+source/os-emf-boundary.f90,879
+function bnd_type_name(115,2547
+subroutine cleanup_emf_bound(144,3304
+subroutine read_nml_emf_bound(173,3985
+subroutine setup_emf_bound(336,8721
+subroutine restart_write_emf_bound(482,12675
+subroutine restart_read_emf_bound(537,14060
+subroutine move_window_emf_bound(585,15373
+subroutine update_boundary_emf_bound(623,16330
+subroutine update_boundary_bfld_emf_bound(723,19718
+subroutine update_boundary_efld_emf_bound(831,22391
+subroutine report_bcemf(926,24668
+function type_emf_bound(960,25523
+function type_emf_bound_bnd(983,26121
+logical function is_open_bcemf(1009,26761
+subroutine reshape_bcemf(1031,27353
+subroutine conducting_bc_b_1d(1063,28390
+subroutine conducting_bc_b_2d(1097,29490
+subroutine conducting_bc_b_3d(1160,31123
+subroutine conducting_bc_e_1d(1260,33844
+subroutine conducting_bc_e_2d(1295,34790
+subroutine conducting_bc_e_3d(1361,36461
+
+source/os-emf-cyl-modes.f90,128
+subroutine dbdt_2d_cyl_modes(34,854
+subroutine dedt_2d_cyl_modes(212,7070
+subroutine update_boundary_emf_cyl_modes(379,12627
+
+source/os-emf-diagnostics.f90,192
+subroutine read_nml_diag_emf(108,3209
+subroutine setup_diag_emf(201,5706
+subroutine cleanup_diag_emf(368,11673
+subroutine report_diag_emf(387,12225
+subroutine report_energy_emf(593,19503
+
+source/os-emf-es-solver.f90,64
+subroutine es_solver(77,2100
+subroutine es_solver_2d(120,3302
+
+source/os-emf-gridval.f90,244
+subroutine set_fld_values(50,873
+subroutine restart_write_emf_gridval(478,12485
+subroutine restart_read_emf_gridval(537,14423
+subroutine setup_emf_gridval(605,16656
+subroutine cleanup_emf_gridval(665,18502
+function dipole_field(687,19082
+
+source/os-emf-interp-cm.f90,219
+subroutine get_emf_cyl_modes(28,398
+subroutine get_emf_cyl_m_s1(91,2528
+subroutine get_emf_cyl_m_s2(209,6129
+subroutine get_emf_cyl_m_s3(395,13736
+subroutine get_emf_cyl_m_s4(665,23855
+function signbit(1047,38694
+
+source/os-emf-interpolate.f90,494
+subroutine get_emf_cell(29,369
+subroutine get_emf_1d_s1(116,2665
+subroutine get_emf_1d_s2(185,4255
+subroutine get_emf_1d_s3(261,6130
+subroutine get_emf_1d_s4(344,8390
+subroutine get_emf_2d_s1(436,11044
+subroutine get_emf_2d_s2(579,15368
+subroutine get_emf_2d_s3(701,19835
+subroutine get_emf_2d_s4(865,25381
+subroutine get_emf_3d_s1(1092,33336
+subroutine get_emf_3d_s2(1216,37315
+subroutine get_emf_3d_s3(1463,46864
+subroutine get_emf_3d_s4(1933,66392
+function signbit(2775,102254
+
+source/os-emf-lindman.f90,614
+subroutine cleanup_lindman(127,2666
+subroutine restart_write_lindman(141,3043
+subroutine restart_read_lindman(166,3769
+subroutine new_lindman(196,4675
+subroutine move_window_lindman(341,8087
+subroutine update_boundary_lindman(358,8608
+subroutine update_lindman_1d_e(381,9268
+subroutine update_lindman_1d_b(428,10707
+subroutine update_lindman_2d_e(463,11570
+subroutine update_lindman_2d_b(548,14444
+subroutine update_lindman_3d_e(613,16449
+subroutine update_lindman_3d_b(764,21235
+subroutine update_emfbound_lindmann(870,24808
+function is_active_lindman(1059,28767
+subroutine reshape_lind(1073,29123
+
+source/os-emf-marder.f90,390
+subroutine setup_marder_langdon(45,1353
+subroutine update_charge_cons(74,2097
+subroutine charge_cons_2d_yee(123,3505
+subroutine charge_cons_2d_4order(159,4572
+subroutine charge_cons_2d_stencil(196,5740
+subroutine ml_pass_2d_yee(256,7773
+subroutine ml_pass_2d_4order(287,8734
+subroutine ml_pass_2d_stencil(324,10104
+subroutine ml_pass(371,11700
+subroutine marder_langdon(414,12824
+
+source/os-emf-pgc.f90,907
+subroutine read_nml_pgc(77,1370
+subroutine reset_pgc(130,2853
+subroutine advance_pgc(140,3195
+subroutine update_pgc_part_2d(213,5736
+subroutine solve_tridiag(266,7696
+subroutine build_source_pgc(319,9626
+subroutine get_emf_pgc_2D(388,12481
+subroutine setup_pgc(457,14363
+subroutine setup_pgc_2d(531,16824
+subroutine setup_pgc_2dcyl(580,18566
+subroutine restart_write_pgc(629,20387
+subroutine restart_read_pgc(665,21477
+subroutine lu_decomp_2d(703,22785
+subroutine tri_diagmatrix_2d(781,25169
+subroutine tri_diagmatrix_2dcyl(810,26112
+subroutine norm_charge_cyl_pgc(840,27275
+subroutine launch_laser(876,28488
+subroutine launch_laser_2d(907,29553
+subroutine launch_laser_2dcyl(959,31302
+subroutine cleanup_pgc(1010,33110
+function per_envelope_2d(1044,34068
+function per_envelope_2dcyl(1087,35484
+function lon_envelope(1127,36705
+function signbit(1153,37550
+function cabs1(1171,38032
+
+source/os-emf-poynting.f90,131
+subroutine poynting_1d(30,760
+subroutine poynting_2d(108,2761
+subroutine poynting_3d(199,5462
+subroutine poynting_emf(301,9398
+
+source/os-emf-psi.f90,121
+subroutine init_psi(39,615
+subroutine cleanup_psi(91,2104
+subroutine get_psi(112,2713
+subroutine update_psi(142,3636
+
+source/os-emf-solver.f90,1254
+subroutine advance_emf(42,538
+subroutine select_dbdt(86,1746
+subroutine select_dedt(274,5524
+subroutine dbdt_1d(481,10234
+subroutine dbdt_2d(514,10961
+subroutine dbdt_cyl_b1_2d(567,12450
+subroutine dbdt_3d(639,14656
+subroutine dedt_1d(694,16223
+subroutine dedt_2d(742,17454
+subroutine dedt_cyl_b1_2d(804,19257
+subroutine dedt_3d(863,21036
+subroutine dbdt_1d_4order(924,23026
+subroutine dbdt_2d_4order(970,24180
+subroutine dbdt_cyl_b1_2d_4order(1022,25982
+subroutine dbdt_3d_4order(1115,29133
+subroutine dedt_1d_4order(1175,31161
+subroutine dedt_2d_4order(1224,32562
+subroutine dedt_3d_4order(1281,34428
+subroutine dedt_cyl_b1_2d_4order(1347,36633
+subroutine dbdt_2d_stencil(1436,39801
+subroutine dbdt_3d_stencil(1503,42524
+subroutine dedt_2d_stencil(1578,45672
+subroutine dedt_3d_stencil(1646,48385
+subroutine dbdt_2d_kark(1732,52051
+subroutine dbdt_3d_kark(1788,54152
+subroutine dedt_2d_kark(1890,59671
+subroutine dedt_3d_kark(1941,61104
+subroutine dbdt_2d_ndfx(2002,63057
+subroutine dbdt_3d_ndfx(2062,65127
+subroutine dedt_2d_ndfx(2134,68204
+subroutine dedt_3d_ndfx(2199,70371
+subroutine dbdt_2d_lehe(2281,73941
+subroutine dbdt_3d_lehe(2357,76897
+subroutine dedt_2d_lehe(2461,81838
+subroutine dedt_3d_lehe(2523,83613
+
+source/os-emf-vpml.f90,1461
+subroutine cleanup_vpml(118,2509
+subroutine restart_write_vpml(153,3324
+subroutine restart_read_vpml(179,4093
+subroutine setup_vpml(213,5081
+subroutine setup_att_coeff(407,10505
+subroutine move_window_vpml(500,13698
+subroutine update_boundary_vpml(524,14324
+  function is_active_vpml(571,16004
+  function vpml_exists(583,16365
+subroutine update_e_vpml_1d(608,17059
+subroutine update_e_vpml_2d(645,17955
+subroutine update_e_vpml_3d(776,21643
+subroutine update_e_x1_1d(915,25598
+subroutine update_e_x1_2d(983,27091
+subroutine update_cyl_e_x1_2d(1105,30993
+subroutine update_e_x1_3d(1224,34809
+subroutine update_e_x2_2d(1413,41052
+subroutine update_e_x2_3d(1484,43398
+subroutine update_e_x3_3d(1641,48901
+subroutine update_b_vpml_1d(1732,52527
+subroutine update_b_vpml_2d(1769,53433
+subroutine update_b_vpml_3d(1892,56853
+subroutine update_b_x1_1d(2031,60921
+subroutine update_b_x1_2d(2101,62454
+subroutine update_cyl_b_x1_2d(2214,65948
+subroutine update_b_x1_3d(2333,69799
+subroutine update_b_x2_2d(2523,76128
+subroutine update_b_x2_3d(2584,78058
+subroutine update_b_x3_3d(2741,83634
+subroutine update_interface_x1_1d(2831,87253
+subroutine update_interface_x1_2d(2881,88612
+subroutine update_interface_x1_3d(2975,91573
+subroutine update_interface_x2_2d(3136,96171
+subroutine update_interface_x2_3d(3221,98921
+subroutine update_interface_x3_3d(3394,104031
+subroutine reshape_vpml(3558,108868
+subroutine report_vpml(3579,109498
+
+source/os-emf.f90,789
+subroutine read_nml_emf(163,3283
+subroutine setup_emf(580,15762
+subroutine cleanup_emf(802,22497
+subroutine restart_write_emf(859,23839
+subroutine restart_read_emf(928,26055
+subroutine move_window_emf(988,28031
+subroutine update_boundary_emf(1052,30271
+subroutine update_particle_fld_emf(1074,31084
+function bc_type(1193,35148
+pure function if_push_subcycle(1218,35845
+pure function n_subcycle(1247,36692
+function dx_emf(1267,37329
+subroutine get_dx_emf(1287,38018
+subroutine reshape_emf(1311,38706
+function get_min_gc_emf(1378,41024
+subroutine list_algorithm_emf(1436,42690
+subroutine test_courant_emf(1497,44555
+subroutine update_emf_int(1580,46721
+subroutine get_diag_buffer_size_emf(1662,49959
+pure function if_marder(1693,50836
+function if_charge_cons(1712,51545
+
+source/os-files.f90,368
+subroutine init_path(82,2215
+subroutine read_input_file(103,3224
+subroutine check_io_err(286,7886
+subroutine store(306,8366
+subroutine store_pos(332,8984
+function trim_input(358,9590
+function find_char_unquote(395,10514
+function get_str(430,11485
+subroutine get_namelist(452,12103
+subroutine write_input_file(516,13864
+subroutine close_input_file(553,14783
+
+source/os-fparser.f90,733
+  function functext_parser(226,9379
+  subroutine setup_fparser(237,9840
+subroutine cleanup_fparser(275,10907
+  function eval_fparser(292,11365
+  subroutine compile_fparser(529,18772
+recursive subroutine compile_substr_fparser(562,19853
+  function num_signed_exp(752,26091
+  subroutine add_variable(779,27074
+  subroutine add_function(802,27869
+  subroutine add_operator(824,28680
+  subroutine add_constant(847,29516
+  function if_enclosed_parent(872,30398
+  function comma_pos(912,31620
+  subroutine check_syntax_fparser(951,32688
+  subroutine syntax_error(1147,39056
+  function is_variable_fparser(1198,40756
+  function is_operator(1236,42002
+  function is_function(1272,43095
+  function remove_spaces(1310,44277
+
+source/os-grid-parallel.f90,761
+subroutine parallel_partition(49,954
+subroutine random_dist(137,3767
+subroutine even_dist(215,5641
+subroutine tree_dist(252,6573
+  recursive subroutine rec_tree_dist(277,7073
+subroutine load_dist(370,9597
+function if_dynamic_lb(407,10678
+function needs_int_load(436,11646
+subroutine init_int_load(454,12318
+subroutine clear_int_load(482,12974
+subroutine conv_load_2_int_load(497,13487
+subroutine gather_load(566,15296
+subroutine add_grid_load(587,16090
+subroutine cleanup_msg_patt(652,17766
+subroutine check_consistency(670,18336
+subroutine new_msg_patt(755,20870
+  subroutine get_dyn_msg(786,21740
+subroutine new_msg_patt(893,25115
+  subroutine get_dyn_msg(923,25960
+subroutine new_slice_grid(1064,30341
+function my_deltax_grid(1135,32232
+
+source/os-grid-report.f90,103
+function ndump_report_grid(18,434
+function if_report_grid(43,1293
+  function test_if_report(64,1824
+
+source/os-grid.f90,791
+subroutine read_nml_grid(139,2805
+subroutine setup_grid(364,8797
+subroutine test_partition_grid(419,10348
+subroutine copy_grid(450,11382
+subroutine cleanup_grid(501,12879
+subroutine restart_write_grid(518,13383
+subroutine restart_read_grid(594,15956
+function nx_p_grid(686,19140
+subroutine get_node_limits_grid(715,20111
+function my_nx_p_grid(746,21205
+function my_nx_p_min_grid(765,21896
+function my_nx_p_min_grid_dir(782,22520
+function my_nx_grid(802,23096
+function num_partitions(819,23629
+function get_max_nx_grid(835,24207
+subroutine get_part_width(852,24753
+function equal_my_nx_grid(875,25507
+function equal_grid(903,26255
+function different_grid(945,27349
+pure function x_dim_grid(961,27847
+function coordinates_grid(975,28321
+function local_grid_vol(991,28816
+
+source/os-logprof-papi.c,360
+#define NUM_PAPI_EVENTS 21,515
+char *papi_event_name[papi_event_name22,541
+#define NUM_PAPI_EVENTS 30,779
+char *papi_event_name[papi_event_name31,805
+static int papi_events[papi_events35,908
+typedef long long t_counter;37,952
+static t_counter counters[counters39,982
+void FNAME(41,1027
+void FNAME(87,2168
+void FNAME(103,2546
+void FNAME(109,2642
+
+source/os-logprof.f90,404
+function create_event(150,4394
+subroutine begin_event(188,5472
+subroutine end_event(213,6219
+function total_event_time(250,7288
+subroutine list_total_event_times(270,7950
+subroutine init_papi(431,12615
+subroutine zero_papi_event(450,13169
+subroutine start_papi_event(472,13735
+subroutine finish_papi_event(488,14318
+subroutine accum_papi_event(513,15176
+subroutine gather_papi_event(535,15958
+
+source/os-main.f90,624
+subroutine read_in(186,4782
+subroutine setup_simulation(274,7715
+function min_gc_sim(430,13156
+subroutine loop(473,14557
+subroutine dynamic_load_balance(758,24210
+subroutine test_reshape_vdf(891,28037
+subroutine set_int_load(993,31312
+function sim_imbalance(1031,32491
+subroutine report_load(1066,33627
+subroutine shut_down(1096,34751
+subroutine write_restart(1147,35848
+subroutine write_restart_objecttree(1204,37375
+subroutine set_options(1250,38808
+subroutine read_sim_options(1316,40570
+function wall_clock_over_limit(1451,44780
+subroutine print_init_banner(1496,46040
+subroutine print_usage(1553,47638
+
+source/os-math.f90,474
+function besselJnZero(72,2065
+function besselj0_rsing(111,3601
+function besselj1_rsing(195,6257
+function besseljn_rsing(272,8922
+function besseli0_rdoub(352,11414
+function hermite_double(380,12471
+function hermite_single(415,13707
+function laguerre_double(450,14944
+function laguerre_single(520,19325
+function smooth_heaviside_double(594,23749
+function smooth_heaviside_single(613,24259
+function gradient_linear(639,25101
+function gradient_regressive(657,25677
+
+source/os-nconf.f90,1896
+subroutine read_nml_node_conf(242,5347
+subroutine cleanup_node_conf(380,8843
+subroutine setup_node_conf(406,9693
+subroutine create_topology_mpi(533,13223
+subroutine create_topology_old(597,15419
+subroutine create_topology_bgq(654,16889
+subroutine test_topology(741,19407
+subroutine new_slice_nconf(856,23557
+subroutine restart_write_node_conf(983,27583
+subroutine restart_read_node_conf(1034,29115
+pure function n_threads_node_conf(1113,31555
+pure function no_num_node_conf(1131,32172
+function get_nx(1155,32836
+function get_nx_dim(1177,33512
+function on_edge(1203,34377
+function physical_boundary_local(1224,35091
+function physical_boundary_node(1251,36100
+function neighbor(1280,37108
+function my_aid(1299,37695
+function ngp(1316,38193
+function my_ngp_all(1375,39620
+function my_ngp_dim(1393,40309
+function relevant_ifpr(1411,40792
+subroutine reduce_array_int_1d(1447,42159
+subroutine reduce_array_rsing_1d(1514,43989
+subroutine reduce_array_size_rsing_1d(1563,45356
+subroutine reduce_array_rdoub_1d(1600,46383
+subroutine reduce_array_rsing_2d(1664,48131
+subroutine reduce_array_rsing_3d(1719,49642
+subroutine reduce_array_int_1d(1775,51339
+subroutine reduce_array_rsing_1d(1847,53267
+subroutine reduce_array_size_rsing_1d(1903,54730
+subroutine reduce_array_rdoub_1d(1942,55738
+subroutine reduce_array_rsing_2d(2014,57629
+subroutine reduce_array_rsing_3d(2076,59594
+subroutine reduce_int(2164,61787
+subroutine reduce_rsing(2209,63136
+subroutine reduce_rdoub(2255,64519
+subroutine wait_for_all(2300,65762
+subroutine send_ping(2325,66423
+subroutine recv_ping(2348,67167
+subroutine gather_array_int_1d(2374,68028
+subroutine allgather_int(2409,69027
+subroutine broadcast_int(2444,69904
+pure function periodic_dir(2473,70702
+function periodic_all(2490,71301
+pure function comm(2510,72011
+pure function ngp_id(2526,72582
+pure function root(2549,73386
+
+source/os-neutral.f90,1516
+subroutine read_nml_neutral(262,7615
+	 subroutine set_ion_parameters(552,15957
+subroutine setup_neutral(572,16781
+subroutine cleanup_neutral(674,20179
+subroutine set_species_neutral(701,21032
+subroutine ionize_neutral(731,22049
+subroutine adk_field_rates(790,23871
+subroutine adk_field_rates_1d(820,24770
+subroutine adk_field_rates_2d(898,26934
+subroutine adk_field_rates_3d(980,29215
+subroutine adk_pgc_field_rates(1068,31769
+subroutine adk_pgc_field_rates_2d(1092,32585
+subroutine advance_density(1168,34687
+subroutine advance_density_1d(1193,35507
+subroutine advance_density_2d(1286,38209
+subroutine advance_density_3d(1385,41224
+subroutine inject_particles(1481,44206
+subroutine inject_particles_1d(1504,45034
+subroutine inject_particles_2d(1590,47634
+subroutine inject_particles_3d(1759,52748
+subroutine report_neutral(1859,55843
+subroutine set_neutden_values(1882,56780
+subroutine restart_write_neutral(1977,59203
+subroutine restart_read_neutral(2064,62324
+subroutine update_boundary_neutral(2161,65694
+subroutine move_window_neutral(2182,66432
+subroutine reshape_neutral(2231,68078
+subroutine list_algorithm_neutral(2262,69096
+subroutine impact_ionize(2283,69729
+subroutine value_at_position(2379,73604
+subroutine value_at_x_1d(2447,75469
+subroutine value_at_x_2d(2469,76173
+subroutine value_at_x_3d(2498,77365
+subroutine update_ionlevel(2530,78839
+subroutine change_ionlevel_1d(2562,80026
+subroutine change_ionlevel_2d(2605,81249
+subroutine change_ionlevel_3d(2651,82726
+
+source/os-param.f90,44
+subroutine list_algorithm_options(215,8502
+
+source/os-particles-charge.f90,321
+subroutine reshape_charge_part(61,1444
+subroutine get_charge_htc(81,2235
+subroutine get_dcharge_dt(129,3772
+subroutine deposit_charge_part(178,5346
+subroutine update_charge_part(256,7591
+subroutine restart_write_charge_part(300,9190
+subroutine setup_charge_part(346,10687
+subroutine cleanup_charge_part(421,12946
+
+source/os-particles.f90,997
+subroutine read_nml_particles(199,4047
+subroutine setup_particles(525,13737
+subroutine cleanup_particles(690,18347
+subroutine restart_write_particles(766,19868
+subroutine restart_read_particles(831,21623
+function num_species_particles(916,24207
+subroutine advance_deposit_particles(939,24958
+subroutine move_window_particles(1052,27495
+subroutine update_boundary_particles(1096,28449
+subroutine report_particles(1139,29513
+subroutine report_energy_part(1239,32463
+subroutine inject_cathode_part(1269,33270
+subroutine ionize_neutral_part(1317,34493
+subroutine sort_collide_part(1352,35338
+subroutine validate_part(1401,36462
+function get_min_gc_part(1435,37613
+subroutine list_algorithm_part(1477,38899
+subroutine report_global_load(1538,40472
+subroutine report_node_load(1619,42924
+subroutine report_grid_load(1745,46709
+subroutine add_load_particles(1816,49153
+subroutine reshape_part(1848,49945
+subroutine get_diag_buffer_size_part(1901,51542
+function num_par(1922,52387
+
+source/os-preprocess.fpp,470
+#define FILE_LINE 16,350
+#define ASSERT(21,422
+#define DEBUG(27,554
+#define DEBUG(31,643
+#define DEBUG_EXP(35,671
+#define SCR_ROOT(40,744
+#define SCR_HOST(41,805
+#define SCR_MPINODE(42,874
+#define SCR_EXP_MPINODE(43,940
+#define LOG(48,1017
+#define LOG_EXP(49,1076
+#define ERROR(53,1137
+#define ERROR_EXP(54,1217
+#define CHECK_ERROR(56,1263
+#define WARNING(60,1375
+#define WARNING_EXP(61,1457
+#define restart_io_wr(65,1535
+#define restart_io_rd(66,1623
+
+source/os-random.f90,936
+subroutine init_genrand_scalar(172,4659
+subroutine init_genrand_scalar_rst(198,5532
+subroutine init_genrand_array(219,6276
+subroutine init_genrand_array_rst(273,7582
+function genrand_int32(297,8370
+function genrand_real1(351,10013
+subroutine harvest_real1_p8(364,10652
+subroutine harvest_real1_p4(377,11299
+function genrand_real2(393,11951
+subroutine harvest_real2_p8(408,12592
+subroutine harvest_real2_p4(422,13267
+function genrand_real3(437,13887
+subroutine harvest_real3_p8(452,14534
+subroutine harvest_real3_p4(466,15191
+function genrand_res53(482,15825
+function genrand_gaussian(505,16886
+function genrand_half_max(555,18551
+function genrand_spherical(580,19555
+subroutine harvest_spherical_p8(602,20149
+subroutine harvest_spherical_p4(621,20713
+subroutine restart_write_rand(642,21307
+subroutine restart_read_rand(683,22806
+function genrand_relmax_double(732,24533
+function genrand_relmax_single(789,26151
+
+source/os-restart-io-binary.f90,54
+subroutine FNAME(140,3004
+subroutine FNAME(177,4113
+
+source/os-restart-io-sion.f90,54
+subroutine FNAME(140,3004
+subroutine FNAME(195,4394
+
+source/os-restart.f90,395
+subroutine read_nml_restart(194,5884
+subroutine setup_restart(257,7539
+subroutine restart_write_restart(297,8723
+subroutine restart_read_restart(338,9848
+function if_restart_write(382,11085
+function if_restart_read(468,13215
+subroutine restart_write_open(494,13796
+subroutine restart_read_open(618,16973
+subroutine restart_write_close(699,18889
+subroutine restart_read_close(782,21349
+
+source/os-space.f90,1144
+subroutine read_nml_space(190,4498
+subroutine setup_space_global(304,7682
+        subroutine restart_write_space(349,9111
+        subroutine restart_read_space(427,12209
+subroutine move_boundary_space_global(512,15531
+function xmin_space(571,17328
+pure function xmin_dim_space(590,18097
+function xmax_space(607,18773
+pure function xmax_dim_space(627,19545
+function xmin_initial(644,20223
+function xmax_initial(667,20996
+function x_bnd(691,21770
+function x_bnd_dim(717,22595
+subroutine get_x_bnd_single(736,23281
+subroutine get_x_bnd_double(752,24012
+subroutine get_x_bnd_dim(769,24726
+function extend_of_space(792,25526
+function xmin_old(815,26378
+function xmax_old(838,27148
+function nx_move_all(860,27921
+function nx_move_dim(876,28619
+pure function x_dim_space(894,29304
+function total_xmoved_all(911,29931
+function total_xmoved_dim_bnd(934,30776
+function total_imoved_dim(958,31636
+function if_move_space(973,32078
+pure function if_move_dim_space(994,32883
+        function if_move_any(1014,33606
+        function if_center(1042,34529
+subroutine reshape_space(1076,35645
+subroutine transpose_space(1096,36636
+
+source/os-spec-boundary.f90,708
+subroutine read_nml_spe_bound(95,2016
+subroutine setup_spe_bound(240,6681
+subroutine restart_write_spe_bound(336,9437
+subroutine restart_read_spe_bound(379,10793
+subroutine phys_boundary(431,12400
+subroutine rev_current(599,16955
+subroutine process_phys_boundary(644,18448
+subroutine check_boundary(706,20389
+subroutine check_boundary(798,23328
+subroutine update_boundary_species(865,25418
+subroutine check_node_cross(989,29782
+function type_spe_bound(1116,32832
+function type_bnd_dim_spe_bound(1139,33429
+subroutine thermal_bath(1168,34245
+subroutine init_buffers_boundary(1269,37223
+subroutine cleanup_buffers_boundary(1281,37635
+function ntrim(1295,38042
+subroutine ntrim_pos(1320,38295
+
+source/os-spec-charge.f90,593
+subroutine deposit_rho_1d_s1(41,812
+subroutine deposit_rho_2d_s1(87,2010
+subroutine deposit_rho_3d_s1(139,3331
+subroutine deposit_rho_1d_s2(200,5291
+subroutine deposit_rho_2d_s2(246,6374
+subroutine deposit_rho_3d_s2(303,8355
+subroutine deposit_rho_1d_s3(390,12230
+subroutine deposit_rho_2d_s3(439,13525
+subroutine deposit_rho_3d_s3(504,15857
+subroutine deposit_rho_1d_s4(627,22769
+subroutine deposit_rho_2d_s4(678,24193
+subroutine deposit_rho_3d_s4(756,27308
+subroutine deposit_rho_spec(944,39530
+subroutine deposit_density_spec(1009,41330
+subroutine norm_charge_cyl(1081,43689
+
+source/os-spec-collisions.f90,1136
+subroutine like_collide(224,6556
+subroutine unlike_collide(715,22501
+function ckfin(1239,40024
+FUNCTION ekin(1252,40280
+FUNCTION absvec(1263,40562
+function local_stat_Qt_Nnum_Ld(1274,40830
+function local_stat_Qt_Nnum(1437,46432
+   function nl_func(1510,48852
+   function nl_func_der(1541,49708
+   function solve_A(1573,50619
+   subroutine A_lookup_setup(1738,55246
+   function A_lin_inter(1760,55776
+subroutine A_lookup_setup(1794,56967
+function A_qubic_inter(1821,57803
+subroutine lookup_read_file(1868,59541
+subroutine list_algorithm_collisions(1915,60811
+subroutine read_nml_coll(1982,63044
+subroutine setup_coll(2110,67244
+subroutine cleanup_coll(2210,70483
+function if_collide_coll(2235,71327
+subroutine collide_particles(2255,72027
+subroutine generate_shuffle_list(2490,81224
+function l_debye_tot(2550,82526
+function if_collide_species(2585,83514
+function if_like_collide_species(2609,84064
+function dot3(2634,84700
+subroutine sort_coll_species(2656,85705
+subroutine generate_sort_coll_idx_1d(2726,87655
+subroutine generate_sort_coll_idx_2d(2808,89698
+subroutine generate_sort_coll_idx_3d(2908,92524
+
+source/os-spec-comm.f90,1092
+subroutine init_spec_comm(157,3792
+subroutine cleanup_spec_comm(187,4805
+subroutine cleanup_spec_msg_1(205,5355
+subroutine cleanup_spec_msg_array(225,5961
+function particle_pack_size(242,6573
+subroutine remove_single_particle(296,8099
+subroutine unpack_single_particle(348,9863
+subroutine pack_single_particle(412,11931
+subroutine remove_particles_1(489,14156
+subroutine remove_particles_2(513,14976
+subroutine pack_particle_data(564,16156
+subroutine unpack_particle_data_1(613,17711
+subroutine unpack_particle_data_2(659,19278
+subroutine unpack_particles_1(731,21382
+subroutine unpack_particles_2(784,23379
+subroutine wait_spec_msg_1(839,25447
+subroutine wait_spec_msg_2(861,26219
+subroutine wait_spec_msg_array(895,27255
+subroutine isend_1_msg(941,28448
+subroutine irecv_1_msg(1056,31615
+subroutine isend_2_msg(1095,32720
+subroutine irecv_2_msg(1129,33806
+subroutine irecv_1_spec(1194,35698
+subroutine irecv_2_spec(1216,36526
+subroutine isend_1_spec(1231,37068
+subroutine isend_2_spec(1268,38374
+subroutine unpack_spec(1283,38889
+subroutine wait_send(1312,39831
+
+source/os-spec-current-avx.c,1202
+inline void vwl_s1(26,694
+inline void vwl_s2(38,1079
+inline void vwl_s3(58,1657
+inline void vwl_s4(85,2806
+#define __TEMPLATE__126,4579
+#define ONAME(129,4662
+#define OJOIN(130,4694
+#define ORDER 135,4843
+#define NP 137,4907
+#define OFFSET 139,4957
+#define ORDER 145,5086
+#define NP 146,5102
+#define OFFSET 147,5115
+#define ORDER 153,5244
+#define NP 154,5260
+#define OFFSET 155,5273
+#define ORDER 161,5402
+#define NP 162,5418
+#define OFFSET 163,5431
+#define DEP_CURRENT_2D 186,6165
+#define DEP_CURRENT_3D 187,6219
+#define SPLINE 189,6274
+#define WL 190,6314
+inline void DEP_CURRENT_2D193,6352
+  typedef struct { float j1,198,6510
+  typedef struct { float j1, j2,198,6510
+  typedef struct { float j1, j2, j3;198,6510
+  typedef struct { float j1, j2, j3; } t_current;198,6510
+inline void DEP_CURRENT_3D327,9855
+  typedef struct { float j1,332,10037
+  typedef struct { float j1, j2,332,10037
+  typedef struct { float j1, j2, j3;332,10037
+  typedef struct { float j1, j2, j3; } t_current;332,10037
+#undef DEP_CURRENT_2D484,14929
+#undef DEP_CURRENT_3D485,14951
+#undef SPLINE486,14973
+#undef WL487,14987
+#undef OFFSET489,14998
+#undef ORDER490,15012
+#undef NP491,15025
+
+source/os-spec-current-avx.h,32
+#define _OS_SPEC_CURRENT_H2,27
+
+source/os-spec-current-avxd.c,1366
+inline void vwl_s1(26,714
+inline void vwl_s2(38,1103
+inline void vwl_s3(58,1687
+inline void vwl_s4(85,2841
+#define __TEMPLATE__126,4619
+#define ONAME(129,4702
+#define OJOIN(130,4734
+#define ORDER 135,4883
+#define NP 137,4947
+#define OFFSET 139,4997
+#define ORDER 145,5126
+#define NP 146,5142
+#define OFFSET 147,5155
+#define ORDER 153,5284
+#define NP 154,5300
+#define OFFSET 155,5313
+#define ORDER 161,5442
+#define NP 162,5458
+#define OFFSET 163,5471
+#define DEP_CURRENT_2D 186,6205
+#define DEP_CURRENT_3D 187,6259
+#define SPLINE 189,6314
+#define WL 190,6355
+inline void DEP_CURRENT_2D193,6393
+  typedef struct t_current 199,6608
+  typedef struct t_current { double j1,199,6608
+  typedef struct t_current { double j1, j2,199,6608
+  typedef struct t_current { double j1, j2, j3;199,6608
+  typedef struct t_current { double j1, j2, j3; } t_current;199,6608
+inline void DEP_CURRENT_3D328,10018
+  typedef struct t_current 334,10257
+  typedef struct t_current { double j1,334,10257
+  typedef struct t_current { double j1, j2,334,10257
+  typedef struct t_current { double j1, j2, j3;334,10257
+  typedef struct t_current { double j1, j2, j3; } t_current;334,10257
+#undef DEP_CURRENT_2D474,14751
+#undef DEP_CURRENT_3D475,14773
+#undef SPLINE476,14795
+#undef WL477,14809
+#undef OFFSET479,14820
+#undef ORDER480,14834
+#undef NP481,14847
+
+source/os-spec-current-avxd.h,32
+#define _OS_SPEC_CURRENT_H2,27
+
+source/os-spec-current-bgp.c,1318
+inline void vwl_s1(25,703
+inline void vwl_s2(40,1175
+inline void vwl_s3(59,1781
+inline void vwl_s4(86,2834
+#define __TEMPLATE__122,4355
+#define ONAME(125,4438
+#define OJOIN(126,4470
+#define VPRI(130,4583
+#define VSEC(131,4611
+#define VPRI(133,4645
+#define VSEC(134,4672
+#define ORDER 141,4823
+#define NP 143,4887
+#define OFFSET 145,4937
+#define ORDER 151,5066
+#define NP 152,5082
+#define OFFSET 153,5095
+#define ORDER 159,5224
+#define NP 160,5240
+#define OFFSET 161,5253
+#define ORDER 167,5382
+#define NP 168,5398
+#define OFFSET 169,5411
+#define DEP_CURRENT_2D 193,6146
+#define DEP_CURRENT_3D 194,6200
+#define SPLINE 196,6255
+#define WL 197,6295
+void extern inline DEP_CURRENT_2D199,6332
+  typedef struct { t_real j1,204,6514
+  typedef struct { t_real j1, j2,204,6514
+  typedef struct { t_real j1, j2, j3;204,6514
+  typedef struct { t_real j1, j2, j3; } t_current;204,6514
+void extern inline  DEP_CURRENT_3D360,10224
+  typedef struct { t_real j1,365,10421
+  typedef struct { t_real j1, j2,365,10421
+  typedef struct { t_real j1, j2, j3;365,10421
+  typedef struct { t_real j1, j2, j3; } t_current;365,10421
+#undef DEP_CURRENT_2D562,15469
+#undef DEP_CURRENT_3D563,15491
+#undef SPLINE564,15513
+#undef WL565,15527
+#undef OFFSET567,15538
+#undef ORDER568,15552
+#undef NP569,15565
+
+source/os-spec-current-bgp.h,32
+#define _OS_SPEC_CURRENT_H2,27
+
+source/os-spec-current-bgq.c,1193
+inline void vwl_s1(23,701
+inline void vwl_s2(38,1173
+inline void vwl_s3(57,1779
+inline void vwl_s4(84,2804
+#define __TEMPLATE__120,4216
+#define ONAME(123,4299
+#define OJOIN(124,4331
+#define ORDER 129,4480
+#define NP 131,4544
+#define OFFSET 133,4594
+#define ORDER 139,4723
+#define NP 140,4739
+#define OFFSET 141,4752
+#define ORDER 147,4881
+#define NP 148,4897
+#define OFFSET 149,4910
+#define ORDER 155,5039
+#define NP 156,5055
+#define OFFSET 157,5068
+#define DEP_CURRENT_2D 181,5803
+#define DEP_CURRENT_3D 182,5857
+#define SPLINE 184,5912
+#define WL 185,5952
+void DEP_CURRENT_2D 187,5989
+  typedef struct { t_real j1,192,6158
+  typedef struct { t_real j1, j2,192,6158
+  typedef struct { t_real j1, j2, j3;192,6158
+  typedef struct { t_real j1, j2, j3; } t_current;192,6158
+void DEP_CURRENT_3D324,9388
+  typedef struct { t_real j1,329,9570
+  typedef struct { t_real j1, j2,329,9570
+  typedef struct { t_real j1, j2, j3;329,9570
+  typedef struct { t_real j1, j2, j3; } t_current;329,9570
+#undef DEP_CURRENT_2D492,14019
+#undef DEP_CURRENT_3D493,14041
+#undef SPLINE494,14063
+#undef WL495,14077
+#undef OFFSET497,14088
+#undef ORDER498,14102
+#undef NP499,14115
+
+source/os-spec-current-bgq.h,32
+#define _OS_SPEC_CURRENT_H2,27
+
+source/os-spec-current-c.c,121
+#define HAS_SIMD_CODE 15,352
+#define HAS_SIMD_CODE 33,640
+#define HAS_SIMD_CODE 50,927
+#define HAS_SIMD_CODE 59,1103
+
+source/os-spec-current-sse.c,1198
+inline void vwl_s1(26,694
+inline void vwl_s2(38,1073
+inline void vwl_s3(58,1629
+inline void vwl_s4(85,2712
+#define __TEMPLATE__126,4365
+#define ONAME(129,4448
+#define OJOIN(130,4480
+#define ORDER 135,4629
+#define NP 137,4693
+#define OFFSET 139,4743
+#define ORDER 145,4872
+#define NP 146,4888
+#define OFFSET 147,4901
+#define ORDER 153,5030
+#define NP 154,5046
+#define OFFSET 155,5059
+#define ORDER 161,5188
+#define NP 162,5204
+#define OFFSET 163,5217
+#define DEP_CURRENT_2D 186,5951
+#define DEP_CURRENT_3D 187,6005
+#define SPLINE 189,6060
+#define WL 190,6100
+inline void DEP_CURRENT_2D193,6138
+  typedef struct { float j1,198,6296
+  typedef struct { float j1, j2,198,6296
+  typedef struct { float j1, j2, j3;198,6296
+  typedef struct { float j1, j2, j3; } t_current;198,6296
+inline void DEP_CURRENT_3D322,9350
+  typedef struct { float j1,327,9532
+  typedef struct { float j1, j2,327,9532
+  typedef struct { float j1, j2, j3;327,9532
+  typedef struct { float j1, j2, j3; } t_current;327,9532
+#undef DEP_CURRENT_2D463,13581
+#undef DEP_CURRENT_3D464,13603
+#undef SPLINE465,13625
+#undef WL466,13639
+#undef OFFSET468,13650
+#undef ORDER469,13664
+#undef NP470,13677
+
+source/os-spec-current-sse.h,32
+#define _OS_SPEC_CURRENT_H2,27
+
+source/os-spec-current-ssed.c,1206
+inline void vwl_s1(26,695
+inline void vwl_s2(38,1078
+inline void vwl_s3(58,1641
+inline void vwl_s4(85,2729
+#define __TEMPLATE__126,4387
+#define ONAME(129,4470
+#define OJOIN(130,4502
+#define ORDER 135,4651
+#define NP 137,4715
+#define OFFSET 139,4765
+#define ORDER 145,4894
+#define NP 146,4910
+#define OFFSET 147,4923
+#define ORDER 153,5052
+#define NP 154,5068
+#define OFFSET 155,5081
+#define ORDER 161,5210
+#define NP 162,5226
+#define OFFSET 163,5239
+#define DEP_CURRENT_2D 186,5973
+#define DEP_CURRENT_3D 187,6027
+#define SPLINE 189,6082
+#define WL 190,6123
+inline void DEP_CURRENT_2D193,6161
+  typedef struct { double j1,198,6321
+  typedef struct { double j1, j2,198,6321
+  typedef struct { double j1, j2, j3;198,6321
+  typedef struct { double j1, j2, j3; } t_current;198,6321
+inline void DEP_CURRENT_3D321,9362
+  typedef struct { double j1,326,9546
+  typedef struct { double j1, j2,326,9546
+  typedef struct { double j1, j2, j3;326,9546
+  typedef struct { double j1, j2, j3; } t_current;326,9546
+#undef DEP_CURRENT_2D460,13576
+#undef DEP_CURRENT_3D461,13598
+#undef SPLINE462,13620
+#undef WL463,13634
+#undef OFFSET465,13645
+#undef ORDER466,13659
+#undef NP467,13672
+
+source/os-spec-current-ssed.h,32
+#define _OS_SPEC_CURRENT_H2,27
+
+source/os-spec-current.f90,733
+subroutine init_tmp_buf_current(173,4339
+subroutine cleanup_tmp_buf_current(192,5109
+subroutine deposit_current_1d_cell(218,5946
+subroutine deposit_current_2d_cell(286,7848
+subroutine deposit_current_3d_cell(354,9766
+subroutine split_1d(429,11756
+subroutine getjr_1d_s1(498,13855
+subroutine getjr_1d_s2(579,16154
+subroutine getjr_1d_s3(668,18822
+subroutine getjr_1d_s4(762,21852
+subroutine split_2d(867,25629
+subroutine getjr_2d_s1(1105,31424
+subroutine getjr_2d_s2(1226,34965
+subroutine getjr_2d_s3(1362,39994
+subroutine getjr_2d_s4(1518,46874
+subroutine split_3d(1713,56804
+subroutine getjr_3d_s1(2508,76307
+subroutine getjr_3d_s2(2648,80829
+subroutine getjr_3d_s3(2853,90293
+subroutine getjr_3d_s4(3178,108977
+
+source/os-spec-cyl-modes.f90,399
+function ntrim_cyl_modes(80,1495
+subroutine get_coef(113,2719
+subroutine dudt_spec_cyl_modes(194,5155
+subroutine advance_deposit_cyl_modes(429,12976
+subroutine accelerate_deposit_cyl_modes(738,23451
+subroutine deposit_quant_cyl_modes(989,31836
+subroutine split_cyl_m(1066,34884
+subroutine getjr_cyl_m_s1(1484,50546
+subroutine getjr_cyl_m_s2(1650,57191
+subroutine getjr_cyl_m_s3(1857,67618
+
+source/os-spec-define.f90,252
+subroutine position_idx_comp_4(609,20601
+subroutine position_idx_comp_8(644,21872
+subroutine position_single_4(673,22815
+subroutine position_single_8(705,23854
+subroutine position_range_comp_4(735,24790
+subroutine position_range_comp_8(763,25692
+
+source/os-spec-diagnostics.f90,467
+subroutine read_nml_diag_species(151,3696
+subroutine setup_diag_species(494,13881
+  subroutine setup_report_list(577,16396
+subroutine cleanup_diag_species(671,18896
+subroutine report_species(693,19553
+subroutine get_diag_buffer_size_spec(890,25255
+subroutine get_quant(921,26120
+subroutine deposit_quant(992,28319
+subroutine report_energy_species(1090,31409
+subroutine report_temperature_species(1229,35513
+subroutine restart_write_diag_species(1572,48231
+
+source/os-spec-loadbalance.f90,264
+subroutine deposit_cell_load(52,1066
+subroutine add_density_load(90,2196
+subroutine add_particle_load(294,8240
+subroutine init_send_idx(355,9868
+  subroutine add_particle_index(506,14576
+subroutine reshape_spec(539,15698
+subroutine pack_particles(716,21043
+
+source/os-spec-pgc.f90,199
+subroutine advance_deposit_2d_pgc(36,662
+subroutine advance_deposit_cyl_2d_pgc(306,8619
+subroutine deposit_chi_2d(614,17669
+subroutine advance_deposit_emf_pgc(668,19140
+function ntrim(760,21702
+
+source/os-spec-phasespace.f90,1330
+subroutine setup_phasespaces(104,2953
+subroutine init_phasespace_list(127,3864
+subroutine cleanup_phasespaces(208,6746
+subroutine report_phasespace(223,7470
+subroutine get_buffer_size_phasespace(301,9905
+subroutine get_l(356,11745
+subroutine get_phasespace_parameters(451,15410
+subroutine init_phasespace_file(635,21133
+subroutine write_phasespace(692,23207
+subroutine write_pha_ene_bin(795,26766
+subroutine write_pha_cell_avg(929,31531
+subroutine write_pha_time_avg(1041,35301
+subroutine save_phasespace_1D(1200,40011
+subroutine save_phasespace_2D(1317,43695
+subroutine save_phasespace_3D(1436,47572
+subroutine save_pha_cellavg_1D(1556,51611
+subroutine save_pha_cellavg_2D(1687,55664
+subroutine save_pha_cellavg_3D(1817,59896
+subroutine deposit_1D(1950,64318
+subroutine deposit_2D(2007,66230
+subroutine deposit_3D(2089,68950
+subroutine normalize_1D(2216,72886
+subroutine normalize_2D(2270,74981
+subroutine normalize_3D(2342,77664
+ subroutine acquire_range(2434,80930
+subroutine clear_phasespace_list(2649,87684
+subroutine add_phasespace_to_list(2687,88622
+subroutine parse_phasespace(2799,91175
+subroutine get_phasespace_axis(2971,94548
+subroutine get_phasespace_charge(3008,95928
+function vol_fac_cent_cyl_b(3130,99610
+subroutine copy_phasespace(3157,100666
+function size_phasespace(3181,101406
+
+source/os-spec-piston.f90,394
+subroutine read_nml_pst(121,3035
+subroutine init_buffers_pst(259,6932
+subroutine cleanup_buffers_pst(281,7798
+        subroutine cross_particles_pst(301,8400
+ subroutine process_pst_1d(356,10687
+ subroutine process_pst_2d(533,17073
+ subroutine process_pst_3d(721,23851
+        subroutine update_pst(910,30721
+        subroutine check_pst(958,32669
+        function overlap(1015,35021
+
+source/os-spec-profile.f90,175
+subroutine cleanup_profile(63,1207
+subroutine read_nml_profile(91,1774
+subroutine setup_profile(395,10696
+subroutine get_den_value(490,12825
+function if_inject(706,18492
+
+source/os-spec-push-avx.c,1668
+static inline __m256 vmntrim(68,2098
+#define LOADFLD8(90,2809
+#define vget_hp_near(108,3556
+#define VDUDT_BORIS(130,4797
+#define VRGAMMA(201,7621
+void vsplit2D(230,9087
+void vsplit3D(382,13460
+#define __TEMPLATE__832,26932
+#define ONAME(837,27124
+#define OJOIN(838,27156
+#define ADVANCE_DEPOSIT_2D 843,27283
+#define ADVANCE_DEPOSIT_2D_CYL 844,27346
+#define ADVANCE_DEPOSIT_3D 845,27413
+#define ORDER 848,27500
+#define NP 850,27564
+#define OFFSET 852,27608
+#define JNORM 854,27697
+#define ADVANCE_DEPOSIT_2D 860,27825
+#define ADVANCE_DEPOSIT_2D_CYL 861,27884
+#define ADVANCE_DEPOSIT_3D 862,27951
+#define ORDER 864,28011
+#define NP 865,28027
+#define OFFSET 866,28040
+#define JNORM 867,28057
+#define ADVANCE_DEPOSIT_2D 873,28185
+#define ADVANCE_DEPOSIT_2D_CYL 874,28244
+#define ADVANCE_DEPOSIT_3D 875,28311
+#define ORDER 877,28371
+#define NP 878,28387
+#define OFFSET 879,28400
+#define JNORM 880,28417
+#define ADVANCE_DEPOSIT_2D 886,28545
+#define ADVANCE_DEPOSIT_2D_CYL 887,28604
+#define ADVANCE_DEPOSIT_3D 888,28671
+#define ORDER 890,28731
+#define NP 891,28747
+#define OFFSET 892,28760
+#define JNORM 893,28777
+#define SPLINE 909,29248
+#define DEP_CURRENT_2D 911,29289
+#define DEP_CURRENT_3D 912,29343
+extern void ADVANCE_DEPOSIT_2D916,29490
+extern void ADVANCE_DEPOSIT_2D_CYL1237,39004
+extern void ADVANCE_DEPOSIT_3D1648,51885
+#undef ORDER2016,63466
+#undef ADVANCE_DEPOSIT_2D2017,63479
+#undef ADVANCE_DEPOSIT_2D_CYL2018,63505
+#undef ADVANCE_DEPOSIT_3D2019,63535
+#undef OFFSET2020,63561
+#undef SPLINE2021,63575
+#undef NP2022,63589
+#undef JNORM2023,63599
+#undef DEP_CURRENT_2D2024,63612
+#undef DEP_CURRENT_3D2025,63634
+
+source/os-spec-push-avx.h,1244
+#define _OS_SPEC_PUSH_H_AVX2,28
+#define p_cache_size_2D 6,162
+#define p_cache_size_3D 7,189
+typedef struct virtualPart2D 24,704
+	float x0,25,735
+	float x0, x1,25,735
+	float x0, x1, y0,25,735
+	float x0, x1, y0, y1;25,735
+	float q,26,758
+	float q, vz;26,758
+	int ix,27,772
+	int ix, iy;27,772
+} t_vp2D;28,785
+#define STOREVP2D(37,1133
+#define STORE8VP2D(70,2518
+#define STORE8VP2D(122,6643
+#define LOAD8VP2D(188,9167
+#define LOAD8VP2D(238,13337
+  DECLARE_ALIGNED_32(294,15580
+  float *p;p295,15639
+  unsigned int np;296,15651
+} t_vpbuf2D;297,15670
+typedef struct virtualPart3D 312,16044
+	float x0,313,16075
+	float x0,     x1,313,16075
+	float x0,     x1,    y0,313,16075
+	float x0,     x1,    y0,     y1;313,16075
+	float z0,314,16109
+	float z0,     z1,314,16109
+	float z0,     z1,     q;314,16109
+	float z0,     z1,     q; int ix;314,16109
+	int   iy,315,16143
+	int   iy,     iz,315,16143
+	int   iy,     iz,    p0,315,16143
+	int   iy,     iz,    p0,     p1;315,16143
+} t_vp3D;316,16177
+#define STORE8VP3D(338,16694
+#define STORE8VP3D(404,21099
+#define LOAD8VP3D(486,24500
+#define LOAD8VP3D(550,28905
+  DECLARE_ALIGNED_32(642,32538
+  float *p;p643,32597
+  unsigned int np;644,32609
+} t_vpbuf3D;645,32628
+
+source/os-spec-push-avxd.c,1668
+static inline __m256d vmntrim(51,1680
+#define LOADFLD4(73,2325
+#define vget_hp_near(85,2819
+#define VDUDT_BORIS(104,3658
+#define VRGAMMA(174,6509
+void vsplit2D(201,7934
+void vsplit3D(353,12288
+#define __TEMPLATE__802,25690
+#define ONAME(807,25882
+#define OJOIN(808,25914
+#define ADVANCE_DEPOSIT_2D 813,26041
+#define ADVANCE_DEPOSIT_2D_CYL 814,26104
+#define ADVANCE_DEPOSIT_3D 815,26171
+#define ORDER 818,26258
+#define NP 820,26322
+#define OFFSET 822,26366
+#define JNORM 824,26455
+#define ADVANCE_DEPOSIT_2D 830,26583
+#define ADVANCE_DEPOSIT_2D_CYL 831,26646
+#define ADVANCE_DEPOSIT_3D 832,26713
+#define ORDER 834,26777
+#define NP 835,26793
+#define OFFSET 836,26806
+#define JNORM 837,26823
+#define ADVANCE_DEPOSIT_2D 843,26951
+#define ADVANCE_DEPOSIT_2D_CYL 844,27014
+#define ADVANCE_DEPOSIT_3D 845,27081
+#define ORDER 847,27145
+#define NP 848,27161
+#define OFFSET 849,27174
+#define JNORM 850,27191
+#define ADVANCE_DEPOSIT_2D 856,27319
+#define ADVANCE_DEPOSIT_2D_CYL 857,27382
+#define ADVANCE_DEPOSIT_3D 858,27449
+#define ORDER 860,27513
+#define NP 861,27529
+#define OFFSET 862,27542
+#define JNORM 863,27559
+#define SPLINE 879,28030
+#define DEP_CURRENT_2D 881,28072
+#define DEP_CURRENT_3D 882,28126
+extern void ADVANCE_DEPOSIT_2D886,28274
+extern void ADVANCE_DEPOSIT_2D_CYL1197,37852
+extern void ADVANCE_DEPOSIT_3D1549,48964
+#undef ORDER1902,60609
+#undef ADVANCE_DEPOSIT_2D1903,60622
+#undef ADVANCE_DEPOSIT_2D_CYL1904,60648
+#undef ADVANCE_DEPOSIT_3D1905,60678
+#undef OFFSET1906,60704
+#undef SPLINE1907,60718
+#undef NP1908,60732
+#undef JNORM1909,60742
+#undef DEP_CURRENT_2D1910,60755
+#undef DEP_CURRENT_3D1911,60777
+
+source/os-spec-push-avxd.h,1218
+#define _OS_SPEC_PUSH_H2,24
+#define p_cache_size_2D 6,154
+#define p_cache_size_3D 7,181
+typedef struct virtualPart2D 24,679
+	double x0,25,710
+	double x0, x1;25,710
+	double y0,26,726
+	double y0, y1;26,726
+	double q,27,742
+	double q, vz;27,742
+	int    ix,28,757
+	int    ix, iy,28,757
+	int    ix, iy, p0,28,757
+	int    ix, iy, p0, p1;28,757
+} t_vp2D;29,781
+#define STORE4VP2D(39,1097
+#define LOAD4VP2D(81,2732
+  DECLARE_ALIGNED_32(128,4669
+  double *p;p129,4728
+  unsigned int np;130,4741
+} t_vpbuf2D;131,4760
+typedef struct virtualPart3D 146,5135
+	double      x0,147,5166
+	double      x0,       x1;147,5166
+	double      x0,       x1;	double      y0,147,5166
+	double      x0,       x1;	double      y0,       y1;147,5166
+	double      z0,148,5219
+	double      z0,       z1;148,5219
+	double      z0,       z1;	double       q,148,5219
+	double      z0,       z1;	double       q,      dp0;148,5219
+	int     ix,149,5272
+	int     ix, iy,149,5272
+	int     ix, iy, iz,149,5272
+	int     ix, iy, iz, ip0;149,5272
+} t_vp3D;150,5298
+#define STORE4VP3D(160,5614
+#define LOAD4VP3D(209,7802
+  DECLARE_ALIGNED_32(260,10086
+  double *p;p261,10145
+  unsigned int np;262,10158
+} t_vpbuf3D;263,10177
+
+source/os-spec-push-bgp.c,1588
+inline vector vntrim(40,978
+#define VDUDT_BORIS(60,1610
+inline void vsplit2D(137,5051
+inline void vsplit3D(291,9451
+#define __TEMPLATE__742,22775
+#define ONAME(747,22967
+#define OJOIN(748,22999
+#define ADVANCE_DEPOSIT_2D 753,23126
+#define ADVANCE_DEPOSIT_2D_CYL 754,23185
+#define ADVANCE_DEPOSIT_3D 755,23252
+#define ORDER 758,23335
+#define NP 760,23399
+#define OFFSET 762,23443
+#define JNORM 764,23532
+#define ADVANCE_DEPOSIT_2D 770,23660
+#define ADVANCE_DEPOSIT_2D_CYL 771,23719
+#define ADVANCE_DEPOSIT_3D 772,23786
+#define ORDER 774,23846
+#define NP 775,23862
+#define OFFSET 776,23875
+#define JNORM 777,23892
+#define ADVANCE_DEPOSIT_2D 783,24020
+#define ADVANCE_DEPOSIT_2D_CYL 784,24079
+#define ADVANCE_DEPOSIT_3D 785,24146
+#define ORDER 787,24206
+#define NP 788,24222
+#define OFFSET 789,24235
+#define JNORM 790,24252
+#define ADVANCE_DEPOSIT_2D 796,24380
+#define ADVANCE_DEPOSIT_2D_CYL 797,24439
+#define ADVANCE_DEPOSIT_3D 798,24506
+#define ORDER 800,24566
+#define NP 801,24582
+#define OFFSET 802,24595
+#define JNORM 803,24612
+#define SPLINE 819,25083
+#define DEP_CURRENT_2D 821,25124
+#define DEP_CURRENT_3D 822,25178
+extern void ADVANCE_DEPOSIT_2D826,25325
+extern void ADVANCE_DEPOSIT_2D_CYL1138,33489
+extern void ADVANCE_DEPOSIT_3D1494,43081
+#undef ORDER1861,53091
+#undef ADVANCE_DEPOSIT_2D1862,53104
+#undef ADVANCE_DEPOSIT_2D_CYL1863,53130
+#undef ADVANCE_DEPOSIT_3D1864,53160
+#undef OFFSET1865,53186
+#undef SPLINE1866,53200
+#undef NP1867,53214
+#undef JNORM1868,53224
+#undef DEP_CURRENT_2D1869,53237
+#undef DEP_CURRENT_3D1870,53259
+
+source/os-spec-push-bgp.h,1759
+#define _OS_SPEC_PUSH_H_BGP2,28
+  typedef float t_real;14,368
+  #define __LF(16,395
+  #define __STF(17,436
+  #define __LF2v2(19,484
+  #define __STF2v2(20,534
+  #define __LF2v3(22,588
+  #define __STF2v3(23,641
+  #define LOADFLD2(25,698
+  typedef double t_real;31,811
+  #define __LF(33,839
+  #define __STF(34,880
+  #define __LF2v2(36,927
+  #define __STF2v2(37,977
+  #define __LF2v3(39,1031
+  #define __STF2v3(40,1084
+  #define LOADFLD2(42,1141
+#define p_cache_size_2D 50,1261
+#define p_cache_size_3D 51,1288
+typedef struct virtualPart2D 70,1803
+	double x0,71,1834
+	double x0,  x1;71,1834
+	double y0,72,1851
+	double y0,  y1;72,1851
+	double  q,73,1868
+	double  q,  vz;73,1868
+	int ix,74,1885
+	int ix, iy;74,1885
+	int ix, iy; double p0;74,1885
+} t_vp2D;75,1909
+#define STORE2VP2D(85,2225
+  t.s32[s3295,2928
+  t.s32[s3296,3006
+  __stfpd( &buf[ 6 ]  , t.f f97,3084
+  t.s32[s32105,3709
+  t.s32[s32106,3787
+  __stfpd( &buf[ 14 ]  , t.f f107,3865
+#define LOAD2VP2D(118,4238
+  DECLARE_ALIGNED_16(160,6549
+  double *p;p161,6608
+  unsigned int np;162,6621
+} t_vpbuf2D;163,6640
+typedef struct virtualPart3D 178,7068
+	double      x0,179,7099
+	double      x0,       x1;179,7099
+	double      y0,180,7126
+	double      y0,       y1;180,7126
+	double      z0,181,7153
+	double      z0,       z1;181,7153
+	double       q,182,7180
+	double       q,      dp0;182,7180
+	int     ix,183,7207
+	int     ix, iy,183,7207
+	int     ix, iy,  iz,183,7207
+	int     ix, iy,  iz, ip0;183,7207
+} t_vp3D;184,7234
+#define STORE2VP3D(194,7550
+#define LOAD2VP3D(226,9475
+  DECLARE_ALIGNED_16(265,12172
+  double *p;p266,12231
+  unsigned int np;267,12244
+} t_vpbuf3D;268,12263
+#define VRGAMMA(289,12811
+#define vget_hp_near(334,14098
+
+source/os-spec-push-bgq.c,1588
+inline vector vntrim(38,956
+#define VDUDT_BORIS(58,1559
+inline void vsplit2D(135,4960
+inline void vsplit3D(289,9340
+#define __TEMPLATE__738,22662
+#define ONAME(743,22854
+#define OJOIN(744,22886
+#define ADVANCE_DEPOSIT_2D 749,23013
+#define ADVANCE_DEPOSIT_2D_CYL 750,23072
+#define ADVANCE_DEPOSIT_3D 751,23139
+#define ORDER 754,23222
+#define NP 756,23286
+#define OFFSET 758,23330
+#define JNORM 760,23419
+#define ADVANCE_DEPOSIT_2D 766,23547
+#define ADVANCE_DEPOSIT_2D_CYL 767,23606
+#define ADVANCE_DEPOSIT_3D 768,23673
+#define ORDER 770,23733
+#define NP 771,23749
+#define OFFSET 772,23762
+#define JNORM 773,23779
+#define ADVANCE_DEPOSIT_2D 779,23907
+#define ADVANCE_DEPOSIT_2D_CYL 780,23966
+#define ADVANCE_DEPOSIT_3D 781,24033
+#define ORDER 783,24093
+#define NP 784,24109
+#define OFFSET 785,24122
+#define JNORM 786,24139
+#define ADVANCE_DEPOSIT_2D 792,24267
+#define ADVANCE_DEPOSIT_2D_CYL 793,24326
+#define ADVANCE_DEPOSIT_3D 794,24393
+#define ORDER 796,24453
+#define NP 797,24469
+#define OFFSET 798,24482
+#define JNORM 799,24499
+#define SPLINE 815,24970
+#define DEP_CURRENT_2D 817,25011
+#define DEP_CURRENT_3D 818,25065
+extern void ADVANCE_DEPOSIT_2D822,25212
+extern void ADVANCE_DEPOSIT_2D_CYL1132,33267
+extern void ADVANCE_DEPOSIT_3D1487,42732
+#undef ORDER1844,52504
+#undef ADVANCE_DEPOSIT_2D1845,52517
+#undef ADVANCE_DEPOSIT_2D_CYL1846,52543
+#undef ADVANCE_DEPOSIT_3D1847,52573
+#undef OFFSET1848,52599
+#undef SPLINE1849,52613
+#undef NP1850,52627
+#undef JNORM1851,52637
+#undef DEP_CURRENT_2D1852,52650
+#undef DEP_CURRENT_3D1853,52672
+
+source/os-spec-push-bgq.h,1733
+#define _OS_SPEC_PUSH_H_BGQ2,28
+#define p_cache_size_2D 8,90
+#define p_cache_size_3D 9,117
+#define LOADFLD4(22,450
+typedef struct virtualPart2D 41,1065
+	double         x0,42,1096
+	double         x0,         x1,42,1096
+	double         x0,         x1,         y0,42,1096
+	double         x0,         x1,         y0,         y1;42,1096
+	double          q,43,1152
+	double          q,         vz;43,1152
+	double          q,         vz; int p0,43,1152
+	double          q,         vz; int p0, ix,43,1152
+	double          q,         vz; int p0, ix,     p1,43,1152
+	double          q,         vz; int p0, ix,     p1, iy;43,1152
+} t_vp2D;44,1208
+#define STORE4VP2D(54,1559
+#define LOAD4VP2D(94,3239
+  DECLARE_ALIGNED_32(146,5168
+  double *p;p147,5227
+  unsigned int np;148,5240
+} t_vpbuf2D;149,5259
+typedef struct virtualPart3D 164,5738
+	double      x0,165,5769
+	double      x0,       x1,165,5769
+	double      x0,       x1,        y0,165,5769
+	double      x0,       x1,        y0,        y1;165,5769
+	double      z0,166,5818
+	double      z0,       z1,166,5818
+	double      z0,       z1,         q;166,5818
+	double      z0,       z1,         q; int ip0,166,5818
+	double      z0,       z1,         q; int ip0, ix;166,5818
+	int         ip1,167,5869
+	int         ip1, iy,167,5869
+	int         ip1, iy,  ip2,167,5869
+	int         ip1, iy,  ip2, iz;167,5869
+	int         ip1, iy,  ip2, iz; double dp0,167,5869
+	int         ip1, iy,  ip2, iz; double dp0, dp1;167,5869
+} t_vp3D;168,5920
+#define STORE4VP3D(178,6271
+#define LOAD4VP3D(227,8461
+  DECLARE_ALIGNED_32(283,10768
+  double *p;p284,10827
+  unsigned int np;285,10840
+} t_vpbuf3D;286,10859
+#define VRGAMMA(295,11090
+#define vget_hp_near(312,11782
+
+source/os-spec-push-c.c,121
+#define HAS_SIMD_CODE 13,360
+#define HAS_SIMD_CODE 31,642
+#define HAS_SIMD_CODE 49,924
+#define HAS_SIMD_CODE 58,1096
+
+source/os-spec-push-sse.c,1734
+static inline __m128 vmntrim(51,1678
+#define LOADFLD4(85,2662
+#define vget_hp_near(111,3606
+#define vget_hp_near(122,4060
+inline void vdudt_boris(141,4764
+#define VDUDT_BORIS(211,7214
+#define VRGAMMA(283,9966
+void vsplit2D(312,11394
+void vsplit3D(464,15743
+#define __TEMPLATE__915,29172
+#define ONAME(920,29364
+#define OJOIN(921,29396
+#define ADVANCE_DEPOSIT_2D 926,29523
+#define ADVANCE_DEPOSIT_2D_CYL 927,29586
+#define ADVANCE_DEPOSIT_3D 928,29653
+#define ORDER 931,29740
+#define NP 933,29804
+#define OFFSET 935,29848
+#define JNORM 937,29937
+#define ADVANCE_DEPOSIT_2D 943,30065
+#define ADVANCE_DEPOSIT_2D_CYL 944,30124
+#define ADVANCE_DEPOSIT_3D 945,30191
+#define ORDER 947,30251
+#define NP 948,30267
+#define OFFSET 949,30280
+#define JNORM 950,30297
+#define ADVANCE_DEPOSIT_2D 956,30425
+#define ADVANCE_DEPOSIT_2D_CYL 957,30484
+#define ADVANCE_DEPOSIT_3D 958,30551
+#define ORDER 960,30611
+#define NP 961,30627
+#define OFFSET 962,30640
+#define JNORM 963,30657
+#define ADVANCE_DEPOSIT_2D 969,30785
+#define ADVANCE_DEPOSIT_2D_CYL 970,30844
+#define ADVANCE_DEPOSIT_3D 971,30911
+#define ORDER 973,30971
+#define NP 974,30987
+#define OFFSET 975,31000
+#define JNORM 976,31017
+#define SPLINE 992,31488
+#define DEP_CURRENT_2D 994,31529
+#define DEP_CURRENT_3D 995,31583
+extern void ADVANCE_DEPOSIT_2D999,31730
+extern void ADVANCE_DEPOSIT_2D_CYL1309,40853
+extern void ADVANCE_DEPOSIT_3D1701,53021
+#undef ORDER2062,64378
+#undef ADVANCE_DEPOSIT_2D2063,64391
+#undef ADVANCE_DEPOSIT_2D_CYL2064,64417
+#undef ADVANCE_DEPOSIT_3D2065,64447
+#undef OFFSET2066,64473
+#undef SPLINE2067,64487
+#undef NP2068,64501
+#undef JNORM2069,64511
+#undef DEP_CURRENT_2D2070,64524
+#undef DEP_CURRENT_3D2071,64546
+
+source/os-spec-push-sse.h,1102
+#define _OS_SPEC_PUSH_H_SSE2,28
+#define p_cache_size_2D 8,178
+#define p_cache_size_3D 9,205
+typedef struct virtualPart2D 26,678
+	float x0,27,709
+	float x0, x1,27,709
+	float x0, x1, y0,27,709
+	float x0, x1, y0, y1;27,709
+	float q,28,732
+	float q, vz;28,732
+	int ix,29,746
+	int ix, iy;29,746
+} t_vp2D;30,759
+#define STOREVP2D(39,1072
+#define STORE4VP2D(59,2076
+#define LOAD4VP2D(88,3397
+  DECLARE_ALIGNED_16(133,5078
+  float *p;p134,5137
+  unsigned int np;135,5149
+} t_vpbuf2D;136,5168
+typedef struct virtualPart3D 151,5542
+	float x0,152,5573
+	float x0,     x1,152,5573
+	float x0,     x1,    y0,152,5573
+	float x0,     x1,    y0,     y1;152,5573
+	float z0,153,5607
+	float z0,     z1,153,5607
+	float z0,     z1,     q;153,5607
+	float z0,     z1,     q; int ix;153,5607
+	int   iy,154,5641
+	int   iy,     iz,154,5641
+	int   iy,     iz,    p0,154,5641
+	int   iy,     iz,    p0,     p1;154,5641
+} t_vp3D;155,5675
+#define STORE4VP3D(165,5991
+#define LOAD4VP3D(204,7730
+  DECLARE_ALIGNED_16(252,9783
+  float *p;p253,9842
+  unsigned int np;254,9854
+} t_vpbuf3D;255,9873
+
+source/os-spec-push-ssed.c,1704
+static inline __m128d vmntrim(51,1680
+#define LOADFLD2(72,2269
+#define vget_hp_near(86,2769
+inline void vdudt_boris(103,3665
+#define VDUDT_BORIS(174,6128
+#define VRGAMMA(240,11647
+void vsplit2D(268,13072
+void vsplit3D(420,17410
+#define __TEMPLATE__869,30796
+#define ONAME(874,30988
+#define OJOIN(875,31020
+#define ADVANCE_DEPOSIT_2D 880,31147
+#define ADVANCE_DEPOSIT_2D_CYL 881,31210
+#define ADVANCE_DEPOSIT_3D 882,31277
+#define ORDER 885,31364
+#define NP 887,31428
+#define OFFSET 889,31472
+#define JNORM 891,31561
+#define ADVANCE_DEPOSIT_2D 897,31689
+#define ADVANCE_DEPOSIT_2D_CYL 898,31752
+#define ADVANCE_DEPOSIT_3D 899,31819
+#define ORDER 901,31883
+#define NP 902,31899
+#define OFFSET 903,31912
+#define JNORM 904,31929
+#define ADVANCE_DEPOSIT_2D 910,32057
+#define ADVANCE_DEPOSIT_2D_CYL 911,32120
+#define ADVANCE_DEPOSIT_3D 912,32187
+#define ORDER 914,32251
+#define NP 915,32267
+#define OFFSET 916,32280
+#define JNORM 917,32297
+#define ADVANCE_DEPOSIT_2D 923,32425
+#define ADVANCE_DEPOSIT_2D_CYL 924,32488
+#define ADVANCE_DEPOSIT_3D 925,32555
+#define ORDER 927,32619
+#define NP 928,32635
+#define OFFSET 929,32648
+#define JNORM 930,32665
+#define SPLINE 946,33136
+#define DEP_CURRENT_2D 948,33178
+#define DEP_CURRENT_3D 949,33232
+extern void ADVANCE_DEPOSIT_2D953,33380
+extern void ADVANCE_DEPOSIT_2D_CYL1266,42524
+extern void ADVANCE_DEPOSIT_3D1618,53121
+#undef ORDER1972,64256
+#undef ADVANCE_DEPOSIT_2D1973,64269
+#undef ADVANCE_DEPOSIT_2D_CYL1974,64295
+#undef ADVANCE_DEPOSIT_3D1975,64325
+#undef OFFSET1976,64351
+#undef SPLINE1977,64365
+#undef NP1978,64379
+#undef JNORM1979,64389
+#undef DEP_CURRENT_2D1980,64402
+#undef DEP_CURRENT_3D1981,64424
+
+source/os-spec-push-ssed.h,1112
+#define _OS_SPEC_PUSH_H_SSE2,28
+#define p_cache_size_2D 6,162
+#define p_cache_size_3D 7,189
+typedef struct virtualPart2D 24,687
+	double x0,25,718
+	double x0, x1;25,718
+	double y0,26,734
+	double y0, y1;26,734
+	double q,27,750
+	double q, vz;27,750
+	int    ix,28,765
+	int    ix, iy,28,765
+	int    ix, iy, p0,28,765
+	int    ix, iy, p0, p1;28,765
+} t_vp2D;29,789
+#define STORE2VP2D(39,1105
+#define LOAD2VP2D(58,2026
+  DECLARE_ALIGNED_16(92,4001
+  double *p;p93,4060
+  unsigned int np;94,4073
+} t_vpbuf2D;95,4092
+typedef struct virtualPart3D 111,4521
+	double      x0,112,4552
+	double      x0,       x1;112,4552
+	double      y0,113,4579
+	double      y0,       y1;113,4579
+	double      z0,114,4606
+	double      z0,       z1;114,4606
+	double       q,115,4633
+	double       q,      dp0;115,4633
+	int     ix,116,4660
+	int     ix, iy,116,4660
+	int     ix, iy,  iz,116,4660
+	int     ix, iy,  iz, ip0;116,4660
+} t_vp3D;117,4687
+#define STORE2VP3D(127,5003
+#define LOAD2VP3D(149,6156
+  DECLARE_ALIGNED_16(181,8255
+  double *p;p182,8314
+  unsigned int np;183,8327
+} t_vpbuf3D;184,8346
+
+source/os-spec-radcool.f90,263
+function ntrim(39,766
+subroutine advance_deposit_radcool(73,2003
+subroutine advance_deposit_radcool_2d(166,4618
+subroutine rk_get(538,15931
+subroutine rk_get_3d(601,18450
+subroutine push_radcool_3d(662,21071
+subroutine advance_deposit_radcool_3d(975,31453
+
+source/os-spec-rawdiag.f90,290
+subroutine write_raw_select_data(50,880
+subroutine write_raw_create_file(140,3385
+subroutine create_datasets(224,5982
+subroutine write_raw_hdf5(303,8857
+subroutine write_raw_save_data_single(557,16580
+subroutine write_raw_save_data_int2(594,17810
+subroutine write_raw_hdf5(635,19038
+
+source/os-spec-tracks.f90,1180
+subroutine update_indexes_single_track(132,3187
+subroutine create_single_track_file(147,3661
+subroutine save_track_data_int(256,7129
+subroutine save_track_data_float(302,8675
+subroutine sort_track(351,10313
+subroutine pack_data_single_track(401,11664
+subroutine unpack_data_single_track(448,13017
+subroutine write_single_track(501,14744
+subroutine add_single_track_data(584,17777
+subroutine cleanup_single_track(635,19571
+subroutine setup_single_track(654,20194
+subroutine change_index_track_set(690,21547
+subroutine update_indexes_track_set(713,22219
+subroutine missing_particles_list(732,22811
+subroutine new_present_particles_single(784,24369
+subroutine new_present_particles_bounds(830,25756
+subroutine add_track_set_data(879,27152
+subroutine gather_data(980,30130
+subroutine write_tracks(1080,33470
+subroutine create_track_set_file(1124,34698
+subroutine setup_track_set(1267,38640
+subroutine cleanup_track_set(1352,41113
+subroutine restart_write_tracks(1377,41788
+subroutine restart_read_tracks(1445,44090
+subroutine restart_write_single_track(1529,47042
+subroutine restart_read_single_track(1581,48854
+subroutine cleanup_buffers_tracks(1639,50881
+
+source/os-spec-udist.f90,255
+subroutine read_nml_spec_udist(52,948
+subroutine set_momentum(302,7538
+subroutine cleanup_udist(603,15586
+subroutine spatial_ufl(624,16221
+subroutine spatial_uth(681,17847
+function use_accelerate_udist(765,20540
+function use_q_incr_udist(781,21154
+
+source/os-spec-util.f90,367
+subroutine inject_area_grid(83,1646
+subroutine set_tags_range(543,16729
+subroutine set_tags_single(579,17731
+subroutine validate_spec(614,18798
+subroutine bad_particle(684,20301
+subroutine grow_buffer_spec(720,21548
+subroutine init_particle_buffer(801,24263
+subroutine create_particle_single_cell(848,25905
+subroutine create_particle_single_cell_p(902,27690
+
+source/os-spec-v3dep.f90,502
+subroutine deposit_v3_1d_s1(33,798
+subroutine deposit_v3_2d_s1(82,2147
+subroutine deposit_v3_3d_s1(147,4024
+subroutine deposit_v3_1d_s2(236,7362
+subroutine deposit_v3_2d_s2(290,8889
+subroutine deposit_v3_3d_s2(376,11774
+subroutine deposit_v3_1d_s3(545,19425
+subroutine deposit_v3_2d_s3(604,21170
+subroutine deposit_v3_3d_s3(720,25462
+subroutine deposit_v3_1d_s4(1040,41488
+subroutine deposit_v3_2d_s4(1103,43449
+subroutine deposit_v3_3d_s4(1258,49513
+subroutine deposit_v3_spec(1824,79246
+
+source/os-spec-v3int.f90,554
+subroutine interpolate_v3_1d_s1(33,813
+subroutine interpolate_v3_2d_s1(84,2004
+subroutine interpolate_v3_3d_s1(159,3785
+subroutine interpolate_v3_1d_s2(269,6791
+subroutine interpolate_v3_2d_s2(323,8125
+subroutine interpolate_v3_3d_s2(419,10616
+subroutine interpolate_v3_1d_s3(607,16520
+subroutine interpolate_v3_2d_s3(666,18027
+subroutine interpolate_v3_3d_s3(789,21492
+subroutine interpolate_v3_1d_s4(1116,32685
+subroutine interpolate_v3_2d_s4(1180,34370
+subroutine interpolate_v3_3d_s4(1336,39041
+subroutine interpolate_v3_spec(1880,58658
+
+source/os-species.f90,1550
+subroutine cleanup_species(159,3180
+subroutine read_nml_species(190,4024
+subroutine setup_species(474,11826
+subroutine test_species(597,16203
+subroutine restart_write_species(644,17577
+subroutine restart_read_species(776,22016
+function ntrim(927,26966
+subroutine dudt_spec(959,28036
+subroutine dudt_spec_vay(1140,33263
+subroutine move_window_species(1346,39325
+subroutine grow_part_idx(1402,41160
+subroutine sort_species(1436,42146
+subroutine generate_sort_idx_1d(1506,43703
+subroutine generate_sort_idx_2d(1556,44885
+subroutine generate_sort_idx_3d(1611,46354
+subroutine rearrange_species(1676,48097
+function bctype_spec(1839,52549
+subroutine init_buffers_spec(1854,53091
+subroutine cleanup_buffers_spec(1871,53805
+        function name_species(1892,54440
+        subroutine num_par_sp_all(1915,55234
+        function push_start_time(1957,56669
+        function rqm_species(1981,57505
+subroutine list_algorithm_spec(2007,58417
+subroutine advance_deposit(2045,59540
+subroutine advance_deposit_1d(2135,62000
+subroutine advance_deposit_2d(2255,65188
+subroutine advance_deposit_3d(2393,68943
+subroutine advance_deposit_cyl_2d(2522,72486
+subroutine vadvance_deposit_2d(2705,77688
+subroutine vadvance_deposit_2d_cyl(2769,80050
+subroutine vadvance_deposit_3d(2834,82685
+subroutine vadvance_deposit(2904,85290
+subroutine accelerate_deposit(3021,88695
+subroutine accelerate_deposit_1d(3120,91622
+subroutine accelerate_deposit_2d(3216,94351
+subroutine accelerate_deposit_3d(3318,97102
+subroutine push_species(3416,100043
+
+source/os-spline.f90,396
+subroutine restart_write_spline(60,1357
+subroutine restart_read_spline(167,5806
+subroutine delete_spline(289,10731
+subroutine sort(309,11488
+subroutine new_1d_spline(338,12496
+subroutine new_2d_spline(367,13397
+subroutine new_3d_spline(403,14472
+function interpolate_basic(449,15744
+function interpolate_1d(491,16848
+function interpolate_2d(514,17629
+function interpolate_3d(541,18540
+
+source/os-stringutil.f90,480
+function time2seconds(61,1250
+function lowercase(101,2019
+function is_blank(129,2850
+function is_alpha(148,3447
+function is_digit(170,4153
+function strtoint(191,4778
+function strtodouble(207,5337
+subroutine scanall(223,5922
+subroutine parsenumber(260,6826
+pure function tostring_int(368,9637
+pure function tostring_r4(388,10268
+pure function tostring_r8(408,10905
+function idx_string(428,11542
+function find_char_unquote(450,12338
+function replace_blanks(485,13461
+
+source/os-sys-multi-c.c,2450
+void FNAME(27,540
+void FNAME(36,689
+void FNAME(45,816
+void FNAME(77,1555
+void FNAME(85,1691
+void FNAME(103,1967
+void FNAME(111,2123
+void FNAME(119,2257
+void FNAME(137,2491
+void FNAME(152,2734
+void FNAME(160,2836
+void FNAME(168,2944
+void FNAME(174,3021
+void FNAME(182,3120
+void FNAME(189,3255
+void FNAME(197,3394
+void FNAME(205,3553
+void FNAME(216,3688
+void FNAME(228,3851
+void FNAME(235,3969
+#define HAVE_TIMER258,4706
+int tb_flag;268,4995
+void FNAME(270,5009
+uint64_t FNAME(280,5171
+double FNAME(290,5332
+double FNAME(317,6073
+double FNAME(331,6341
+#define HAVE_TIMER356,6796
+static mach_timebase_info_data_t    sTimebaseInfo;372,7244
+static double tick_conv;373,7295
+void FNAME(375,7321
+uint64_t FNAME(382,7483
+double FNAME(388,7554
+double FNAME(396,7707
+double FNAME(403,7807
+#define HAVE_TIMER416,8032
+void FNAME(425,8182
+hrtime_t FNAME(431,8251
+double FNAME(437,8313
+double FNAME(445,8463
+double FNAME(452,8551
+void FNAME(475,9126
+static _BGP_Personality_t mybgp;493,9566
+void FNAME(495,9600
+void FNAME(509,9925
+#define HAVE_TIMER520,10117
+static double tick_conv;522,10137
+void FNAME(524,10163
+uint64_t FNAME(533,10370
+double FNAME(539,10442
+double FNAME(547,10596
+double FNAME(557,10766
+#define HWPART_MAX_DIMS 582,11436
+#define SIMPART_MAX_DIMS 587,11580
+  int nnodes;593,11720
+  int hwpart_torusdims;596,11778
+  int hwpart[hwpart598,11849
+  int hwpart_istorus[hwpart_istorus600,11933
+  int hwpart_coords[hwpart_coords602,12004
+  int mpi_rank;604,12065
+  int hwpart_splitdim;607,12116
+  int mappart_ndims;609,12208
+  int mappart[mappart611,12297
+  int simpart_ndims;614,12384
+  int simpart[simpart616,12444
+  int nmap[nmap619,12547
+  int map[map621,12635
+} bgq_partition_t;623,12689
+static bgq_partition_t bgq_part;625,12709
+int bgq_findmap(631,12982
+void bgq_hw2sim(683,14865
+void bgq_sim2hw(736,16817
+void FNAME(784,18677
+void FNAME(807,19517
+void FNAME(877,21635
+void FNAME(1042,27819
+#define HAVE_TIMER1054,28078
+static double tick_conv;1057,28143
+void FNAME(1059,28169
+uint64_t FNAME(1071,28386
+double FNAME(1077,28453
+double FNAME(1085,28607
+double FNAME(1095,28767
+#define HAVE_TIMER1107,29084
+void FNAME(1111,29125
+uint64_t FNAME(1117,29212
+double FNAME(1124,29321
+double FNAME(1130,29432
+double FNAME(1136,29499
+void FNAME(1162,30158
+uint64_t FNAME(1168,30256
+double FNAME(1177,30410
+double FNAME(1183,30520
+double FNAME(1194,30719
+
+source/os-sys-multi.f90,2175
+  function timer_cpu_seconds(77,2407
+  function timer_resolution(88,2752
+  function timer_ticks(97,2976
+  function timer_interval_seconds(105,3190
+  subroutine timer_init112,3396
+subroutine system_init(240,6711
+subroutine system_finalize(329,9252
+function file_exists(361,9891
+function mpi_real_type(388,10840
+function h5_real_type(419,11707
+subroutine link(452,12720
+subroutine getenv(488,13788
+subroutine gethostname(512,14622
+function hostname(533,15369
+function mpi_node(556,16079
+subroutine umask(579,16737
+subroutine mkdir(593,17108
+subroutine chdir(614,17782
+subroutine getcwd(636,18471
+function strerror(657,19146
+subroutine symlink(676,19806
+subroutine remove(701,20659
+function getargc(727,21558
+function getargv(742,22107
+function getargc(774,22993
+function getargv(789,23556
+subroutine getopt(823,24539
+function isnan_single(898,26088
+function isnan_double(918,26765
+function isinf_single(938,27442
+function isinf_double(958,28110
+function fastfloor_single(981,29008
+function fastfloor_double(995,29539
+function bgp_used_memory(1013,30238
+function bgp_core_memory(1033,30980
+subroutine cleanup_cstring(1049,31446
+subroutine linebuf_stdio(1072,32207
+subroutine wrn__(1091,33194
+subroutine err__(1110,34011
+subroutine check_error(1129,34831
+subroutine dbg__(1158,35843
+subroutine asrt__(1177,36642
+subroutine abort_program(1198,37527
+subroutine memcpy_1d_int(1257,39363
+subroutine memcpy_2d_int(1269,39602
+subroutine memcpy_1d_r4(1281,39845
+subroutine memcpy_2d_r4(1293,40095
+subroutine memcpy_3d_r4(1305,40349
+subroutine memcpy_4d_r4(1317,40607
+subroutine memcpy_3d_1d_r4(1329,40869
+subroutine memcpy_1d_r8(1341,41129
+subroutine memcpy_2d_r8(1353,41379
+subroutine memcpy_3d_r8(1365,41633
+subroutine memcpy_4d_r8(1377,41891
+subroutine memcpy_3d_1d_r8(1390,42154
+subroutine setnan_1d_r4(1406,42635
+subroutine setnan_2d_r4(1416,42805
+subroutine setnan_3d_r4(1426,42977
+subroutine setnan_4d_r4(1436,43151
+subroutine setnan_1d_r8(1446,43327
+subroutine setnan_2d_r8(1456,43497
+subroutine setnan_3d_r8(1466,43669
+subroutine setnan_4d_r8(1476,43843
+function sum_quad(1498,44441
+function max_quad(1519,44876
+
+source/os-time.f90,276
+subroutine read_nml_time(86,1528
+subroutine setup_time(135,2619
+subroutine restart_write_time(171,3567
+subroutine restart_read_time(214,4699
+subroutine update_time(265,6083
+function test_time(289,6574
+function tmin(316,7178
+function tmax(340,7665
+function t(364,8149
+
+source/os-timeavg.f90,496
+  subroutine setup_vdf_time_avg(133,2958
+  subroutine setup_grid_time_avg(166,3779
+subroutine cleanup_time_avg(204,4721
+  subroutine reset_time_avg(234,5461
+  subroutine add_vdf_time_avg(271,6208
+subroutine get_buffer_time_avg(301,7079
+subroutine do_average_time_avg(317,7485
+subroutine report_time_avg_grid(339,8078
+  function if_time_avg_add_single(410,10072
+  function if_time_avg_add_multi(436,10842
+  function initialized_time_avg(466,11768
+subroutine reshape_time_avg(489,12377
+
+source/os-tstep.f90,341
+subroutine read_nml_time_step(85,1699
+subroutine setup_time_step(143,3008
+subroutine restart_write_time_step(171,3720
+subroutine restart_read_time_step(208,4703
+subroutine advance_time_step(245,5713
+function dt_time_step(274,6364
+pure function n_time_step(298,6875
+function ndump_time_step(322,7380
+function test_if_report(345,7930
+
+source/os-util.f90,581
+subroutine swap_value_int_vector(54,1668
+subroutine swap_value_single_vector(72,2193
+subroutine swap_value_double_vector(90,2738
+subroutine swap_value_logical_vector(108,3284
+subroutine swap_value_int_array2d(127,3824
+subroutine swap_value_single_array2d(155,4639
+subroutine swap_value_double_array2d(185,5487
+subroutine heapsort_inplace(218,6418
+subroutine heapsort_index(272,7554
+subroutine lorentz_transform_single(338,8753
+subroutine lorentz_transform_double(373,9944
+subroutine lorentz_transform_0_single(406,11107
+subroutine lorentz_transform_0_double(446,12418
+
+source/os-vdf-average.f90,264
+subroutine aveDataRange(30,775
+subroutine average1D(91,2859
+subroutine average2D(248,7946
+  subroutine depline2D(348,11583
+subroutine average3D(476,15327
+  subroutine depslab3D(577,18938
+  subroutine depline3D(644,21214
+subroutine report_ave_vdf(777,25280
+
+source/os-vdf-comm.f90,715
+subroutine update_periodic_vdf(121,2609
+subroutine pack_vdf_msg(313,8373
+subroutine unpack_vdf_msg(362,9773
+subroutine pack_vdf_msg(463,12332
+subroutine unpack_vdf_msg(566,15215
+subroutine clear_vdf_msg_array(714,18875
+subroutine cleanup_vdf_msg736,19577
+subroutine irecv_vdf_msg(749,20069
+subroutine isend_vdf_msg(782,21145
+subroutine wait_vdf_msg_array(816,22223
+subroutine wait_vdf_msg(863,23554
+subroutine update_boundary_vdf(891,24487
+subroutine isend_vdf(951,26716
+subroutine wait_isend_vdf(1043,29755
+subroutine irecv_vdf(1059,30303
+subroutine wait_irecv_vdf(1154,33437
+subroutine reshape_vdf_nocopy(1189,35111
+subroutine init_msg_buffers(1262,37065
+subroutine reshape_vdf_copy(1363,40147
+
+source/os-vdf-define.f90,573
+ function dvol_vdf(201,4826
+function nx_vdf(234,5510
+function nx_dim_vdf(257,6011
+function field_comp_vdf(281,6536
+function space_dim_vdf(304,7062
+pure function size_vdf(328,7607
+pure function offset_vdf(353,8292
+pure function size_dim_vdf(379,9038
+function gc_num_vdf(405,9679
+function gc_num_bnd_vdf(427,10208
+function dx_vdf(451,10816
+pure function dx_dim_vdf(469,11269
+pure function lbound_vdf(488,11743
+pure function lbound_dim_vdf(511,12317
+pure function ubound_vdf(536,12977
+pure function ubound_dim_vdf(559,13552
+subroutine check_nan_vdf(584,14260
+
+source/os-vdf-interpolate.f90,272
+subroutine interpolate_vdf(45,1675
+subroutine interpolate_1D(80,2750
+subroutine interpolate_2D(203,5589
+subroutine interpolate_3D(389,10071
+subroutine spline_n1(696,17740
+subroutine spline_n2(708,17962
+subroutine spline_n3(721,18248
+subroutine spline_n4(735,18572
+
+source/os-vdf-math.f90,734
+subroutine add_vdf(80,1374
+subroutine add_range_vdf(223,5091
+subroutine add_store_vdf(368,8749
+subroutine add_mult_vdf(509,12458
+subroutine add_scalar_vdf(548,13308
+subroutine add_fc_vdf(582,13974
+subroutine add_pow_int_vdf(637,15297
+subroutine add_pow_float_vdf(806,20018
+subroutine reduce_vdf(891,22392
+subroutine mult_vdf(1018,26049
+subroutine mult_fc1_vdf(1055,26890
+subroutine mult_scalar_vdf(1112,28329
+subroutine pow_int_vdf(1146,28997
+subroutine pow_float_vdf(1180,29677
+subroutine total_vdf(1214,30380
+subroutine transpose_vdf(1341,33614
+function maxval_abs_local(1541,39309
+function maxval_abs_global(1566,40188
+subroutine div_vdf(1586,40783
+subroutine sub_vdf(1666,42816
+subroutine sqrt_vdf(1731,44486
+
+source/os-vdf-report.f90,628
+subroutine parse_item(89,2321
+subroutine add_report(282,6885
+subroutine new_report(358,9228
+subroutine cleanup_report(508,13921
+function if_report_any(540,14676
+function if_add_tavg_data(583,15934
+subroutine add_tavg_data(610,16908
+subroutine report_vdf(649,18272
+subroutine report_full(744,21454
+function LineoutHasLocalData(933,27192
+subroutine LineoutBounds(977,28644
+subroutine ExtractLineout(1021,30084
+subroutine report_line(1166,34683
+subroutine report_slice(1249,37157
+function SliceHasLocalData(1349,39728
+subroutine SliceBounds(1367,40331
+subroutine ExtractSlice(1416,41840
+function n_avg(1557,46332
+
+source/os-vdf-reportfile.f90,42
+subroutine create_report_file_vdf(13,252
+
+source/os-vdf-smooth.f90,369
+subroutine cleanup_smooth(104,2642
+function digital_filter(122,3315
+function combine_kernel3(160,4452
+subroutine read_nml_smooth(191,5425
+subroutine setup_smooth(370,10758
+function smooth_order(471,14574
+function if_smooth(488,15178
+subroutine smooth_vdf(511,15827
+subroutine filter_1d(541,16898
+subroutine filter_2d(634,19590
+subroutine filter_3d(829,24509
+
+source/os-vdf.f90,577
+subroutine cleanup_vdf(76,1537
+subroutine new_vdf(111,2296
+subroutine new_simple_vdf(218,4834
+subroutine new_copy_vdf(237,5290
+subroutine link_vdf(337,7714
+subroutine restart_write_vdf(369,8431
+subroutine restart_read_vdf(423,10018
+subroutine move_window_vdf(505,12190
+subroutine copy_vdf_vdf(658,16487
+subroutine copy_scalar_double_vdf(695,17347
+subroutine copy_scalar_single_vdf(792,19898
+subroutine copy_vdf_vdf_fcomp(890,22440
+subroutine copy_scalar_double_vdf_range(925,23265
+subroutine copy_scalar_single_vdf_range(963,24223
+subroutine zero_vdf(1000,25180
+
+source/os-wall-comm.f90,539
+subroutine cleanup_wall_msg45,985
+subroutine move_window_wall(59,1513
+subroutine update_periodic_wall(184,5017
+subroutine update_boundary_wall(353,10180
+subroutine isend_wall(413,12245
+subroutine wait_isend_wall(494,14907
+subroutine irecv_wall(508,15408
+subroutine wait_irecv_wall(592,18160
+subroutine pack_wall_msg(611,18802
+subroutine unpack_wall_msg(657,20115
+subroutine reshape_wall_nocopy(750,23220
+subroutine init_msg_buffers_wall(838,25811
+subroutine reshape_wall_copy(934,28647
+subroutine shift_range_wall(1059,32171
+
+source/os-wall-define.f90,309
+pure function idir_wall(92,1692
+pure function ibnd_wall(116,2188
+function range_wall(140,2700
+subroutine get_range_wall(163,3205
+function nx_wall(181,3683
+function field_comp_wall(206,4413
+function space_dim_wall(223,4961
+pure function lbound_dim_wall(238,5290
+pure function ubound_dim_wall(264,5959
+
+source/os-wall.f90,345
+subroutine cleanup_wall(78,1483
+subroutine new_wall(109,2095
+subroutine new_vpml_wall(200,4355
+subroutine restart_write_wall(307,6912
+subroutine restart_read_wall(390,9446
+subroutine copy_scalar_double_wall(475,11848
+subroutine copy_scalar_single_wall(508,12590
+subroutine report_diag_wall(545,13544
+  subroutine report_array(668,16526
+
+source/os-zpulse.f90,1761
+subroutine cleanup_zpulse_list(274,7872
+subroutine add_pulse_to_list(305,8644
+subroutine read_nml_zpulse_list(341,9561
+subroutine read_nml_zpulse(388,11085
+subroutine setup_zpulse_list(1129,32484
+subroutine setup_zpulse(1168,33584
+subroutine launch_zpulse_list_em(1253,36131
+subroutine launch_zpulse_1d(1307,37609
+subroutine launch_zpulse_2d(1419,40937
+subroutine launch_zpulse_3d(1559,44980
+subroutine launch_zpulse_1d_bint(1726,50040
+subroutine launch_zpulse_2d_bint(1814,52651
+subroutine launch_zpulse_3d_bint(1899,55140
+subroutine div_corr_zpulse_2d(1998,58058
+subroutine div_corr_zpulse_2d_bint(2145,62280
+subroutine div_corr_zpulse_3d(2306,67455
+subroutine div_corr_zpulse(2484,72946
+subroutine create_zpulse_field(2566,75317
+subroutine launch_zpulse(2638,77152
+subroutine launch_em_wall_1d(2765,81270
+subroutine launch_em_wall_2d(2821,83146
+subroutine launch_em_wall_3d(2916,85881
+subroutine launch_zpulse_wall(3035,89345
+subroutine launch_em_movwall_1d(3118,91771
+subroutine launch_em_movwall_2d(3211,94158
+subroutine launch_zpulse_movwall(3314,96957
+function lon_envelope(3361,98333
+function lon_duration(3432,100552
+function per_envelope_2d(3461,101261
+function per_envelope_3d(3628,106155
+function fenv_poly(3930,116114
+  function fenv(3967,116929
+function fenv_sin2(3979,117296
+function lon_center(4017,118299
+function n_pulses(4072,119738
+subroutine movwall_param(4122,121282
+subroutine launch_current_movwall_1d(4175,122950
+subroutine launch_current_movwall_2d(4252,125291
+subroutine launch_current_wall_1d(4347,127972
+subroutine launch_zpulse_list_current(4402,129861
+subroutine create_zpulse_cyl_m(4472,131807
+subroutine div_corr_zpulse_cyl_m(4566,134623
+subroutine launch_zpulse_cyl_modes(4784,141554
+
+source/splines-avx.h,339
+#define _SPLINES_H8,80
+static inline void vspline_s1(15,219
+static inline void vsplined_s1(21,396
+static inline void vspline_s2(30,668
+static inline void vsplined_s2(44,1088
+static inline void vspline_s3(60,1604
+static inline void vsplined_s3(83,2416
+static inline void vspline_s4(110,3324
+static inline void vsplined_s4(145,4764
+
+source/splines-bgp.h,157
+#define _SPLINES_H8,257
+ inline void vspline_s1(23,561
+ inline void vspline_s2(45,1027
+ inline void vspline_s3(68,1800
+ inline void vspline_s4(104,2785
+
+source/splines-bgq.h,156
+#define _SPLINES_H8,257
+inline void vspline_s1(22,560
+ inline void vspline_s2(44,1021
+ inline void vspline_s3(67,1782
+ inline void vspline_s4(103,2767
+
+source/splines-sse.h,339
+#define _SPLINES_H8,58
+static inline void vspline_s1(15,197
+static inline void vsplined_s1(21,362
+static inline void vspline_s2(30,622
+static inline void vsplined_s2(44,1012
+static inline void vspline_s3(60,1498
+static inline void vsplined_s3(83,2259
+static inline void vspline_s4(110,3116
+static inline void vsplined_s4(145,4445
+
+source/test-avx.c,443
+#define CHECKBUF_PS(18,561
+void test_load_store(28,822
+#define CHECKBUF_EPI32(176,5839
+void test_load_store_int(187,6104
+void test_splines(327,11071
+inline __m256 vmntrim(382,12633
+void test_trim(395,12994
+#define vget_hp_near(429,13974
+void test_hp(444,14944
+void test_load_store_vp2d(496,16433
+ #define CHECK(604,19862
+ #define CHECKI(609,19984
+void test_load_store_vp3d(726,23419
+void test_math(990,31839
+int main(1038,33183
+
+source/test-avxd.c,541
+typedef union vecInt128 11,320
+typedef union vecInt128 {int v[v11,320
+typedef union vecInt128 {int v[4]; __m128i v4;11,320
+typedef union vecInt128 {int v[4]; __m128i v4;} ivec128;11,320
+#define CHECKBUF_PD(20,639
+void test_load_store(30,902
+void test_splines(161,4659
+static inline __m256d vmntrim(216,6060
+void test_trim(229,6427
+#define vget_hp_near(262,7289
+void test_hp(273,7894
+void test_load_store_vp2d(326,9213
+ #define CHECK(421,11668
+ #define CHECKI(426,11790
+void test_load_store_vp3d(526,14221
+int main(744,19915
+
+source/test-bgq.c,347
+void test_calc(16,447
+void test_load_store(60,1856
+void test_load_store_int(146,4770
+void test_splines(186,6043
+inline vector vntrim(228,7222
+void test_trim(241,7554
+#define vget_hp_near(275,8593
+void test_hp(293,9131
+void test_load_store_vp2d(335,10354
+  #define CHECK(403,13055
+void test_load_store_vp3d(478,15142
+int main(634,20756
+
+source/test-ssed.c,349
+void test_load_store(13,348
+void test_load_store_int(91,2735
+void test_splines(166,5074
+inline __m128d vmntrim(212,6213
+void test_trim(226,6519
+#define vget_hp_near(267,7500
+void test_hp(277,8121
+void test_load_store_vp2d(323,9227
+ #define CHECK(396,10985
+ #define CHECKI(401,11107
+void test_load_store_vp3d(491,12964
+int main(666,17117
+
+source/vector-avx.h,2235
+#define _VECTOR_AVX_H7,387
+  #define DECLARE_ALIGNED_16(15,529
+  #define DECLARE_ALIGNED_32(16,600
+  #define DECLARE_ALIGNED_16(19,695
+  #define DECLARE_ALIGNED_32(20,757
+#define IS_ALIGNED_16(24,847
+#define IS_ALIGNED_32(25,907
+#define VEC_WIDTH 28,1000
+#define VEC_WIDTH 30,1054
+typedef union vecDouble 35,1149
+typedef union vecDouble {double v[v35,1149
+typedef union vecDouble {double v[4]; __m256d v4;35,1149
+typedef union vecDouble {double v[4]; __m256d v4;} dvec;35,1149
+typedef union vecFloat 36,1206
+typedef union vecFloat  {float v[v36,1206
+typedef union vecFloat  {float v[8];  __m256  v8;36,1206
+typedef union vecFloat  {float v[8];  __m256  v8;} fvec;36,1206
+typedef union vecInt 37,1263
+typedef union vecInt    {int v[v37,1263
+typedef union vecInt    {int v[8];    __m256i v8;37,1263
+typedef union vecInt    {int v[8];    __m256i v8;} ivec;37,1263
+static inline __m256i vimul_s(44,1580
+static inline __m256i viadd(57,1938
+static inline __m256i viadd3(70,2389
+static inline void viadd_store(85,3074
+static inline void viadd3_store(93,3484
+static inline __m256i visub(106,4202
+static inline __m256 rsqrt_ps(126,4948
+static inline __m256 rcp_ps(139,5261
+#define _MM256_LOAD8v3_PS(168,6039
+#define _MM256_LOAD8v3_EPI32(183,7225
+#define _MM256_STORE8v3_PS(216,9026
+#define _MM256_STORE8v3_EPI32(232,10285
+#define _MM256_LOAD8v2_PS(265,12287
+#define _MM256_LOAD8v2_EPI32(276,13022
+#define _MM256_STORE8v2_PS(303,14223
+#define _MM256_STORE8v2_EPI32(313,14957
+#define _MM256_CVTPS_PD(329,15955
+#define _MM256_CVTPD_PS(334,16162
+#define _MM256_LOAD4v3_PD(354,16797
+#define _MM256_STORE4v3_PD(367,17383
+#define _MM256_LOAD4v2_PD(380,17989
+#define _MM256_STORE4v2_PD(390,18393
+#define _MM_LOAD4v2_PS(413,19221
+#define _MM_LOAD4v2_EPI32(423,19784
+#define _MM_STORE4v2_PS(451,20704
+#define _MM_STORE4v2_EPI32(456,20911
+#define _MM_LOAD4v3_PS(475,21603
+#define _MM_LOAD4v3_EPI32(491,22577
+#define _MM_STORE4v3_PS(521,24020
+#define _MM_STORE4v3_EPI32(539,24856
+static inline void printfv(562,26066
+static inline void printiv(574,26292
+static inline void printiv128(586,26533
+static inline void printdv(598,26774
+static inline int testfv(611,27024
+#define TEST_VECTOR(623,27239
+
+source/vector-bgp.h,863
+#define _VECTOR_BGP_H7,387
+typedef double _Complex vector;12,451
+   vector   f;16,501
+   double f64[f6417,516
+   int    s32[s3218,534
+} bg_vec;19,552
+  int i[i31,631
+  struct { int a;32,643
+  struct { int a; int b;32,643
+} int2;33,671
+#define DECLARE_ALIGNED_16(36,681
+#define IS_ALIGNED_16(39,771
+#define __MATH_PRECISION__ 47,1040
+inline vector __fpr(54,1207
+inline vector __fprsqrt(74,1662
+inline vector __fpsqrt(99,2408
+inline vector __fpdive(111,2635
+inline vector __fxpdive(116,2720
+inline vector __fpdiv(123,2842
+inline vector __fxpdiv(128,2925
+#define __LFPD2v3(148,3354
+#define __LFPS2v3(163,4020
+#define __STFPD2v3(192,5028
+#define __STFPS2v3(204,5541
+#define __LFPD2v2(229,6372
+#define __LFPS2v2(242,6936
+#define __STFPD2v2(270,7816
+#define __STFPS2v2(280,8227
+static void printfv(296,8818
+#define TEST_VECTOR(305,9092
+
+source/vector-bgq.h,399
+#define _VECTOR_BGQ_H7,387
+typedef double t_real;11,430
+typedef vector4double vector;13,454
+#define DECLARE_ALIGNED_32(15,485
+#define __MATH_PRECISION__ 22,763
+inline vector vec_r(36,1050
+inline vector vec_rsqrt(65,1652
+#define VEC_LD4v3(104,2781
+#define VEC_ST4v3(134,3904
+#define VEC_LD4v2(160,4882
+#define VEC_ST4v2(186,5737
+static void printfv(198,6172
+#define TEST_VECTOR(207,6454
+
+source/vector-sse.h,1756
+#define _VECTOR_SSE_H7,387
+  #define DECLARE_ALIGNED_16(16,544
+  #define DECLARE_ALIGNED_16(19,639
+#define IS_ALIGNED_16(23,729
+typedef union vecDouble 25,789
+typedef union vecDouble {double v[v25,789
+typedef union vecDouble {double v[2]; __m128d v2;25,789
+typedef union vecDouble {double v[2]; __m128d v2;} dvec;25,789
+typedef union vecFloat 26,846
+typedef union vecFloat {float v[v26,846
+typedef union vecFloat {float v[4]; __m128 v4;26,846
+typedef union vecFloat {float v[4]; __m128 v4;} fvec;26,846
+typedef union vecInt 27,900
+typedef union vecInt {int v[v27,900
+typedef union vecInt {int v[4]; __m128i v4;27,900
+typedef union vecInt {int v[4]; __m128i v4;} ivec;27,900
+  static inline __m128i vsmul(38,1081
+  static inline __m128i vsmul(43,1239
+static inline __m128 _mm_blendv_ps(91,2537
+static inline __m128d _mm_blendv_pd(97,2724
+static inline __m128 rsqrt_ps(112,3238
+static inline __m128 rcp_ps(125,3527
+#define _MM_LOAD4v3_PS(153,4208
+#define _MM_LOAD4v3_EPI32(169,5182
+#define _MM_STORE4v3_PS(199,6625
+#define _MM_STORE4v3_EPI32(217,7461
+#define _MM_LOAD4v2_PS(247,8845
+#define _MM_LOAD4v2_EPI32(257,9408
+#define _MM_STORE4v2_PS(285,10328
+#define _MM_STORE4v2_EPI32(290,10535
+#define _MM_LOAD2v3_PD(309,11169
+#define _MM_STORE2v3_PD(333,12081
+#define _MM_LOAD2v2_PD(352,12775
+#define _MM_STORE2v2_PD(375,13532
+#define _MM_LOAD2v2_EPI32(395,14138
+#define _MM_STORE2v2_EPI32(417,14855
+#define _MM_LOAD2v3_EPI32(436,15394
+#define _MM_STORE2v3_EPI32(460,16430
+#define _MM_CVTPD2_PS(477,17428
+#define _MM_CVTPS2_PD(480,17514
+static inline void printfv(492,17887
+static inline  void printiv(500,18038
+static inline void printdv(508,18191
+static inline int testfv(517,18337
+#define TEST_VECTOR(530,18550
+
+source/os-vdf-memory.f90,0
+
+source/os-units.f90,0
+
+source/os-spec-memory.f90,0
+
+source/os-spec-collisions-define.f90,0
+
+source/os-particles-define.f90,0
+
+source/os-neutral-define.f90,0
+
+source/os-grid-memory.f90,0
+
+source/os-grid-define.f90,0
+
+source/os-emf-define.f90,0
+
+source/os-current-define.f90,0
+
+source/os-cathode-define.f90,0
